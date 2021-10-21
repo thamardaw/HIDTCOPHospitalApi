@@ -15,7 +15,7 @@ To activate your virtual environment go to
 #### On Window :
 
 ```shell
-<your-env-name>\\Scripts\\activate.bat
+<your-env-name>\Scripts\activate.bat
 ```
 
 #### On Linux :
