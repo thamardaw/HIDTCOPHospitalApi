@@ -30,8 +30,20 @@ Finally git clone the repository.
 git clone https://github.com/thamardaw/HIDTCOPHospitalApi.git
 ```
 
-Then go into the cloned folder and install requirements.
+Then go into the cloned folder and install requirements. While installing setup the ".env" file.
 
 ```shell
 pip install -r requirements.txt
+```
+
+Now let's start your server.
+
+```shell
+uvicorn main:app --reload
+```
+
+if you installed new packages during development, don't forget to update the requirement.
+
+```shell
+pip freeze > requirements.txt
 ```
