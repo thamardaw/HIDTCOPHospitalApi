@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from db.base import Base
 from db.session import engine
-from core.config import settings
-
+from core.config import settings 
+from apis.base import router
 
 def include_router(app):
-    pass
+    app.include_router(router)
 
 def create_tables():          
     print("CREATE TABLE")
