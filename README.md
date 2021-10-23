@@ -74,20 +74,22 @@ Migrate your models into database.
 alembic upgrade head
 ```
 
-This command is for auto generating the migration files if you add new models or make changes to your existing model. Then don't forget to mirgrate the changes.
-
-```shell
-alembic revision --autogenerate -m "init"
-```
-
 Now let's start your server.
 
 ```shell
 uvicorn main:app --reload
 ```
 
+#### Useful commands
+
 if you installed new packages during development, don't forget to update the requirement.
 
 ```shell
 pip freeze > requirements.txt
+```
+
+This command is for auto generating the migration files if you add new models or make changes to your existing model. Then don't forget to mirgrate the changes.
+
+```shell
+alembic revision --autogenerate -m "init"
 ```
