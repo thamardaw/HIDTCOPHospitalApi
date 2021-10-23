@@ -18,6 +18,9 @@ class Settings:
     POSTGRES_PORT : str = os.getenv("POSTGRES_PORT",5432)
     POSTGRES_DB : str = os.getenv("POSTGRES_DB","tdd")
     DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    
+    #This is for zmm's problematic password -_-
+    DATABASE_URL_ALEMBIC =  f"postgresql://{POSTGRES_USER}:%{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
 
     #JWT
     SECRET_KEY : str = os.getenv("SECRET_KEY")
