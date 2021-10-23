@@ -18,7 +18,7 @@ To activate your virtual environment go to
 <your-env-name>\Scripts\activate.bat
 ```
 
-#### On Linux :
+#### On Unix or MacOs :
 
 ```shell
 source <your-env-name>/bin/activate
@@ -30,10 +30,38 @@ Finally git clone the repository.
 git clone https://github.com/thamardaw/HIDTCOPHospitalApi.git
 ```
 
-Then go into the cloned folder and install requirements. While installing setup the ".env" file.
+Then go into the cloned folder and install requirements (we will be continue working on this directory). While installing setup the ".env" file.
 
 ```shell
 pip install -r requirements.txt
+```
+
+For our database migrations we will be using alembic. Don't worry it is already in requirements.txt so it is installed. Now let's initailize alembic.
+
+```shell
+alembic init alembic
+```
+
+After initailized, some changes need to make.
+
+Go to alembic.ini and add your database string / URI.
+
+```shell
+sqlalchemy.url = <your-database-string>
+```
+
+Then go to alembic/env.py.
+
+```shell
+# comment out "target_metadata = None" and add this
+from db.base import Base
+target_metadata = Base.metadata
+```
+
+All changes need for alembic is done. Let's generate your migrations with alembic's help. You will have to run this command every time you add new models or you make changes to your models.
+
+```shell
+alembic revision --autogenerate -m "init"
 ```
 
 Now let's start your server.

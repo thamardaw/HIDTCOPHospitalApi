@@ -2,3 +2,5 @@ __pycache__
 .env
 .env.*
 env
+alembic.ini
+alembic
