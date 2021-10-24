@@ -2,6 +2,31 @@
 
 10 bed hospital backend.
 
+### File and Folder Structure
+
+```shell
+/alembic # Migration files
+/apis # Routes
+    /base.py # Where all the routes are grouped
+    /routes # Routes
+/core # Main configuration & other
+    /config.py # configurations
+    /hashing.py # Hashing
+    /JWTtoken.py # JWTtoken
+    /oauth2.py # Oauth2
+/db # Database
+    /models # Database table models
+    /repository # All Database related operations/functions
+    /session.py # Database session
+    /base_class.py # Base Class for table models
+    /base.py # Where are table models are grouped
+/schemas # Request and response models
+/services # Services
+    /authentication.py # Authenticate user
+main.py # App Entry Point
+.env.example # Example for ".env"
+```
+
 ### Development setup
 
 first create a directory. then create a virtual environment in it (PLEASE USE VIRTUAL ENVIRONMENT).
