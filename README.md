@@ -16,7 +16,7 @@
     /oauth2.py # Oauth2
 /db # Database
     /models # Database table models
-    /repository # All Database related operations/functions
+    /repository # All database related operations/functions
     /session.py # Database session
     /base_class.py # Base Class for table models
     /base.py # Where are table models are grouped
