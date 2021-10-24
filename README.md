@@ -19,7 +19,7 @@
     /repository # All database related operations/functions
     /session.py # Database session
     /base_class.py # Base Class for table models
-    /base.py # Where are table models are grouped
+    /base.py # Where all table models are grouped
 /schemas # Request and response models
 /services # Services
     /authentication.py # Authenticate user
