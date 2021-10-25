@@ -9,11 +9,8 @@
 /apis # Routes
     /base.py # Where all the routes are grouped
     /routes # Routes
-/core # Main configuration & other
+/core # Main configuration
     /config.py # configurations
-    /hashing.py # Hashing
-    /JWTtoken.py # JWTtoken
-    /oauth2.py # Oauth2
 /db # Database
     /models # Database table models
     /repository # All database related operations/functions
@@ -23,6 +20,9 @@
 /schemas # Request and response models
 /services # Services
     /authentication.py # Authenticate user
+    /hashing.py # Hashing
+    /JWTtoken.py # JWTtoken
+    /oauth2.py # Oauth2
 main.py # App Entry Point
 .env.example # Example for ".env"
 ```
