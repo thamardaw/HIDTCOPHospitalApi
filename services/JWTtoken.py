@@ -1,6 +1,6 @@
 from typing import Optional
 from datetime import timedelta,datetime
-from .config import settings
+from core.config import settings
 from jose import JWTError, jwt
 from fastapi import HTTPException,status
 from schemas.token import TokenData

@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from db.models.user import User
 from core import JWTtoken
-from core.hashing import Hash
+from .hashing import Hash
 
 def authenticate(request:OAuth2PasswordRequestForm,db:Session):
     user = db.query(User).filter(User.username == request.username).first()
