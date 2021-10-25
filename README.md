@@ -29,7 +29,7 @@ main.py # App Entry Point
 
 ### Development setup
 
-first create a directory. then create a virtual environment in it (PLEASE USE VIRTUAL ENVIRONMENT).
+First create a directory then create a virtual environment in it (PLEASE USE VIRTUAL ENVIRONMENT).
 
 ```shell
 python3 -m venv <your-env-name>
