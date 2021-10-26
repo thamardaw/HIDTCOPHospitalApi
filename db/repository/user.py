@@ -1,5 +1,5 @@
 from db.models.user import User
-from core.hashing import Hash
+from services.hashing import Hash
 from sqlalchemy.orm import Session
 from fastapi import HTTPException,status
 
