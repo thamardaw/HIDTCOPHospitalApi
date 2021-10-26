@@ -3,7 +3,7 @@ from fastapi import HTTPException,status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from db.models.user import User
-from core import JWTtoken
+from . import JWTtoken
 from .hashing import Hash
 
 def authenticate(request:OAuth2PasswordRequestForm,db:Session):
