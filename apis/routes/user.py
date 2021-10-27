@@ -9,6 +9,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from services.authentication import authenticate
 from services.oauth2 import refreshToken
 
+
 router = APIRouter(prefix="/user",tags=["User"])
 
 @router.post("/",status_code=status.HTTP_200_OK,response_model=Message)
@@ -19,6 +20,7 @@ def create(request:User,db:Session = Depends(get_db)):
 @router.post("/login",response_model=Token)
 def login(request:OAuth2PasswordRequestForm = Depends(),db:Session = Depends(get_db)):
     return authenticate(request,db)
+
 
 @router.post("/refreshToken",response_model=Token)
 def refresh_token(request:RefreshToken):

@@ -28,4 +28,5 @@ class Settings:
     ACCESS_TOKEN_EXPIRE_MINUTES = 60
     REFRESH_TOKEN_EXPIRE_MINUTES = 360
 
+
 settings = Settings()

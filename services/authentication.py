@@ -19,3 +19,4 @@ def authenticate(request:OAuth2PasswordRequestForm,db:Session):
         data={"sub": user.username,"role":user.role}
     )
     return {"access_token": access_token, "token_type": "Bearer","refresh_token":refresh_token}
+

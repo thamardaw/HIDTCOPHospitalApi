@@ -1,7 +1,9 @@
 from fastapi import Depends
+
 from fastapi import HTTPException,status
 from fastapi.security import OAuth2PasswordBearer
 from .JWTtoken import verify_token,create_access_token
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/user/login")
 
@@ -18,3 +20,4 @@ def refreshToken(token:str):
     )
     access_token = create_access_token(data={"sub": tokenData.username,"role":tokenData.role})
     return {"access_token": access_token, "token_type": "Bearer","refresh_token":token}
+
