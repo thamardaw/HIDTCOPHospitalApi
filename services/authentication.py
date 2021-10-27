@@ -15,4 +15,7 @@ def authenticate(request:OAuth2PasswordRequestForm,db:Session):
     access_token = JWTtoken.create_access_token(
         data={"sub": user.username,"role":user.role}
     )
-    return {"access_token": access_token, "token_type": "bearer","role":user.role}
+    refresh_token = JWTtoken.create_refresh_token(
+        data={"sub": user.username,"role":user.role}
+    )
+    return {"access_token": access_token, "token_type": "Bearer","refresh_token":refresh_token}

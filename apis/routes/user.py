@@ -4,9 +4,10 @@ from schemas.message import Message
 from schemas.user import User
 from db.session import get_db
 from db.repository import user
-from schemas.token import Token
+from schemas.token import Token, RefreshToken
 from fastapi.security import OAuth2PasswordRequestForm
 from services.authentication import authenticate
+from services.oauth2 import refreshToken
 
 router = APIRouter(prefix="/user",tags=["User"])
 
@@ -18,6 +19,10 @@ def create(request:User,db:Session = Depends(get_db)):
 @router.post("/login",response_model=Token)
 def login(request:OAuth2PasswordRequestForm = Depends(),db:Session = Depends(get_db)):
     return authenticate(request,db)
+
+@router.post("/refreshToken",response_model=Token)
+def refresh_token(request:RefreshToken):
+    return refreshToken(request.refresh_token)
 
 # This route is for testing purpose and not a real route
 # @router.get("/",status_code=status.HTTP_200_OK)
