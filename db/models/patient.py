@@ -3,17 +3,14 @@ from sqlalchemy import Column, Integer, String, Boolean, Date, Enum
 from db.base_class import Base
 import enum
 
-
 class genderenum(enum.Enum):
     male = "male"
     female = "female"
 
-
 class Patient(Base):
-    patient_id = Column(String, primary_key=True, index=True)
+    patient_id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    genderenum = Column(Enum(genderenum))
-
+    gender = Column(Enum(genderenum))
     date_of_birth = Column(Date, nullable=False)
     age = Column(Integer, nullable=False)
     address = Column(String, nullable=False)
