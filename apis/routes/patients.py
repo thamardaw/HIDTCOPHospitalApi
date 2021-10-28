@@ -38,6 +38,7 @@ def create(request: Patients, db: Session = Depends(get_db)):
                            )
     db.add(new_patient)
     db.commit()
+    db.refresh(new_patient)
     #patients.create(request, db)
     return {"detail": "User create successful."}
 
