@@ -1,15 +1,10 @@
 from datetime import date
 from typing import Any
 from pydantic import BaseModel, Field
-from enum import Enum
+from db.models.patient import gender_enum
 
-
-class gender_enum(str, Enum):
-    male = "male"
-    female = "female"
-
-
-class Patients(BaseModel):
+class Patient(BaseModel):
+    patient_id: str
     name: str
     gender: gender_enum
     date_of_birth: date
@@ -19,8 +14,10 @@ class Patients(BaseModel):
     blood_group: str
 
 class showPatient(BaseModel):
+    id: int
+    patient_id: str
     name: str
-    gender: Any
+    gender: gender_enum
     date_of_birth: date
     age: int
     address: str

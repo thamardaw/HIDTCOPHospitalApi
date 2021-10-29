@@ -1,16 +1,16 @@
-import enum
-from sqlalchemy import Column, Integer, String, Boolean, Date, Enum
+from sqlalchemy import Column, Integer, String, Date, Enum
 from db.base_class import Base
 import enum
 
-class genderenum(enum.Enum):
+class gender_enum(str, enum.Enum):
     male = "male"
     female = "female"
 
 class Patient(Base):
-    patient_id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer,primary_key = True, index=True)
+    patient_id = Column(String,nullable=False)
     name = Column(String, nullable=False)
-    gender = Column(Enum(genderenum))
+    gender = Column(Enum(gender_enum))
     date_of_birth = Column(Date, nullable=False)
     age = Column(Integer, nullable=False)
     address = Column(String, nullable=False)

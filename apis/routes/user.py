@@ -9,7 +9,6 @@ from fastapi.security import OAuth2PasswordRequestForm
 from services.authentication import authenticate
 from services.oauth2 import refreshToken
 
-
 router = APIRouter(prefix="/user",tags=["User"])
 
 @router.post("/",status_code=status.HTTP_200_OK,response_model=Message)
