@@ -1,0 +1,27 @@
+from datetime import date
+from typing import Any
+from pydantic import BaseModel, Field
+from db.models.patient import gender_enum
+
+class Patient(BaseModel):
+    patient_id: str
+    name: str
+    gender: gender_enum
+    date_of_birth: date
+    age: int
+    address: str
+    contact_details: str
+    blood_group: str
+
+class showPatient(BaseModel):
+    id: int
+    patient_id: str
+    name: str
+    gender: gender_enum
+    date_of_birth: date
+    age: int
+    address: str
+    contact_details: str
+    blood_group: str
+    class Config():
+        orm_mode = True
