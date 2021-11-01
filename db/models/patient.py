@@ -1,13 +1,12 @@
 from sqlalchemy import Column, Integer, String, Date, Enum
-from db.base_class import Base
+from db.base_model import BaseModel
 import enum
 
 class gender_enum(str, enum.Enum):
     male = "male"
     female = "female"
 
-class Patient(Base):
-    id = Column(Integer,primary_key = True, index=True)
+class Patient(BaseModel):
     name = Column(String, nullable=False)
     gender = Column(Enum(gender_enum))
     date_of_birth = Column(Date, nullable=False)
