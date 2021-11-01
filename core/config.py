@@ -26,7 +26,7 @@ class Settings:
     # DATABASE_URL_ALEMBIC =  f"postgresql://{POSTGRES_USER}:%{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
     DATABASE_URL_ALEMBIC = os.getenv("DATABASE_URL") # heroku postgres comes with one line database url
     if DATABASE_URL_ALEMBIC.startswith("postgres://"): # sqlalchemy does not support heroku postgres 
-        DATABASE_URL_ALEMBIC = DATABASE_URL.replace("postgres://", "postgresql//", 1)
+        DATABASE_URL_ALEMBIC = DATABASE_URL_ALEMBIC.replace("postgres://", "postgresql//", 1)
 
     #JWT
     SECRET_KEY : str = os.getenv("SECRET_KEY")
