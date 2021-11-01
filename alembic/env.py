@@ -27,10 +27,10 @@ target_metadata = Base.metadata
 from core.config import settings
 
 # Comment this line out
-# config.set_main_option("sqlalchemy.url",settings.DATABASE_URL_ALEMBIC)
+config.set_main_option("sqlalchemy.url",settings.DATABASE_URL_ALEMBIC)
 
 # Use this
-config.set_main_option("sqlalchemy.url",settings.DATABASE_URL)
+# config.set_main_option("sqlalchemy.url",settings.DATABASE_URL)
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.

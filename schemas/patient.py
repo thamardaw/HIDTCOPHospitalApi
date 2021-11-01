@@ -4,7 +4,6 @@ from pydantic import BaseModel, Field
 from db.models.patient import gender_enum
 
 class Patient(BaseModel):
-    patient_id: str
     name: str
     gender: gender_enum
     date_of_birth: date
@@ -15,7 +14,6 @@ class Patient(BaseModel):
 
 class showPatient(BaseModel):
     id: int
-    patient_id: str
     name: str
     gender: gender_enum
     date_of_birth: date

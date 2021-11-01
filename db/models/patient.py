@@ -8,7 +8,6 @@ class gender_enum(str, enum.Enum):
 
 class Patient(Base):
     id = Column(Integer,primary_key = True, index=True)
-    patient_id = Column(String,nullable=False)
     name = Column(String, nullable=False)
     gender = Column(Enum(gender_enum))
     date_of_birth = Column(Date, nullable=False)

@@ -4,7 +4,7 @@ from fastapi import HTTPException,status
 
 
 def create(request, db: Session):
-    new_patient = Patient(patient_id=request.patient_id,name=request.name,gender=request.gender,date_of_birth=request.date_of_birth,
+    new_patient = Patient(name=request.name,gender=request.gender,date_of_birth=request.date_of_birth,
                            age=request.age, address=request.address,
                            contact_details=request.contact_details, blood_group=request.blood_group
                            )
