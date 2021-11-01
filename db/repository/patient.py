@@ -31,7 +31,7 @@ def delete(id, db:Session):
     patient.delete(synchronize_session=False)
     db.commit()
     return
-
+  
 def update(id,request,db:Session,current_user):
     patient = db.query(Patient).filter(Patient.id==id)
     if not patient.first():
