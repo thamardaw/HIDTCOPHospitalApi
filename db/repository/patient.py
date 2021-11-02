@@ -1,12 +1,13 @@
-from db.models.patient import Patient
+from db.base import Patient, User
 from sqlalchemy.orm import Session
 from fastapi import HTTPException,status
 
-
-def create(request, db: Session):
-    new_patient = Patient(patient_id=request.patient_id,name=request.name,gender=request.gender,date_of_birth=request.date_of_birth,
+def create(request, db: Session,current_user):
+    user = db.query(User).filter(User.username == current_user.username).first()
+    new_patient = Patient(name=request.name,gender=request.gender,date_of_birth=request.date_of_birth,
                            age=request.age, address=request.address,
-                           contact_details=request.contact_details, blood_group=request.blood_group
+                           contact_details=request.contact_details, blood_group=request.blood_group,
+                           created_user_id=user.id,updated_user_id=user.id
                            )
     db.add(new_patient)
     db.commit()
@@ -30,11 +31,14 @@ def delete(id, db:Session):
     patient.delete(synchronize_session=False)
     db.commit()
     return
-
-def update(id,request,db:Session):
+  
+def update(id,request,db:Session,current_user):
     patient = db.query(Patient).filter(Patient.id==id)
     if not patient.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Patient doesn't exist.")
-    patient.update(request.dict())
+    user = db.query(User).filter(User.username == current_user.username).first()
+    update_patient = request.dict().copy()
+    update_patient.update({"updated_user_id": user.id})
+    patient.update(update_patient)
     db.commit()
     return

@@ -1,10 +1,10 @@
 from datetime import date
-from typing import Any
-from pydantic import BaseModel, Field
+from typing import Any, Optional
+from pydantic import BaseModel
+from datetime import datetime
 from db.models.patient import gender_enum
 
 class Patient(BaseModel):
-    patient_id: str
     name: str
     gender: gender_enum
     date_of_birth: date
@@ -15,7 +15,6 @@ class Patient(BaseModel):
 
 class showPatient(BaseModel):
     id: int
-    patient_id: str
     name: str
     gender: gender_enum
     date_of_birth: date
@@ -23,5 +22,9 @@ class showPatient(BaseModel):
     address: str
     contact_details: str
     blood_group: str
+    created_time: Optional[datetime] = None
+    updated_time: Optional[datetime] = None
+    created_user_id: Optional[int] = None
+    updated_user_id: Optional[int] = None
     class Config():
         orm_mode = True

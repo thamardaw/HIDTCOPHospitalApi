@@ -22,12 +22,12 @@ def get_patient(id: int, db: Session = Depends(get_db),current_user: User = Depe
 
 @router.post("/", status_code=status.HTTP_200_OK, response_model=Message)
 def create(request: Patient, db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
-    patient.create(request, db)
+    patient.create(request, db,current_user)
     return {"detail": "Patient create successful."}
 
 @router.put("/{id}",status_code=status.HTTP_200_OK,response_model=Message)
 def update(id: int, request: Patient,db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
-    patient.update(id,request,db)
+    patient.update(id,request,db,current_user)
     return {"detail": "Patient update successful."}
 
 
