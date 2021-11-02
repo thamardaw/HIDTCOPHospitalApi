@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "483d0c68-bbd8-44c0-abfa-af145f22a1fe",
+		"_postman_id": "fd20829e-8362-4fa9-a56c-0b1ed5cdcc83",
 		"name": "HIDTCOP",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,14 +14,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/patients/",
-							"protocol": "http",
+							"raw": "{{API}}/patients/",
 							"host": [
-								"localhost"
+								"{{API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"patients",
 								""
 							]
@@ -36,7 +33,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"string\",\r\n  \"gender\": \"male\",\r\n  \"date_of_birth\": \"2019-08-24\",\r\n  \"age\": 0,\r\n  \"address\": \"string\",\r\n  \"contact_details\": \"string\",\r\n  \"blood_group\": \"string\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Mg Mg\",\r\n  \"gender\": \"male\",\r\n  \"date_of_birth\": \"2019-08-24\",\r\n  \"age\": 30,\r\n  \"address\": \"Nyaung Done\",\r\n  \"contact_details\": \"0912345\",\r\n  \"blood_group\": \"AB\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,14 +41,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/patients/",
-							"protocol": "http",
+							"raw": "{{API}}/patients/",
 							"host": [
-								"localhost"
+								"{{API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"patients",
 								""
 							]
@@ -65,14 +59,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/patients/1",
-							"protocol": "http",
+							"raw": "{{API}}/patients/1",
 							"host": [
-								"localhost"
+								"{{API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"patients",
 								"1"
 							]
@@ -87,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"string\",\r\n  \"gender\": \"male\",\r\n  \"date_of_birth\": \"2019-08-24\",\r\n  \"age\": 0,\r\n  \"address\": \"string\",\r\n  \"contact_details\": \"string\",\r\n  \"blood_group\": \"string\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Mg Mg\",\r\n  \"gender\": \"male\",\r\n  \"date_of_birth\": \"2019-08-24\",\r\n  \"age\": 30,\r\n  \"address\": \"Nyaung Done\",\r\n  \"contact_details\": \"0912345\",\r\n  \"blood_group\": \"AB\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -95,14 +86,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/patients/1",
-							"protocol": "http",
+							"raw": "{{API}}/patients/1",
 							"host": [
-								"localhost"
+								"{{API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"patients",
 								"1"
 							]
@@ -116,14 +104,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/patients/1",
-							"protocol": "http",
+							"raw": "{{API}}/patients/1",
 							"host": [
-								"localhost"
+								"{{API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"patients",
 								"1"
 							]
@@ -135,40 +120,18 @@
 		},
 		{
 			"name": "Health Check",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjM1Njk1MzI0LCJ0b2tlbl90eXBlIjoiYWNjZXNzIn0._lxQLGi58ZqTay_3uS0oxfiaHi6JLeN2ZUFlk-Awjsc",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"zay78\",\r\n    \"password\":\"123456\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://localhost:8000/api/healthcheck",
-					"protocol": "http",
+					"raw": "{{API}}/healthcheck",
 					"host": [
-						"localhost"
+						"{{API}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"healthcheck"
 					]
 				}
@@ -178,6 +141,9 @@
 		{
 			"name": "Signup",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -190,14 +156,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/user/",
-					"protocol": "http",
+					"raw": "{{API}}/user/",
 					"host": [
-						"localhost"
+						"{{API}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"user",
 						""
 					]
@@ -208,6 +171,9 @@
 		{
 			"name": "Login",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -215,25 +181,22 @@
 					"formdata": [
 						{
 							"key": "username",
-							"value": "string",
+							"value": "test",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "string",
+							"value": "qwerty12345",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/login",
-					"protocol": "http",
+					"raw": "{{API}}/login",
 					"host": [
-						"localhost"
+						"{{API}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"login"
 					]
 				}
@@ -243,11 +206,14 @@
 		{
 			"name": "Refresh Token",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"refresh_token\": \"string\"\r\n}",
+					"raw": "{\r\n  \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0Iiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNjM1ODc0MTUwLCJ0b2tlbl90eXBlIjoicmVmcmVzaCJ9.XwFH1FBXA2PHN1ek1hLn9EamOVC5Piy_zZ9vC3xZSM0\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -255,14 +221,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/refreshToken",
-					"protocol": "http",
+					"raw": "{{API}}/refreshToken",
 					"host": [
-						"localhost"
+						"{{API}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"refreshToken"
 					]
 				}
@@ -272,6 +235,9 @@
 		{
 			"name": "Reset Password",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
@@ -284,20 +250,53 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/user/resetPassword",
-					"protocol": "http",
+					"raw": "{{API}}/user/resetPassword",
 					"host": [
-						"localhost"
+						"{{API}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"user",
 						"resetPassword"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0Iiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNjM1ODU2MTUwLCJ0b2tlbl90eXBlIjoiYWNjZXNzIn0.JDuTJDBX5DjRyUmOQYOBPIc21S-nsMexWVgTs_uqgcM",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API",
+			"value": "https://hidtcop-api.herokuapp.com/api"
 		}
 	]
 }
