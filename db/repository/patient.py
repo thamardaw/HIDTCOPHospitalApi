@@ -14,7 +14,6 @@ def create(request, db: Session,current_user):
     db.refresh(new_patient)
     return new_patient
 
-
 def readAll(db : Session):
     return db.query(Patient).all()
 
