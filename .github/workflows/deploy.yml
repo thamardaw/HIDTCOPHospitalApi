@@ -24,7 +24,7 @@ jobs:
           heroku_app_name: "hidtcop-api"
           heroku_email: "aungkokothet@thamardaw.com"
           healthcheck: "https://hidtcop-api.herokuapp.com/api/healthcheck"
-          delay: 30 # for healthcheck
+          delay: 60 # for executing healthcheck 60s after action has started
           rollbackonhealthcheckfailed: true
       - name: Run migration
         run: heroku run alembic upgrade head -a hidtcop-api # run migration
