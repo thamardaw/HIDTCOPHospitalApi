@@ -4,7 +4,6 @@ from .routes import patient
 from .routes import authentication
 from .routes import healthCheck
 
-
 router = APIRouter(prefix="/api")
 
 router.include_router(healthCheck.router)
