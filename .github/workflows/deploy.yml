@@ -26,5 +26,6 @@ jobs:
           healthcheck: "https://hidtcop-api.herokuapp.com/api/healthcheck"
           delay: 5 # for healthcheck
           rollbackonhealthcheckfailed: true
+      - name: Run migration
         run: heroku run alembic upgrade head -a hidtcop-api # run migration
 
