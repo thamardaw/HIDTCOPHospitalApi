@@ -3,7 +3,7 @@ from services.hashing import Hash
 from sqlalchemy.orm import Session
 from fastapi import HTTPException,status
 
-def create(request:User,db:Session):
+def create(request,db:Session):
     if not request.username:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Username cannot be empty.")
     if len(request.password) < 6:
@@ -16,3 +16,15 @@ def create(request:User,db:Session):
     db.commit()
     db.refresh(new_user)
     return new_user
+
+def resetPassword(request, db : Session):
+    if len(request.newPassword) < 6:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Password have to contain at least 6 character.")
+    user = db.query(User).filter(User.username == request.username)
+    if not user.first():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="No matching username.")
+    if not Hash.verify_password(request.oldPassword,user.first().password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Incorrect old password.")
+    user.update({"password":Hash.hash_password(request.newPassword)})
+    db.commit()
+    return 

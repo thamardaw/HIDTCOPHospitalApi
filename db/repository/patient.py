@@ -15,16 +15,16 @@ def create(request, db: Session,current_user):
     return new_patient
 
 
-def readAll( db: Session):
+def readAll(db : Session):
     return db.query(Patient).all()
 
-def read(id, db:Session):
+def read(id : int, db : Session):
     patient = db.query(Patient).filter(Patient.id==id).first()
     if not patient:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Patient doesn't exist.")
     return patient
 
-def delete(id, db:Session):
+def delete(id : int, db:Session):
     patient = db.query(Patient).filter(Patient.id==id)
     if not patient.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Patient doesn't exist.")
@@ -32,7 +32,7 @@ def delete(id, db:Session):
     db.commit()
     return
 
-def update(id,request,db:Session,current_user):
+def update(id : int,request,db:Session,current_user):
     patient = db.query(Patient).filter(Patient.id==id)
     if not patient.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Patient doesn't exist.")
