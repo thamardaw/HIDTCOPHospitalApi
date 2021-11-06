@@ -11,7 +11,6 @@ class Patient(BaseModel):
     age: int
     address: str
     contact_details: str
-    blood_group: str
 
 class showPatient(BaseModel):
     id: int
@@ -21,7 +20,6 @@ class showPatient(BaseModel):
     age: int
     address: str
     contact_details: str
-    blood_group: str
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
