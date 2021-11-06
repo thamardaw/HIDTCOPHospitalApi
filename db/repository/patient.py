@@ -6,7 +6,7 @@ def create(request, db: Session,current_user):
     user = db.query(User).filter(User.username == current_user.username).first()
     new_patient = Patient(name=request.name,gender=request.gender,date_of_birth=request.date_of_birth,
                            age=request.age, address=request.address,
-                           contact_details=request.contact_details, blood_group=request.blood_group,
+                           contact_details=request.contact_details, 
                            created_user_id=user.id,updated_user_id=user.id
                            )
     db.add(new_patient)

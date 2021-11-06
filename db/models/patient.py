@@ -14,4 +14,3 @@ class Patient(BaseMixin,Base):
     age = Column(Integer, nullable=False)
     address = Column(String, nullable=False)
     contact_details = Column(String, nullable=False)
-    blood_group = Column(String, nullable=False)
