@@ -1,13 +1,13 @@
 # This is the .github/workflows/main.yml
 
-name: Prod deploy # Name of the workflow
+name: Staging deploy # Name of the workflow
 
 # Events that trigger a workflow:
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 on:
   push:
     branches:
-      - main
+      - staging
 
 jobs:
   deploy:
@@ -21,8 +21,8 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "hidtcop-api"
+          heroku_app_name: "hidtcop-staging-api"
           heroku_email: "aungkokothet@thamardaw.com"
       - name: Run migration
-        run: heroku run alembic upgrade head -a hidtcop-api # run migration
+        run: heroku run alembic upgrade head -a hidtcop-staging-api # run migration
 
