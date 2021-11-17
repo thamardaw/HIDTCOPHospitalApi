@@ -2,6 +2,10 @@
 
 10 bed hospital backend.
 
+### With Docker Compose
+
+For setting up with docker compose for local deployment, see [DOCKER.md](./DOCKER.md).
+
 ### File and Folder Structure
 
 ```shell
