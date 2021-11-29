@@ -23,6 +23,11 @@ def create(request: SalesServiceItem, db: Session = Depends(get_db),current_user
     salesServiceItem.create(request, db,current_user)
     return {"detail": "Sales Service Item create successful."}
 
+@router.post("/bulk", status_code=status.HTTP_200_OK, response_model=Message)
+def bulk_create(request: List[SalesServiceItem], db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
+    salesServiceItem.bulkCreate(request, db,current_user)
+    return {"detail": "Sales Service Items create successful."}
+
 @router.put("/{id}",status_code=status.HTTP_200_OK,response_model=Message)
 def update(id: int, request: SalesServiceItem,db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
     salesServiceItem.update(id,request,db,current_user)

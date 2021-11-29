@@ -10,6 +10,16 @@ def create(request, db: Session,current_user):
     db.refresh(new_salesServiceItem)
     return new_salesServiceItem
 
+def bulkCreate(request, db: Session,current_user):
+    user = db.query(User).filter(User.username == current_user.username).first()
+    new_salesServiceItems = []
+    for new_salesServiceItem in request:
+        item = SalesServiceItem(**new_salesServiceItem.dict(),created_user_id=user.id,updated_user_id=user.id)
+        new_salesServiceItems.append(item)
+    db.bulk_save_objects(new_salesServiceItems)
+    db.commit()
+    return 
+
 def readAll(db : Session):
     return db.query(SalesServiceItem).all()
 
