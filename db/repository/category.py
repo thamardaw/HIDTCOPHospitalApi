@@ -4,36 +4,36 @@ from fastapi import HTTPException,status
 
 def create(request, db: Session,current_user):
     user = db.query(User).filter(User.username == current_user.username).first()
-    new_uom = Category(name=request.name,description=request.description,created_user_id=user.id,updated_user_id=user.id)
-    db.add(new_uom)
+    new_category = Category(name=request.name,description=request.description,created_user_id=user.id,updated_user_id=user.id)
+    db.add(new_category)
     db.commit()
-    db.refresh(new_uom)
-    return new_uom
+    db.refresh(new_category)
+    return new_category
 
 def readAll(db : Session):
     return db.query(Category).all()
 
 def read(id : int, db : Session):
-    uom = db.query(Category).filter(Category.id==id).first()
-    if not uom:
+    category = db.query(Category).filter(Category.id==id).first()
+    if not category:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Category doesn't exist.")
-    return uom
+    return category
 
 def delete(id : int, db:Session):
-    uom = db.query(Category).filter(Category.id==id)
-    if not uom.first():
+    category = db.query(Category).filter(Category.id==id)
+    if not category.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Cetegory doesn't exist.")
-    uom.delete(synchronize_session=False)
+    category.delete(synchronize_session=False)
     db.commit()
     return
 
 def update(id : int,request,db:Session,current_user):
-    uom = db.query(Category).filter(Category.id==id)
-    if not uom.first():
+    category = db.query(Category).filter(Category.id==id)
+    if not category.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Cetegory doesn't exist.")
     user = db.query(User).filter(User.username == current_user.username).first()
-    update_uom = request.dict().copy()
-    update_uom.update({"updated_user_id": user.id})
-    uom.update(update_uom)
+    update_category = request.dict().copy()
+    update_category.update({"updated_user_id": user.id})
+    category.update(update_category)
     db.commit()
     return
