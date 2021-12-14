@@ -6,7 +6,7 @@ from .JWTtoken import verify_token,create_access_token
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
+def extract_token_data(token: str = Depends(oauth2_scheme)):
     return verify_token(token)
 
 def refreshToken(token:str):
