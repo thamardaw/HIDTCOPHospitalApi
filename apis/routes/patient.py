@@ -5,7 +5,7 @@ from schemas.patient import Patient, showPatient
 from infrastructure.repository import patient
 from infrastructure.session import get_db
 from typing import List
-from services.oauth2 import get_current_user
+from utils.oauth2 import get_current_user
 from schemas.token import TokenData
 
 router = APIRouter(prefix="/patients", tags=["Patients"])
