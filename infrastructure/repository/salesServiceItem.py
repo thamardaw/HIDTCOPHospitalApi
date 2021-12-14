@@ -1,4 +1,4 @@
-from db.base import User, SalesServiceItem
+from infrastructure.base import User, SalesServiceItem
 from sqlalchemy.orm import Session
 from fastapi import HTTPException,status
 

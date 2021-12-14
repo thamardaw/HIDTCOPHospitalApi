@@ -1,6 +1,6 @@
 from sqlalchemy import Column,String
-from db.base_mixin import BaseMixin
-from db.base_class import Base
+from infrastructure.base_mixin import BaseMixin
+from infrastructure.base_class import Base
 from sqlalchemy.orm import relationship
 
 class Uom(BaseMixin,Base):

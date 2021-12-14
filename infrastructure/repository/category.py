@@ -1,4 +1,4 @@
-from db.base import User, Category
+from infrastructure.base import User, Category
 from sqlalchemy.orm import Session
 from fastapi import HTTPException,status
 

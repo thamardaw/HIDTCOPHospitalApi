@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from db.base import Base
-from db.session import engine
+from infrastructure.base import Base
+from infrastructure.session import engine
 from config.config import settings 
 from apis.base import router
 import uvicorn

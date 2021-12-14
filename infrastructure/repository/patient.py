@@ -1,4 +1,4 @@
-from db.base import Patient, User
+from infrastructure.base import Patient, User
 from sqlalchemy.orm import Session
 from fastapi import HTTPException,status
 

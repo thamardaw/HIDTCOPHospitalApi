@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from schemas.message import Message
 from schemas.user import User, ResetPassword
-from db.session import get_db
-from db.repository import user
+from infrastructure.session import get_db
+from infrastructure.repository import user
 
 router = APIRouter(prefix="/user",tags=["User"])
 

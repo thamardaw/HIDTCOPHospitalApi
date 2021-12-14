@@ -2,7 +2,7 @@ from datetime import date
 from typing import Any, Optional
 from pydantic import BaseModel
 from datetime import datetime
-from db.models.patient import gender_enum
+from infrastructure.models.patient import gender_enum
 
 class Patient(BaseModel):
     name: str

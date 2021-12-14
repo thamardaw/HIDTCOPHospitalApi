@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from schemas.message import Message
 from schemas.category import Category, showCategory
-from db.repository import category
-from db.session import get_db
+from infrastructure.repository import category
+from infrastructure.session import get_db
 from typing import List
 from services.oauth2 import get_current_user
 from schemas.token import TokenData

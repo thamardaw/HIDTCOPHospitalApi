@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Date, Enum
-from db.base_mixin import BaseMixin
-from db.base_class import Base
+from infrastructure.base_mixin import BaseMixin
+from infrastructure.base_class import Base
 import enum
 
 class gender_enum(str, enum.Enum):

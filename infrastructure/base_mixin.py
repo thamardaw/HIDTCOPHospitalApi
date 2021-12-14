@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship,declarative_mixin
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import DateTime
 from sqlalchemy.sql.functions import func
-from db.base import User
+from infrastructure.base import User
 
 @declarative_mixin
 class BaseMixin:

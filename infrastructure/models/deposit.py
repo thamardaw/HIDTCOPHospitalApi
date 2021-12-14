@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer
-from db.base_mixin import BaseMixin
+from infrastructure.base_mixin import BaseMixin
 from sqlalchemy.sql.schema import ForeignKey
-from db.base_class import Base
+from infrastructure.base_class import Base
 
 class Deposit(BaseMixin,Base):
     patient_id = Column(Integer,ForeignKey("patient.id"))
