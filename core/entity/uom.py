@@ -3,10 +3,6 @@ from typing import Optional
 from datetime import datetime
 
 class Uom(BaseModel):
-    name: str
-    description: str
-
-class showUom(BaseModel):
     id: int
     name: str
     description: str
