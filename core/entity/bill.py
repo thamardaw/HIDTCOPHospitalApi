@@ -6,6 +6,7 @@ from datetime import datetime
 
 class Bill(BaseModel):
     id: int
+    patient_id:int
     patient_name: str
     patient_phone: str
     patient_age: int

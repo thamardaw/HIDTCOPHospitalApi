@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session
 from schemas.message import Message
 from schemas.patient import Patient, showPatient
 from core.services.patient import PatientService
-from infrastructure.session import get_db
 from typing import List
 from utils.oauth2 import extract_token_data
 from schemas.token import TokenData
