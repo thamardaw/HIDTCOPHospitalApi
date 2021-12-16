@@ -9,4 +9,4 @@ class Payment(BaseMixin,Base):
     total_amount = Column(Integer, nullable=False)
     total_deposit_amount = Column(Integer, nullable=False)
     collected_amount = Column(Integer, nullable=False)
-    total_outstanding_amount = Column(Integer, nullable=False)
+    unpaid_amount = Column(Integer, nullable=False)

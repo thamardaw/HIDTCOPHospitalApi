@@ -6,6 +6,7 @@ from .routes import healthCheck
 from .routes import uom
 from .routes import category
 from .routes import salesServiceItem
+from .routes import bill
 
 router = APIRouter(prefix="/api")
 
@@ -16,3 +17,4 @@ router.include_router(patient.router)
 router.include_router(uom.router)
 router.include_router(category.router)
 router.include_router(salesServiceItem.router)
+router.include_router(bill.router)
