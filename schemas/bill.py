@@ -13,7 +13,7 @@ class showBill(BaseModel):
     patient_id:int
     patient_name: str
     patient_phone: str
-    patient_age: int
+    patient_address: str
     printed_or_drafted: printed_or_drafted_enum
     total_amount: int
     bill_items: Optional[List[showBillItem]] = []

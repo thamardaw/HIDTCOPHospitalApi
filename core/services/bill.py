@@ -31,7 +31,7 @@ class BillService:
     
     def addBill(self,bill:Bill) -> Bill:
         patient = self.patient_repo.getById(bill.patient_id)
-        new_bill = self.bill_repo.persist({"patient_id":patient.id,"patient_name":patient.name,"patient_phone":patient.contact_details,"patient_age":patient.age,"printed_or_drafted":"drafted","total_amount":0})
+        new_bill = self.bill_repo.persist({"patient_id":patient.id,"patient_name":patient.name,"patient_phone":patient.contact_details,"patient_address":patient.address,"printed_or_drafted":"drafted","total_amount":0})
         total_amount = 0
         for billitem in bill.bill_items:
             billitem = billitem.dict()
@@ -52,7 +52,8 @@ class BillService:
 
     def addBillItem(self,billId,data):
         bill_orm = self.bill_repo.getById(billId)
-        billItem = dict(data,bill_id=bill_orm.id)
+        subtotal_amount = data.price * data.quantity
+        billItem = dict(data,bill_id=bill_orm.id,subtotal=subtotal_amount)
         self.billItem_repo.persist(billItem)
         bill_orm = self.bill_repo.getById(billId)
         total_amount = 0

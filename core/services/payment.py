@@ -20,16 +20,23 @@ class PaymentService:
     def getAllOutstandingBill(self):
         bills = self.bill_repo.getPrintedBill()
         payments = self.payment_repo.list()
-        outstanding_bills = []
+        completed_bills = []
+        # if len(payments) != 0:
+        #     if (len(payments) != len(bills)):
+        #         for payment in payments:
+        #             for bill in bills:
+        #                 if (bill.id != payment.bill_id and bill not in outstanding_bills):
+        #                     outstanding_bills.append(bill)   
+        # else:
+        #     outstanding_bills.extend(bills)
         if len(payments) != 0:
-            if (len(payments) != len(bills)):
-                for payment in payments:
-                    for bill in bills:
-                        if (bill.id != payment.bill_id and bill not in outstanding_bills):
-                            outstanding_bills.append(bill)   
-        else:
-            outstanding_bills.extend(bills)
-        return outstanding_bills
+            for payment in payments:
+                for bill in bills:
+                    if (bill.id == payment.bill_id and bill not in completed_bills):
+                        completed_bills.append(bill)
+        for completed_bill in completed_bills:
+            bills.remove(completed_bill)
+        return bills
     
     def getAllCompletedBill(self):
         bills = self.bill_repo.getPrintedBill()
