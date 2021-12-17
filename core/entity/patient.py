@@ -5,14 +5,6 @@ from datetime import datetime
 from infrastructure.models.patient import gender_enum
 
 class Patient(BaseModel):
-    name: str
-    gender: gender_enum
-    date_of_birth: date
-    age: int
-    address: str
-    contact_details: str
-
-class showPatient(BaseModel):
     id: int
     name: str
     gender: gender_enum
