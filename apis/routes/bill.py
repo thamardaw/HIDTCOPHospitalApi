@@ -22,7 +22,7 @@ def get_bill(id: int, service=Depends(BillService)):
 @router.put('/print/{id}',status_code=status.HTTP_200_OK,response_model=Message)
 def get_bill(id: int, service=Depends(BillService)):
     service.printBill(id)
-    return {"detail": "Bill update successful."}
+    return {"detail": "Bill state update successful."}
 
 @router.delete('/{billId}/billItem/{id}',status_code=status.HTTP_200_OK,response_model=Message)
 def remove_bill_item(billId:int,id: int, service=Depends(BillService)):
