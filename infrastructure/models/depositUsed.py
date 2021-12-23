@@ -6,6 +6,5 @@ from infrastructure.base_class import Base
 class DepositUsed(BaseMixin,Base):
     deposit_id = Column(Integer,ForeignKey("deposit.id"))
     payment_id = Column(Integer,ForeignKey("payment.id"))
-    bill_id = Column(Integer, nullable=False)
-    outstanding_amount_before = Column(Integer,nullable=False)
-    outstanding_amount_after = Column(Integer, nullable=False)
+    unpaid_amount = Column(Integer,nullable=False)
+    collected_amount = Column(Integer, nullable=False)

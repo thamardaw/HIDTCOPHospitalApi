@@ -1,5 +1,3 @@
-from core.protocol.bill import BillProtocol
-from core.entity.token import TokenData
 from core.entity.bill import Bill 
 from infrastructure.repository.billItem import BillItemRepository
 from infrastructure.repository.patient import PatientRepository
