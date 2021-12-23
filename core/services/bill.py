@@ -39,7 +39,7 @@ class BillService:
                         if (deposit.id == depositUsed.deposit_id and deposit not in used_deposits):
                             used_deposits.append(deposit)
             for used_deposit in used_deposits:
-                deposit.remove(used_deposit)
+                deposits.remove(used_deposit)
             total_deposit_amount = 0
             for deposit in deposits:
                 total_deposit_amount += deposit.amount

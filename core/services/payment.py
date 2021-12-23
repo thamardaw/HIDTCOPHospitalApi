@@ -17,6 +17,9 @@ class PaymentService:
         # self.payment_repo.persist({"bill_id":bill.id,"total_amount":bill.total_amount,"total_deposit_amount":0,"collected_amount":bill.total_amount,"unpaid_amount":bill.total_amount})
         return 
 
+    def getPaymentByBillId(self,id:int):
+        return self.payment_repo.getByBillId(id)
+
     def getAllOutstandingBill(self):
         bills = self.bill_repo.getPrintedBill()
         payments = self.payment_repo.completedPayment()
