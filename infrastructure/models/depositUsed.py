@@ -7,4 +7,4 @@ class DepositUsed(BaseMixin,Base):
     deposit_id = Column(Integer,ForeignKey("deposit.id"))
     payment_id = Column(Integer,ForeignKey("payment.id"))
     unpaid_amount = Column(Integer,nullable=False)
-    collected_amount = Column(Integer, nullable=False)
+    deposit_amount = Column(Integer, nullable=False)
