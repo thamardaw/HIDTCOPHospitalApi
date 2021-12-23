@@ -9,3 +9,6 @@ from infrastructure.models.depositUsed import DepositUsed
 from infrastructure.models.billItem import BillItem
 from infrastructure.models.payment import Payment
 from infrastructure.models.bill import Bill
+from infrastructure.models.dailyClosing import DailyClosing
+from infrastructure.models.closingBillDetail import ClosingBillDetail
+from infrastructure.models.closingDepositDetail import ClosingDepositDetail
