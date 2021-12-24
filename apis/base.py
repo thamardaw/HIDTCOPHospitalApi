@@ -22,4 +22,3 @@ router.include_router(salesServiceItem.router)
 router.include_router(bill.router)
 router.include_router(payment.router)
 router.include_router(deposit.router)
-

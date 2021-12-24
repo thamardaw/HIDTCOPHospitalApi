@@ -46,6 +46,3 @@ class PaymentRepository(BaseRepo):
             return [PaymentDTO.from_orm(payment) for payment in payments]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
-        
-
-
