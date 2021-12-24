@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
+from .patient import showPatient
 
 class Deposit(BaseModel):
     patient_id: int
@@ -9,6 +10,7 @@ class Deposit(BaseModel):
 class showDeposit(BaseModel):
     id: int
     patient_id: int
+    patient: Optional[showPatient]
     amount: int
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None
