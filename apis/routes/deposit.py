@@ -10,6 +10,14 @@ router = APIRouter(prefix="/deposit", tags=["Deposit"])
 def get_all_deposits(service=Depends(DepositService)):
     return service.getAllDeposit()
 
+@router.get('/active',status_code=status.HTTP_200_OK, response_model=List[showDeposit])
+def get_all_deposits(service=Depends(DepositService)):
+    return service.getAllActiveDeposit()
+
+@router.get('/used',status_code=status.HTTP_200_OK, response_model=List[showDeposit])
+def get_all_deposits(service=Depends(DepositService)):
+    return service.getAllUsedDeposit()
+
 @router.get('/{id}',status_code=status.HTTP_200_OK,response_model=showDeposit)
 def get_deposit(id: int, service=Depends(DepositService)):
     return service.getDeposit(id)

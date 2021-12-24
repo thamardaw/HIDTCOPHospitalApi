@@ -1,19 +1,45 @@
 from infrastructure.repository.deposit import DepositRepository
 from core.entity.deposit import Deposit
 from infrastructure.repository.patient import PatientRepository
+from infrastructure.repository.depositUsed import DepositUsedRepository
 from decorators.autoWired import autoWired
 from typing import List
 
 dependent_repos = {
     'deposit_repo' : DepositRepository,
-    'patient_repo' : PatientRepository
+    'patient_repo' : PatientRepository,
+    'depositUsed_repo' : DepositUsedRepository
 }
 
 @autoWired(dependencies=dependent_repos)
 class DepositService:
     def getAllDeposit(self) -> List[Deposit]:
         return self.deposit_repo.list()
+
+    def getAllActiveDeposit(self):
+        deposits = self.deposit_repo.list()
+        depositUseds = self.depositUsed_repo.list()
+        used_deposits = []
+        if len(depositUseds) != 0:
+            for depositUsed in depositUseds:
+                for deposit in deposits:
+                    if (deposit.id == depositUsed.deposit_id and deposit not in used_deposits):
+                        used_deposits.append(deposit)
+        for used_deposit in used_deposits:
+            deposits.remove(used_deposit)
+        return deposits
     
+    def getAllUsedDeposit(self):
+        deposits = self.deposit_repo.list()
+        depositUseds = self.depositUsed_repo.list()
+        used_deposits = []
+        if len(depositUseds) != 0:
+            for depositUsed in depositUseds:
+                for deposit in deposits:
+                    if (deposit.id == depositUsed.deposit_id and deposit not in used_deposits):
+                        used_deposits.append(deposit)
+        return deposits
+
     def getDeposit(self,id:int) -> Deposit:
         return self.deposit_repo.getById(id)
     
