@@ -1,6 +1,6 @@
 from infrastructure.base_repo import BaseRepo
 from infrastructure.models.dailyClosing import DailyClosing
-from core.entity.dailyClosing import DailyClosing as DailyClosingDTO
+from core.entity.dailyClosing import DailyClosing as DailyClosingDTO, DailyClosingFromPersist as DailyClosingFromPersistDTO
 from utils.getCurrentUser import getCurrentUser
 
 class DailyClosingRepository(BaseRepo):
@@ -8,7 +8,7 @@ class DailyClosingRepository(BaseRepo):
         user = getCurrentUser(self._db,self._tokenData.username)
         new_dailyClosing = DailyClosing(**dailyClosing,created_user_id=user.id,updated_user_id=user.id)
         new_dailyClosing = self.create(new_dailyClosing)
-        return DailyClosingDTO.from_orm(new_dailyClosing)
+        return DailyClosingFromPersistDTO.from_orm(new_dailyClosing)
     
     def update(self,id,data):
         dailyClosing_orm = self.read(DailyClosing,id)
