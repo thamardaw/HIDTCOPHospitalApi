@@ -6,9 +6,9 @@ from typing import List
 
 router = APIRouter(prefix="/deposit", tags=["Deposit"])
 
-@router.get('/',status_code=status.HTTP_200_OK, response_model=List[showDeposit])
-def get_all_deposits(service=Depends(DepositService)):
-    return service.getAllDeposit()
+# @router.get('/',status_code=status.HTTP_200_OK, response_model=List[showDeposit])
+# def get_all_deposits(service=Depends(DepositService)):
+#     return service.getAllDeposit()
 
 @router.get('/active',status_code=status.HTTP_200_OK, response_model=List[showDeposit])
 def get_all_deposits(service=Depends(DepositService)):
@@ -22,17 +22,21 @@ def get_all_deposits(service=Depends(DepositService)):
 def get_deposit(id: int, service=Depends(DepositService)):
     return service.getDeposit(id)
 
+@router.get('/',status_code=status.HTTP_200_OK,response_model=List[showDeposit])
+def get_deposit_from_to(f: int,t:int, service=Depends(DepositService)):
+    return service.getAllFromAndTo(f,t)
+
 @router.post("/", status_code=status.HTTP_200_OK, response_model=Message)
 def create(request: Deposit, service=Depends(DepositService)):
     service.addDeposit(request)
     return {"detail": "Deposit create successful."}
 
-@router.put("/{id}",status_code=status.HTTP_200_OK,response_model=Message)
-def update(id: int, request: Deposit,service=Depends(DepositService)):
-    service.updateDeposit(id,request)
-    return {"detail": "Deposit update successful."}
+# @router.put("/{id}",status_code=status.HTTP_200_OK,response_model=Message)
+# def update(id: int, request: Deposit,service=Depends(DepositService)):
+#     service.updateDeposit(id,request)
+#     return {"detail": "Deposit update successful."}
 
-@router.delete("/{id}",status_code=status.HTTP_200_OK, response_model=Message)
-def delete(id: int, service=Depends(DepositService)):
-    service.deleteDeposit(id)
-    return {"detail": "Deposit delete successful."}
+# @router.delete("/{id}",status_code=status.HTTP_200_OK, response_model=Message)
+# def delete(id: int, service=Depends(DepositService)):
+#     service.deleteDeposit(id)
+#     return {"detail": "Deposit delete successful."}

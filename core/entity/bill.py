@@ -3,10 +3,12 @@ from pydantic import BaseModel
 from infrastructure.models.bill import printed_or_drafted_enum
 from core.entity.billItem import BillItem
 from datetime import datetime
+from .patient import Patient
 
 class Bill(BaseModel):
     id: int
     patient_id:int
+    patient: Optional[Patient]
     patient_name: str
     patient_phone: str
     patient_address: str

@@ -21,6 +21,13 @@ class DepositRepository(BaseRepo):
     def list(self):
         deposits = self.readAll(Deposit)
         return [DepositDTO.from_orm(deposit) for deposit in deposits]
+
+    def getFromAndTo(self,f : int,t: int):
+        try:
+            deposits = self._db.query(Deposit).filter(Deposit.id>=f).filter(Deposit.id<=t).all()
+            return [DepositDTO.from_orm(deposit) for deposit in deposits]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
     
     def delete(self,deposit):
         deposit_orm = self.read(Deposit,deposit.id)

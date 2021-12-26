@@ -28,6 +28,9 @@ class DepositService:
         for used_deposit in used_deposits:
             deposits.remove(used_deposit)
         return deposits
+
+    def getAllFromAndTo(self,f:int,t:int):
+        return self.deposit_repo.getFromAndTo(f,t)
     
     def getAllUsedDeposit(self):
         deposits = self.deposit_repo.list()

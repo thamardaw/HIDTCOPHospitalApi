@@ -18,6 +18,13 @@ class BillRepository(BaseRepo):
         bill_orm = self.read(Bill,id)
         return BillDTO.from_orm(bill_orm)
 
+    def getFromAndTo(self,f : int,t: int):
+        try:
+            bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="printed").filter(Bill.id>=f).filter(Bill.id<=t).all()
+            return [BillDTO.from_orm(bill) for bill in bills]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+
     def getDraftedBill(self):
         try:
             bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="drafted").all()

@@ -19,6 +19,10 @@ def get_all_printed_bill(service=Depends(BillService)):
 def get_bill(id: int, service=Depends(BillService)):
     return service.getBill(id)
 
+@router.get('/',status_code=status.HTTP_200_OK,response_model=List[showBill])
+def get_bill_from_to(f: int,t:int, service=Depends(BillService)):
+    return service.getAllFromAndTo(f,t)
+
 @router.put('/print/{id}',status_code=status.HTTP_200_OK,response_model=Message)
 def get_bill(id: int, service=Depends(BillService)):
     service.printBill(id)

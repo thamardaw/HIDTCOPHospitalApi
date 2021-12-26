@@ -27,6 +27,9 @@ class BillService:
         printed_bills = self.bill_repo.getPrintedBill()
         return printed_bills
 
+    def getAllFromAndTo(self,f:int,t:int):
+        return self.bill_repo.getFromAndTo(f,t)
+
     def printBill(self,id:int):
         bill = self.bill_repo.getById(id)
         if bill.printed_or_drafted == "drafted":
