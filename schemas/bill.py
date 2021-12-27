@@ -4,6 +4,7 @@ from infrastructure.models.bill import printed_or_drafted_enum
 from schemas.billItem import BillItem, showBillItem
 from datetime import datetime
 from .patient import showPatient
+from .payment import showPayment
 
 class Bill(BaseModel):
     patient_id: int
@@ -35,6 +36,7 @@ class showBillDailyClosing(BaseModel):
     patient_address: str
     printed_or_drafted: printed_or_drafted_enum
     total_amount: int
+    payment: Optional[List[showPayment]]
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
