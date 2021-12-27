@@ -28,7 +28,15 @@ class BillService:
         return printed_bills
 
     def getAllFromAndTo(self,f:int,t:int):
-        return self.bill_repo.getFromAndTo(f,t)
+        bills = self.bill_repo.getFromAndTo(f,t)
+        payments = self.payment_repo.completedPayment()
+        completed_bills = []
+        if len(payments) != 0:
+            for payment in payments:
+                for bill in bills:
+                    if (bill.id == payment.bill_id and bill not in completed_bills):
+                        completed_bills.append(bill)
+        return completed_bills
 
     def printBill(self,id:int):
         bill = self.bill_repo.getById(id)
