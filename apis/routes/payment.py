@@ -24,4 +24,3 @@ def make_payment(id:int, service=Depends(PaymentService)):
 def make_payment(id:int, service=Depends(PaymentService)):
     return service.getPaymentByBillId(id)
     
-

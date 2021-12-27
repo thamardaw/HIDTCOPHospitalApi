@@ -24,4 +24,3 @@ router.include_router(bill.router)
 router.include_router(payment.router)
 router.include_router(deposit.router)
 router.include_router(dailyClosing.router)
-
