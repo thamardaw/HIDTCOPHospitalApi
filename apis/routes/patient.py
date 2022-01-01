@@ -30,4 +30,4 @@ def update(id: int, request: Patient,repo=Depends(PatientRepository),tokenData: 
 @router.delete("/{id}",status_code=status.HTTP_200_OK, response_model=Message)
 def delete(id: int, repo=Depends(PatientRepository),tokenData: TokenData = Depends(extract_token_data)):
     PatientService(repo,tokenData).deletePatient(id)
-    return {"detail": "Petient delete successful."}
+    return {"detail": "Patient delete successful."}

@@ -1,15 +1,14 @@
 from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime
+from typing import Optional
+from .deposit import Deposit
 
-class showPayment(BaseModel):
+class ClosingDepositDetail(BaseModel):
     id: int
-    bill_id: int
-    total_amount: int
-    total_deposit_amount: int
-    collected_amount: int
-    unpaid_amount: int
-    is_outstanding: bool
+    daily_closing_id :int
+    deposit_id: int
+    deposit : Deposit
+    amount: int
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None

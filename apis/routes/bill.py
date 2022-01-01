@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 from schemas.message import Message
-from schemas.bill import Bill, showBill
+from schemas.bill import Bill, showBill,showBillDailyClosing
 from schemas.billItem import BillItem
 from core.services.bill import BillService
 from typing import List
@@ -19,10 +19,14 @@ def get_all_printed_bill(service=Depends(BillService)):
 def get_bill(id: int, service=Depends(BillService)):
     return service.getBill(id)
 
+@router.get('/',status_code=status.HTTP_200_OK,response_model=List[showBillDailyClosing])
+def get_bill_from_to(f: int,t:int, service=Depends(BillService)):
+    return service.getAllFromAndTo(f,t)
+
 @router.put('/print/{id}',status_code=status.HTTP_200_OK,response_model=Message)
 def get_bill(id: int, service=Depends(BillService)):
     service.printBill(id)
-    return {"detail": "Bill update successful."}
+    return {"detail": "Bill state update successful."}
 
 @router.delete('/{billId}/billItem/{id}',status_code=status.HTTP_200_OK,response_model=Message)
 def remove_bill_item(billId:int,id: int, service=Depends(BillService)):

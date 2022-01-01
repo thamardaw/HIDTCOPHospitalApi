@@ -7,7 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException, status
 from utils.getCurrentUser import getCurrentUser
 
-SQLALCHEMY_ERROR = lambda exception,status_code = status.HTTP_500_INTERNAL_SERVER_ERROR: HTTPException(status_code=status_code,detail=str(exception))
+SQLALCHEMY_ERROR = lambda exception,status_code = status.HTTP_500_INTERNAL_SERVER_ERROR: HTTPException(status_code=status_code,detail=str(exception.__dict__['orig']))
 NOT_FOUND = HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='Resource not found.')
 
 class BaseRepo:

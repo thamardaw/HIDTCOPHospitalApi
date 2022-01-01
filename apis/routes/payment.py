@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from schemas.message import Message
 from schemas.bill import showBill
-from schemas.payment import Payment
+from schemas.payment import showPayment
 from typing import List
 from core.services.payment import PaymentService
 
@@ -15,8 +15,12 @@ def get_all_outstanding_bill(service=Depends(PaymentService)):
 def get_all_completed_bill(service=Depends(PaymentService)):
     return service.getAllCompletedBill()
 
-@router.post("/", status_code=status.HTTP_200_OK, response_model=Message)
-def make_payment(request: Payment, service=Depends(PaymentService)):
-    service.make_payment(request)
+@router.put("/{id}", status_code=status.HTTP_200_OK, response_model=Message)
+def make_payment(id:int, service=Depends(PaymentService)):
+    service.make_payment(id)
     return {"detail": "Payment successful."}
 
+@router.get("/{id}", status_code=status.HTTP_200_OK, response_model=showPayment)
+def make_payment(id:int, service=Depends(PaymentService)):
+    return service.getPaymentByBillId(id)
+    

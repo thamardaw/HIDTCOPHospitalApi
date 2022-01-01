@@ -11,9 +11,11 @@ class printed_or_drafted_enum(str,enum.Enum):
 
 class Bill(BaseMixin,Base):
     patient_id = Column(Integer,ForeignKey("patient.id"))
+    patient = relationship("Patient",backref="bill")
     patient_name = Column(String, nullable=False)
     patient_phone = Column(String, nullable=False)
     patient_address = Column(String, nullable=False)
     printed_or_drafted = Column(Enum(printed_or_drafted_enum))
     total_amount = Column(Integer, nullable=False)
     bill_items = relationship("BillItem",back_populates="bill")
+    payment = relationship("Payment",back_populates="bill")

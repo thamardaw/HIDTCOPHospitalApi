@@ -12,7 +12,6 @@ class ResetPassword(BaseModel):
 
 class ShowUser(BaseModel):
     username: str
-    password: str
     role: str
     class Config():
         orm_mode = True
