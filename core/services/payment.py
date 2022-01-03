@@ -11,7 +11,7 @@ dependent_repos = {
 
 @autoWired(dependencies=dependent_repos)
 class PaymentService:
-    def make_payment(self,id):
+    def record_payment(self,id):
         self.payment_repo.updatePayment(id)
         # bill = self.bill_repo.getById(payment.bill_id)
         # self.payment_repo.persist({"bill_id":bill.id,"total_amount":bill.total_amount,"total_deposit_amount":0,"collected_amount":bill.total_amount,"unpaid_amount":bill.total_amount})
