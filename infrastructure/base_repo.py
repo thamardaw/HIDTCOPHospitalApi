@@ -33,7 +33,7 @@ class BaseRepo:
     def create(self,model):
         try:
             self._db.add(model)
-            self._db.commit()
+            self._db.flush()
             self._db.refresh(model)
             return model
         except SQLAlchemyError as e:
@@ -45,7 +45,7 @@ class BaseRepo:
         try:
             for key,value in data.items():
                 setattr(model,key,value)
-            self._db.commit()
+            self._db.flush()
             return model
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
@@ -53,6 +53,7 @@ class BaseRepo:
     def delete(self,model) -> None:
         try:
             self._db.delete(model)
-            self._db.commit()
+            # model.delete(synchronize_session=False)
+            self._db.flush()
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)

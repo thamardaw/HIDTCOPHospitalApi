@@ -9,8 +9,12 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)
 
 def get_db() -> Generator:
+    db = SessionLocal()
     try:
-        db = SessionLocal()
         yield db
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()
