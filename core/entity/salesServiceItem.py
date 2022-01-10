@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
-from .uom import showUom
+from .uom import Uom
 from .category import showCategory
 
 class SalesServiceItem(BaseModel):
@@ -15,7 +15,7 @@ class showSalesServiceItem(BaseModel):
     name: str 
     price: int
     uom_id: int
-    uom: showUom
+    uom: Uom
     category_id: int
     category: showCategory
     created_time: Optional[datetime] = None
