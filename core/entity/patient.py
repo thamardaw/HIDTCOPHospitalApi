@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Any, Optional
+from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
 from infrastructure.models.patient import gender_enum

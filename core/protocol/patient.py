@@ -1,17 +1,17 @@
 from typing import Protocol
 
 class PatientProtocol(Protocol):
-    def persist(self,data):
+    def persist(self,patient):
         ...
         
-    def update(self,data):
+    def update(self,patient):
         ...
         
-    def delete(self,data):
+    def delete(self,id):
         ...
         
     def list(self):
         ...
         
-    def getById(self,id:int):
+    def getById(self,id):
         ...

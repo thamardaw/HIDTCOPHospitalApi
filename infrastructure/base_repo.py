@@ -1,19 +1,16 @@
+from fastapi.param_functions import Depends
 from sqlalchemy.orm import Session
-from fastapi import Depends
-from infrastructure.session import get_db
-from core.entity.token import TokenData
-from utils.oauth2 import extract_token_data
 from sqlalchemy.exc import SQLAlchemyError
-from fastapi import HTTPException, status
-from utils.getCurrentUser import getCurrentUser
-
-SQLALCHEMY_ERROR = lambda exception,status_code = status.HTTP_500_INTERNAL_SERVER_ERROR: HTTPException(status_code=status_code,detail=str(exception.__dict__['orig']))
-NOT_FOUND = HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='Resource not found.')
+from infrastructure.base import  User
+from .session import get_db
+from utils.oauth2 import get_current_user
+from exceptions.http import NOT_FOUND
+from exceptions.repo import SQLALCHEMY_ERROR
 
 class BaseRepo:
-    def __init__(self,db:Session=Depends(get_db),tokenData:TokenData=Depends(extract_token_data)):
+    def __init__(self,db:Session=Depends(get_db),user:User=Depends(get_current_user)):
         self._db = db
-        self._tokenData = tokenData
+        self._user = user
 
     def readAll(self,model):
         try:
@@ -21,17 +18,18 @@ class BaseRepo:
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
-    def read(self,model,id:int):
+    def read(self,model,id) :
         try:
             data = self._db.query(model).get(id)
             if data is None:
-                raise NOT_FOUND
+                raise NOT_FOUND()
             return data
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
     def create(self,model):
         try:
+            model.create_stamp(self._user)
             self._db.add(model)
             self._db.flush()
             self._db.refresh(model)
@@ -40,20 +38,18 @@ class BaseRepo:
             raise SQLALCHEMY_ERROR(e)
 
     def update(self,model,data:dict):
-        user = getCurrentUser(self._db,self._tokenData.username)
-        data.update({"updated_user_id": user.id})
         try:
             for key,value in data.items():
-                setattr(model,key,value)
-            self._db.flush()
+                    setattr(model,key,value)
+            model.update_stamp(self._user)
             return model
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
-    def delete(self,model) -> None:
+    def delete(self,model,id) -> None:
         try:
-            self._db.delete(model)
-            # model.delete(synchronize_session=False)
+            data = self._db.query(model).filter(model.id == id)
+            data.delete(synchronize_session=False)
             self._db.flush()
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)

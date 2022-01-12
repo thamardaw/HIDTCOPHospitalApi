@@ -22,3 +22,10 @@ class BaseMixin:
     @declared_attr
     def updated_user(cls):
         return relationship('User', primaryjoin=lambda: User.id==cls.updated_user_id)
+
+    def create_stamp(self, user:User):
+        self.created_user_id = user.id
+        self.updated_user_id = user.id
+
+    def update_stamp(self, user:User):
+        self.updated_user_id = user.id
