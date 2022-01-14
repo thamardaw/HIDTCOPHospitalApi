@@ -40,8 +40,9 @@ class BaseRepo:
     def update(self,model,data:dict):
         try:
             for key,value in data.items():
-                    setattr(model,key,value)
+                setattr(model,key,value)
             model.update_stamp(self._user)
+            self._db.flush()
             return model
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
