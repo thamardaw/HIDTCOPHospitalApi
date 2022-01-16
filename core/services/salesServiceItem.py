@@ -26,27 +26,27 @@ class SalesServiceItemService:
     def getCategory(self,id:int) -> Category:
         return self.salesServiceItem_repo.getCategoryById(id)
     
-    def createSalesServiceItem(self,salesServiceItem:SalesServiceItem) -> None:
+    def createSalesServiceItem(self,salesServiceItem) -> None:
         self.salesServiceItem_repo.persist(salesServiceItem)
         return 
 
-    def createUom(self,uom:Uom) -> None:
+    def createUom(self,uom) -> None:
         self.salesServiceItem_repo.persistUom(uom)
         return 
 
-    def createCategory(self,category:Category) -> None:
+    def createCategory(self,category) -> None:
         self.salesServiceItem_repo.persistCategory(category)
         return 
     
-    def updateSalesServiceItem(self,id:int,salesServiceItem:SalesServiceItem) -> None:
+    def updateSalesServiceItem(self,id:int,salesServiceItem) -> None:
         self.salesServiceItem_repo.update(id,salesServiceItem)
         return
 
-    def updateUom(self,id:int,uom:Uom) -> None:
+    def updateUom(self,id:int,uom) -> None:
         self.salesServiceItem_repo.updateUom(id,uom)
         return
 
-    def updateCategory(self,id:int,category:Category) -> None:
+    def updateCategory(self,id:int,category) -> None:
         self.salesServiceItem_repo.updateCategory(id,category)
         return
     

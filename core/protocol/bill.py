@@ -1,20 +1,56 @@
 from typing import Protocol
 
 class BillProtocol(Protocol):
-    def persist(self,data):
-        ...
-        
-    def printBill(self,id:int):
+    def persist(self,bill):
         ...
 
-    def getDraftedBill(self):
+    def getById(self,id: int):
         ...
 
-    def getPrintedBill(self):
+    def listBillFromAndTo(self,f:int,t:int):
         ...
-        
-    def getById(self,id:int):
+
+    def listDraftBill(self):
         ...
-    
-    def updateBill(self,id:int,data):
+
+    def listOutstandingBill(self):
+        ...
+
+    def listCompletedBill(self):
+        ...
+
+    def update(self,id,bill):
+        ...
+
+    def persistBillItem(self,billItem):
+        ...
+
+    def deleteBillItem(self,id):
+        ...
+
+    def persistDeposit(self,deposit):
+        ...
+
+    def getDepositById(self,id: int):
+        ...
+
+    def listDepositFromAndTo(self,f:int,t:int):
+        ...
+
+    def listActiveDeposit(self):
+        ...
+
+    def listActiveDepositByPatientId(self,id):
+        ...
+
+    def listUsedDeposit(self):
+        ...
+
+    def persistDepositUsed(self,depositUsed):
+        ...
+
+    def persistPayment(self,payment):
+        ...
+
+    def updatePayment(self,id,payment):
         ...

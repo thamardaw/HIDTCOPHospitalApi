@@ -12,11 +12,11 @@ class PatientService:
     def getPatient(self,id:int) -> Patient:
         return self.patient_repo.getById(id)
     
-    def createPatient(self,patient:Patient) -> None:
+    def createPatient(self,patient) -> None:
         self.patient_repo.persist(patient)
         return 
     
-    def updatePatient(self,id:int,patient:Patient) -> None:
+    def updatePatient(self,id:int,patient) -> None:
         self.patient_repo.update(id,patient)
         return
     
