@@ -12,6 +12,10 @@ router = APIRouter(prefix="/deposit", tags=["Deposit"])
 def get_all_active_deposits(repo=Depends(BillRepository)):
     return BillService(repo).getAllActiveDeposit()
 
+@router.get('/active/{id}',status_code=status.HTTP_200_OK, response_model=List[DepositDTO])
+def get_all_active_deposits_by_pateint_id(id: int,repo=Depends(BillRepository)):
+    return BillService(repo).getAllActiveDepositByPatientId(id)
+
 @router.get('/used',status_code=status.HTTP_200_OK, response_model=List[DepositDTO])
 def get_all_used_deposits(repo=Depends(BillRepository)):
     return BillService(repo).getAllUsedDeposit()

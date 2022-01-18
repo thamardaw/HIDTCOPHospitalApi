@@ -73,6 +73,9 @@ class BillService:
     def getAllActiveDeposit(self) -> List[Deposit]:
         return self.bill_repo.listActiveDeposit()
 
+    def getAllActiveDepositByPatientId(self,id) -> List[Deposit]:
+        return self.bill_repo.listActiveDepositByPatientId(id) 
+
     def getAllUsedDeposit(self) -> List[Deposit]:
         return self.bill_repo.listUsedDeposit()
 
