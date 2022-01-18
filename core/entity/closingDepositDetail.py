@@ -7,7 +7,6 @@ class ClosingDepositDetail(BaseModel):
     id: int
     daily_closing_id :int
     deposit_id: int
-    deposit : Deposit
     amount: int
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None

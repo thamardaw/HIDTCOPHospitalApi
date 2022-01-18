@@ -7,3 +7,8 @@ class User(BaseModel):
     role: str
     class Config():
         orm_mode = True
+
+class Username(BaseModel):
+    username: str
+    class Config():
+        orm_mode = True
