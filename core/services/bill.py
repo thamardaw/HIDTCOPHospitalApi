@@ -85,7 +85,7 @@ class BillService:
     def getDeposit(self,id:int) -> Deposit:
         return self.bill_repo.getDepositById(id)
 
-    def createDeposit(self,deposit):
+    def recordDepositReceive(self,deposit):
         self.bill_repo.persistDeposit(deposit)
         return
 

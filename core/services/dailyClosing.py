@@ -12,7 +12,7 @@ class DailyClosingService:
     def getDailyClosing(self,id:int) -> DailyClosing:
         return self.dailyClosing_repo.getById(id)
     
-    def createDailyClosing(self,dailyClosing) -> None:
+    def closeCashierCounter(self,dailyClosing) -> None:
         new_dailyClosing = self.dailyClosing_repo.persist({"opening_balance":dailyClosing.opening_balance,"grand_total":dailyClosing.grand_total,"actual_amount":dailyClosing.actual_amount,"adjusted_amount":dailyClosing.adjusted_amount,"adjusted_reason":dailyClosing.adjusted_reason,"deposit_total":0,"bill_total":0})
         bill_total = 0
         deposit_total = 0

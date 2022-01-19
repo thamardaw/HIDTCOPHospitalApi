@@ -18,5 +18,5 @@ def get_dailyClosing(id: int, repo=Depends(DailyClosingRepository)):
 
 @router.post("/", status_code=status.HTTP_200_OK, response_model=Message)
 def create(request: DailyClosing, repo=Depends(DailyClosingRepository)):
-    DailyClosingService(repo).createDailyClosing(request)
+    DailyClosingService(repo).closeCashierCounter(request)
     return {"detail": "DailyClosing create successful."}

@@ -30,7 +30,7 @@ def get_deposit_from_to(f: int,t:int, repo=Depends(BillRepository)):
 
 @router.post("/", status_code=status.HTTP_200_OK, response_model=Message)
 def create(request: Deposit, repo=Depends(BillRepository)):
-    BillService(repo).createDeposit(request)
+    BillService(repo).recordDepositReceive(request)
     return {"detail": "Deposit create successful."}
 
 
