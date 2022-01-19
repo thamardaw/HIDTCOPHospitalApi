@@ -83,7 +83,7 @@ Then go to alembic/env.py.
 
 ```shell
 # comment out "target_metadata = None" and add this
-from db.base import Base
+from infrastructure.base import Base
 target_metadata = Base.metadata
 ```
 
