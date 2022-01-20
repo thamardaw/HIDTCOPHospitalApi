@@ -9,3 +9,4 @@ class Deposit(BaseMixin,Base):
     patient = relationship("Patient",backref="deposit")
     amount = Column(Integer, nullable=False)
     remark = Column(String)
+    dailyClosing = relationship("DailyClosing",secondary="closingdepositdetail",back_populates="deposits")

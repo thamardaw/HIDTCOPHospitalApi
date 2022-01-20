@@ -3,10 +3,6 @@ from typing import Optional
 from datetime import datetime
 
 class Category(BaseModel):
-    name: str
-    description: str
-
-class showCategory(BaseModel):
     id: int
     name: str
     description: str

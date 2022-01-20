@@ -1,30 +1,25 @@
 from infrastructure.models.user import User
-from utils.hashing import Hash
+from fastapi.param_functions import Depends
 from sqlalchemy.orm import Session
-from fastapi import HTTPException,status
+from infrastructure.session import get_db
 
-def create(request,db:Session):
-    if not request.username:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Username cannot be empty.")
-    if len(request.password) < 6:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Password have to contain at least 6 character.")
-    user = db.query(User).filter(User.username == request.username).first()
-    if user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Username already exist.")
-    new_user = User(username=request.username,password=Hash.hash_password(request.password),role=request.role)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+class UserRepository:
+    def __init__(self,db:Session=Depends(get_db)):
+        self._db = db
 
-def resetPassword(request, db : Session):
-    if len(request.newPassword) < 6:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Password have to contain at least 6 character.")
-    user = db.query(User).filter(User.username == request.username)
-    if not user.first():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="No matching username.")
-    if not Hash.verify_password(request.oldPassword,user.first().password):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Incorrect old password.")
-    user.update({"password":Hash.hash_password(request.newPassword)})
-    db.commit()
-    return 
+    def persist(self,user):
+        new_user = User(**user.dict())
+        self._db.add(new_user)
+        self._db.flush()
+        self._db.refresh(new_user)
+        return new_user
+
+    def update(self,username,data):
+        user = self._db.query(User).filter(User.username == username)
+        user.update(data)
+        self._db.flush()
+        return
+
+    def readByUsername(self,username: str) -> User:
+        user = self._db.query(User).filter(User.username == username).first()
+        return user

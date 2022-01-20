@@ -7,7 +7,6 @@ class ClosingBillDetail(BaseModel):
     id: int
     daily_closing_id :int
     bill_id: int
-    bill: Bill
     amount: int
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None

@@ -1,52 +1,127 @@
+from typing import List
 from infrastructure.base_repo import BaseRepo
-from utils.getCurrentUser import getCurrentUser
 from infrastructure.models.bill import Bill
+from infrastructure.models.billItem import BillItem
+from infrastructure.models.payment import Payment
+from infrastructure.models.deposit import Deposit
+from infrastructure.models.depositUsed import DepositUsed
 from core.entity.bill import Bill as BillDTO
+from core.entity.billItem import BillItem as BillItemDTO 
+from core.entity.deposit import Deposit as DepositDTO
+from core.entity.depositUsed import DepositUsed as DepositUsedDTO
+from core.entity.payment import Payment as PaymentDTO
 from sqlalchemy.exc import SQLAlchemyError
-from fastapi import status, HTTPException
-
-SQLALCHEMY_ERROR = lambda exception,status_code = status.HTTP_500_INTERNAL_SERVER_ERROR: HTTPException(status_code=status_code,detail=str(exception))
+from exceptions.repo import SQLALCHEMY_ERROR
 
 class BillRepository(BaseRepo):
-    def persist(self,bill):
-        user = getCurrentUser(self._db,self._tokenData.username)
-        new_bill = Bill(**bill,created_user_id=user.id,updated_user_id=user.id)
+    def persist(self,bill) -> BillDTO:
+        new_bill = Bill(**bill)
         new_bill = self.create(new_bill)
         return BillDTO.from_orm(new_bill)
-        
-    def getById(self,id: int):
+
+    def getById(self,id: int) -> BillDTO:
         bill_orm = self.read(Bill,id)
         return BillDTO.from_orm(bill_orm)
 
-    def getFromAndTo(self,f : int,t: int):
+    def listBillFromAndTo(self,f:int,t:int) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="printed").filter(Bill.id>=f).filter(Bill.id<=t).all()
+            bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="printed").filter(Bill.id>=f,Bill.id<=t).all()
             return [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
-    def getDraftedBill(self):
+    def listDraftBill(self) -> List[BillDTO]:
         try:
             bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="drafted").all()
             return [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
-    
-    def getPrintedBill(self):
+
+    def listOutstandingBill(self) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="printed").all()
-            return [BillDTO.from_orm(bill) for bill in bills]
+            bills = self._db.query(Bill,Payment).filter(Bill.printed_or_drafted=="printed").filter(Payment.is_outstanding==True).filter(Bill.id == Payment.bill_id).all()
+            return [BillDTO.from_orm(bill[0]) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
-    def printBill(self,id: int):
+    def listCompletedBill(self) -> List[BillDTO]:
+        try:
+            bills = self._db.query(Bill,Payment).filter(Bill.printed_or_drafted=="printed").filter(Payment.is_outstanding==False).filter(Bill.id == Payment.bill_id).all()
+            return [BillDTO.from_orm(bill[0]) for bill in bills]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+    
+    def update(self,id,bill):
         bill_orm = self.read(Bill,id)
-        data = {"printed_or_drafted":"printed"}
-        super().update(bill_orm,data)
+        super().update(bill_orm,bill)
+        return
 
-    def updateBill(self,id: int,data):
-        bill_orm = self.read(Bill,id)
-        super().update(bill_orm,data)
+    def persistBillItem(self,billItem) -> List[BillItemDTO]:
+        new_billItem = BillItem(**billItem)
+        new_billItem = self.create(new_billItem)
+        return BillItemDTO.from_orm(new_billItem)
+
+    def deleteBillItem(self,id):
+        self.read(BillItem,id)
+        super().delete(BillItem,id)
+        return 
         
+    def persistDeposit(self,deposit) -> DepositDTO:
+        new_deposit = Deposit(**deposit.dict())
+        new_deposit = self.create(new_deposit)
+        return DepositDTO.from_orm(new_deposit)
+
+    def getDepositById(self,id: int) -> DepositDTO:
+        deposit_orm = self.read(Deposit,id)
+        return DepositDTO.from_orm(deposit_orm)
+
+    def listDepositFromAndTo(self,f:int,t:int) -> List[DepositDTO]:
+        try:
+            deposits = self._db.query(Deposit).filter(Deposit.id>=f,Deposit.id<=t).all()
+            return [DepositDTO.from_orm(deposit) for deposit in deposits]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+
+    def listActiveDeposit(self) -> List[DepositDTO]:
+        try:
+            used_deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.id == DepositUsed.deposit_id).all()
+            deposits = self._db.query(Deposit).all()
+            for used_deposit in used_deposits:
+                deposits.remove(used_deposit[0])
+            return [DepositDTO.from_orm(deposit) for deposit in deposits]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+
+    def listActiveDepositByPatientId(self,id) -> List[DepositDTO]:
+        try:
+            used_deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.patient_id==id).filter(Deposit.id == DepositUsed.deposit_id).all()
+            deposits = self._db.query(Deposit).filter(Deposit.patient_id==id).all()
+            for used_deposit in used_deposits:
+                deposits.remove(used_deposit[0])
+            return [DepositDTO.from_orm(deposit) for deposit in deposits]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+
+    def listUsedDeposit(self) -> List[DepositDTO]:
+        try:
+            deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.id == DepositUsed.deposit_id).all()
+            return [DepositDTO.from_orm(deposit[0]) for deposit in deposits]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+
+    def persistDepositUsed(self,depositUsed) -> DepositUsedDTO:
+        new_depositUsed = DepositUsed(**depositUsed)
+        new_depositUsed = self.create(new_depositUsed)
+        return DepositUsedDTO.from_orm(new_depositUsed)
+
+    def persistPayment(self,payment) -> PaymentDTO:
+        new_payment = Payment(**payment)
+        new_payment = self.create(new_payment)
+        return PaymentDTO.from_orm(new_payment)
+
+    def updatePayment(self,id,payment):
+        payment_orm = self.read(Payment,id)
+        super().update(payment_orm,payment)
+        return
 
 

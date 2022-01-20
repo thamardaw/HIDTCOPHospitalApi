@@ -19,3 +19,4 @@ class Bill(BaseMixin,Base):
     total_amount = Column(Integer, nullable=False)
     bill_items = relationship("BillItem",back_populates="bill")
     payment = relationship("Payment",back_populates="bill")
+    dailyClosing = relationship("DailyClosing",secondary="closingbilldetail",back_populates="bills")

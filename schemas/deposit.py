@@ -1,20 +1,7 @@
-from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
-from .patient import showPatient
+from pydantic import BaseModel
 
 class Deposit(BaseModel):
     patient_id: int
     amount: int
-
-class showDeposit(BaseModel):
-    id: int
-    patient_id: int
-    patient: Optional[showPatient]
-    amount: int
-    created_time: Optional[datetime] = None
-    updated_time: Optional[datetime] = None
-    created_user_id: Optional[int] = None
-    updated_user_id: Optional[int] = None
-    class Config():
-        orm_mode = True
+    remark: Optional[str]

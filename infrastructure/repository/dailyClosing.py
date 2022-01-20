@@ -1,27 +1,37 @@
+from typing import List
 from infrastructure.base_repo import BaseRepo
 from infrastructure.models.dailyClosing import DailyClosing
-from core.entity.dailyClosing import DailyClosing as DailyClosingDTO, DailyClosingFromPersist as DailyClosingFromPersistDTO
-from utils.getCurrentUser import getCurrentUser
+from infrastructure.models.closingBillDetail import ClosingBillDetail
+from infrastructure.models.closingDepositDetail import ClosingDepositDetail
+from core.entity.dailyClosing import DailyClosing as DailyClosingDTO
+from core.entity.closingBillDetail import ClosingBillDetail as ClosingBillDetailDTO
+from core.entity.closingDepositDetail import ClosingDepositDetail as ClosingDepositDetailDTO 
 
 class DailyClosingRepository(BaseRepo):
-    def persist(self,dailyClosing):
-        user = getCurrentUser(self._db,self._tokenData.username)
-        new_dailyClosing = DailyClosing(**dailyClosing,created_user_id=user.id,updated_user_id=user.id)
+    def persist(self,dailyClosing) -> DailyClosingDTO:
+        new_dailyClosing = DailyClosing(**dailyClosing)
         new_dailyClosing = self.create(new_dailyClosing)
-        return DailyClosingFromPersistDTO.from_orm(new_dailyClosing)
-    
-    def update(self,id,data):
-        dailyClosing_orm = self.read(DailyClosing,id)
-        super().update(dailyClosing_orm,data.dict())
+        return DailyClosingDTO.from_orm(new_dailyClosing)
 
-    def list(self):
+    def persistClosingBillDetail (self,closingBillDetail) -> ClosingBillDetailDTO:
+        new_closingBillDetail = ClosingBillDetail(**closingBillDetail)
+        new_closingBillDetail = self.create(new_closingBillDetail)
+        return ClosingBillDetailDTO.from_orm(new_closingBillDetail)
+
+    def persistClosingDepositDetail (self,closingDepositDetail) -> ClosingDepositDetailDTO:
+        new_closingDepositDetail = ClosingDepositDetail(**closingDepositDetail)
+        new_closingDepositDetail = self.create(new_closingDepositDetail)
+        return ClosingDepositDetailDTO.from_orm(new_closingDepositDetail)
+
+    def list(self) -> List[DailyClosingDTO]:
         dailyClosings = self.readAll(DailyClosing)
         return [DailyClosingDTO.from_orm(dailyClosing) for dailyClosing in dailyClosings]
-    
-    def delete(self,dailyClosing):
-        dailyClosing_orm = self.read(DailyClosing,dailyClosing.id)
-        super().delete(dailyClosing_orm)
         
-    def getById(self,id: int) :
+    def getById(self,id: int) -> DailyClosingDTO:
         dailyClosing_orm = self.read(DailyClosing,id)
         return DailyClosingDTO.from_orm(dailyClosing_orm)
+
+    def update(self,id,dailyClosing):
+        dailyClosing_orm = self.read(DailyClosing,id)
+        super().update(dailyClosing_orm,dailyClosing.dict(exclude={'deposits','bills','created_user'}))
+        return
