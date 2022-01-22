@@ -44,8 +44,8 @@ def add_bill_item(billId:int,request: BillItem, repo=Depends(BillRepository)):
     BillService(repo).addBillItem(billId,request)
     return {"detail": "Bill Item add successful."}
 
-@router.post("/", status_code=status.HTTP_200_OK, response_model=Message)
+@router.post("/", status_code=status.HTTP_200_OK, response_model=BillDTO)
 def create(request: Bill, repo=Depends(BillRepository)):
-    BillService(repo).createBill(request)
-    return {"detail": "Bill create successful."}
+    return BillService(repo).createBill(request)
+    # return {"detail": "Bill create successful."}
 
