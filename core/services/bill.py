@@ -32,7 +32,7 @@ class BillService:
             b = dict(billitem,bill_id=new_bill.id,subtotal=subtotal)
             self.bill_repo.persistBillItem(b)
         self.bill_repo.update(new_bill.id,{"total_amount":total_amount})
-        return
+        return new_bill
     
     def printBill(self,id:int) -> None:
         bill = self.bill_repo.getById(id)
@@ -86,8 +86,7 @@ class BillService:
         return self.bill_repo.getDepositById(id)
 
     def recordDepositReceive(self,deposit):
-        self.bill_repo.persistDeposit(deposit)
-        return
+        return self.bill_repo.persistDeposit(deposit)
 
     def recordPayment(self,id):
         self.bill_repo.updatePayment(id,{"is_outstanding":False})

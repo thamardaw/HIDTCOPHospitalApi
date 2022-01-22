@@ -1,12 +1,12 @@
 from core.protocol.dailyClosing import DailyClosingProtocol
-from core.entity.dailyClosing import DailyClosing
+from core.entity.dailyClosing import DailyClosingSmall,DailyClosing
 from typing import List
 
 class DailyClosingService:
     def __init__(self,dailyClosing_repo:DailyClosingProtocol)->None:
         self.dailyClosing_repo = dailyClosing_repo
     
-    def getAllDailyClosing(self) -> List[DailyClosing]:
+    def getAllDailyClosing(self) -> List[DailyClosingSmall]:
         return self.dailyClosing_repo.list()
     
     def getDailyClosing(self,id:int) -> DailyClosing:
@@ -25,4 +25,4 @@ class DailyClosingService:
         new_dailyClosing.deposit_total = deposit_total
         new_dailyClosing.bill_total = bill_total
         self.dailyClosing_repo.update(new_dailyClosing.id,new_dailyClosing)
-        return 
+        return new_dailyClosing

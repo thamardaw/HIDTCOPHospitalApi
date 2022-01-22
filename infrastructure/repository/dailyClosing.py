@@ -3,7 +3,7 @@ from infrastructure.base_repo import BaseRepo
 from infrastructure.models.dailyClosing import DailyClosing
 from infrastructure.models.closingBillDetail import ClosingBillDetail
 from infrastructure.models.closingDepositDetail import ClosingDepositDetail
-from core.entity.dailyClosing import DailyClosing as DailyClosingDTO
+from core.entity.dailyClosing import DailyClosing as DailyClosingDTO, DailyClosingSmall as DailyClosingSmallDTO
 from core.entity.closingBillDetail import ClosingBillDetail as ClosingBillDetailDTO
 from core.entity.closingDepositDetail import ClosingDepositDetail as ClosingDepositDetailDTO 
 
@@ -23,7 +23,7 @@ class DailyClosingRepository(BaseRepo):
         new_closingDepositDetail = self.create(new_closingDepositDetail)
         return ClosingDepositDetailDTO.from_orm(new_closingDepositDetail)
 
-    def list(self) -> List[DailyClosingDTO]:
+    def list(self) -> List[DailyClosingSmallDTO]:
         dailyClosings = self.readAll(DailyClosing)
         return [DailyClosingDTO.from_orm(dailyClosing) for dailyClosing in dailyClosings]
         
