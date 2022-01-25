@@ -5,6 +5,7 @@ from core.entity.billItem import BillItem
 from datetime import datetime
 from .patient import Patient
 from .payment import Payment
+from .user import Username
 
 class Bill(BaseModel):
     id: int
@@ -21,5 +22,6 @@ class Bill(BaseModel):
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
+    created_user: Optional[Username] = None
     class Config():
         orm_mode = True
