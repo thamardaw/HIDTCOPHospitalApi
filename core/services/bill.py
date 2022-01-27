@@ -70,6 +70,17 @@ class BillService:
         self.bill_repo.update(bill_orm.id,{"total_amount":total_amount})
         return
 
+    def updateBillItem(self,billItemId:int,quantity:int):
+        billItem = self.bill_repo.getBillItemById(billItemId)
+        subtotal_amount = billItem.price * quantity
+        self.bill_repo.updateBillItem(billItem.id,{"quantity":quantity,"subtotal": subtotal_amount})
+        bill_orm = self.bill_repo.getById(billItem.bill_id)
+        total_amount = 0
+        for billItem in bill_orm.bill_items:
+            total_amount += billItem.subtotal
+        self.bill_repo.update(bill_orm.id,{"total_amount":total_amount})
+        return
+
     def getAllActiveDeposit(self) -> List[Deposit]:
         return self.bill_repo.listActiveDeposit()
 

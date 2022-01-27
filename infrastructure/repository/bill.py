@@ -25,28 +25,28 @@ class BillRepository(BaseRepo):
 
     def listBillFromAndTo(self,f:int,t:int) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="printed").filter(Bill.id>=f,Bill.id<=t).all()
+            bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="printed").filter(Bill.id>=f,Bill.id<=t).order_by(Bill.id.desc()).all()
             return [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
     def listDraftBill(self) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="drafted").all()
+            bills = self._db.query(Bill).filter(Bill.printed_or_drafted=="drafted").order_by(Bill.id.desc()).all()
             return [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
     def listOutstandingBill(self) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill,Payment).filter(Bill.printed_or_drafted=="printed").filter(Payment.is_outstanding==True).filter(Bill.id == Payment.bill_id).all()
+            bills = self._db.query(Bill,Payment).filter(Bill.printed_or_drafted=="printed").filter(Payment.is_outstanding==True).filter(Bill.id == Payment.bill_id).order_by(Bill.id.desc()).all()
             return [BillDTO.from_orm(bill[0]) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
     def listCompletedBill(self) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill,Payment).filter(Bill.printed_or_drafted=="printed").filter(Payment.is_outstanding==False).filter(Bill.id == Payment.bill_id).all()
+            bills = self._db.query(Bill,Payment).filter(Bill.printed_or_drafted=="printed").filter(Payment.is_outstanding==False).filter(Bill.id == Payment.bill_id).order_by(Bill.id.desc()).all()
             return [BillDTO.from_orm(bill[0]) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
@@ -65,6 +65,15 @@ class BillRepository(BaseRepo):
         self.read(BillItem,id)
         super().delete(BillItem,id)
         return 
+
+    def updateBillItem(self,id,billItem):
+        billItem_orm = self.read(BillItem,id)
+        super().update(billItem_orm,billItem)
+        return 
+
+    def getBillItemById(self,id: int) -> BillItemDTO:
+        billItem_orm = self.read(BillItem,id)
+        return BillItemDTO.from_orm(billItem_orm)
         
     def persistDeposit(self,deposit) -> DepositDTO:
         new_deposit = Deposit(**deposit.dict())
@@ -84,7 +93,7 @@ class BillRepository(BaseRepo):
 
     def listActiveDeposit(self) -> List[DepositDTO]:
         try:
-            used_deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.id == DepositUsed.deposit_id).all()
+            used_deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.id == DepositUsed.deposit_id).order_by(Deposit.id.desc()).all()
             deposits = self._db.query(Deposit).all()
             for used_deposit in used_deposits:
                 deposits.remove(used_deposit[0])
@@ -104,7 +113,7 @@ class BillRepository(BaseRepo):
 
     def listUsedDeposit(self) -> List[DepositDTO]:
         try:
-            deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.id == DepositUsed.deposit_id).all()
+            deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.id == DepositUsed.deposit_id).order_by(Deposit.id.desc()).all()
             return [DepositDTO.from_orm(deposit[0]) for deposit in deposits]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)

@@ -39,6 +39,11 @@ def remove_bill_item(billId:int,id: int, repo=Depends(BillRepository)):
     BillService(repo).removeBillItem(billId,id)
     return {"detail": "Bill Item remove successful."}
 
+@router.put('/billItem/{id}',status_code=status.HTTP_200_OK,response_model=Message)
+def update_bill_item(id: int,quantity: int, repo=Depends(BillRepository)):
+    BillService(repo).updateBillItem(id,quantity)
+    return {"detail": "Bill Item update successful."}
+
 @router.post("/{billId}/billItem/", status_code=status.HTTP_200_OK, response_model=Message)
 def add_bill_item(billId:int,request: BillItem, repo=Depends(BillRepository)):
     BillService(repo).addBillItem(billId,request)

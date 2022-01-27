@@ -14,7 +14,7 @@ class BaseRepo:
 
     def readAll(self,model):
         try:
-            return self._db.query(model).all()
+            return self._db.query(model).order_by(model.id.desc()).all()
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
