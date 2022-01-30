@@ -1,5 +1,5 @@
 from core.protocol.salesServiceItem import SalesServiceItemProtocol
-from core.entity.salesServiceItem import SalesServiceItem
+from core.entity.salesServiceItem import SalesServiceItem,SalesServiceItemSmall
 from core.entity.uom import Uom
 from core.entity.category import Category
 from typing import List
@@ -8,7 +8,7 @@ class SalesServiceItemService:
     def __init__(self,salesServiceItem_repo:SalesServiceItemProtocol)->None:
         self.salesServiceItem_repo = salesServiceItem_repo
     
-    def getAllSalesServiceItem(self) -> List[SalesServiceItem]:
+    def getAllSalesServiceItem(self) -> List[SalesServiceItemSmall]:
         return self.salesServiceItem_repo.list()
 
     def getAllUom(self) -> List[Uom]:

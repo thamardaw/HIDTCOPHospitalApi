@@ -12,6 +12,10 @@ router = APIRouter(prefix="/deposit", tags=["Deposit"])
 def get_all_active_deposits(repo=Depends(BillRepository)):
     return BillService(repo).getAllActiveDeposit()
 
+@router.get('/cancelled',status_code=status.HTTP_200_OK, response_model=List[DepositDTO])
+def get_all_cancelled_deposits(repo=Depends(BillRepository)):
+    return BillService(repo).getAllCancelledDeposit()
+
 @router.get('/active/{id}',status_code=status.HTTP_200_OK, response_model=List[DepositDTO])
 def get_all_active_deposits_by_pateint_id(id: int,repo=Depends(BillRepository)):
     return BillService(repo).getAllActiveDepositByPatientId(id)
@@ -27,6 +31,11 @@ def get_deposit(id: int, repo=Depends(BillRepository)):
 @router.get('/',status_code=status.HTTP_200_OK,response_model=List[DepositDTO])
 def get_deposit_from_to(f: int,t:int, repo=Depends(BillRepository)):
     return BillService(repo).getAllDepositFromAndTo(f,t)
+
+@router.put('/cancel/{id}',status_code=status.HTTP_200_OK,response_model=Message)
+def cancel_deposit(id: int, repo=Depends(BillRepository)):
+    BillService(repo).cancelDeposit(id)
+    return {"detail": "Deposit cancelled."}
 
 @router.post("/", status_code=status.HTTP_200_OK, response_model=DepositDTO)
 def create(request: Deposit, repo=Depends(BillRepository)):

@@ -19,6 +19,9 @@ class BillProtocol(Protocol):
     def listCompletedBill(self):
         ...
 
+    def listCancelledBill(self):
+        ...
+
     def update(self,id,bill):
         ...
 
@@ -29,6 +32,9 @@ class BillProtocol(Protocol):
         ...
 
     def persistDeposit(self,deposit):
+        ...
+
+    def updateDeposit(self,id,deposit):
         ...
 
     def getDepositById(self,id: int):
@@ -44,6 +50,9 @@ class BillProtocol(Protocol):
         ...
 
     def listActiveDeposit(self):
+        ...
+
+    def listCancelledDeposit(self):
         ...
 
     def listActiveDepositByPatientId(self,id):
