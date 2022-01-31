@@ -21,6 +21,10 @@ def get_all_outstanding_bill(repo=Depends(BillRepository)):
 def get_all_completed_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllCompletedBill()
 
+@router.get('/cancelled',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
+def get_all_cancelled_bill(repo=Depends(BillRepository)):
+    return BillService(repo).getAllCancelledBill()
+
 @router.get('/{id}',status_code=status.HTTP_200_OK,response_model=BillDTO)
 def get_bill(id: int, repo=Depends(BillRepository)):
     return BillService(repo).getBill(id)
@@ -33,6 +37,11 @@ def get_bill_from_to(f: int,t:int, repo=Depends(BillRepository)):
 def to_printed(id: int, repo=Depends(BillRepository)):
     BillService(repo).printBill(id)
     return {"detail": "Bill state update successful."}
+
+@router.put('/cancel/{id}',status_code=status.HTTP_200_OK,response_model=Message)
+def cancel_bill(id: int, repo=Depends(BillRepository)):
+    BillService(repo).cancelBill(id)
+    return {"detail": "Bill cancelled."}
 
 @router.delete('/{billId}/billItem/{id}',status_code=status.HTTP_200_OK,response_model=Message)
 def remove_bill_item(billId:int,id: int, repo=Depends(BillRepository)):

@@ -3,12 +3,12 @@ from schemas.message import Message
 from schemas.salesServiceItem import SalesServiceItem
 from infrastructure.repository.salesServiceItem import SalesServiceItemRepository
 from core.services.salesServiceItem import SalesServiceItemService
-from core.entity.salesServiceItem import SalesServiceItem as SalesServiceItemDTO
+from core.entity.salesServiceItem import SalesServiceItem as SalesServiceItemDTO ,SalesServiceItemSmall as SalesServiceItemSmallDTO
 from typing import List
 
 router = APIRouter(prefix="/salesServiceItem", tags=["Sales & Service Item"])
 
-@router.get('/',status_code=status.HTTP_200_OK, response_model=List[SalesServiceItemDTO])
+@router.get('/',status_code=status.HTTP_200_OK, response_model=List[SalesServiceItemSmallDTO])
 def get_all_sales_service_item(repo=Depends(SalesServiceItemRepository)):
     return SalesServiceItemService(repo).getAllSalesServiceItem()
 

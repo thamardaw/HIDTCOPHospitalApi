@@ -9,6 +9,7 @@ class Deposit(BaseModel):
     patient: Optional[Patient]
     amount: int
     remark: str
+    is_cancelled : bool
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None

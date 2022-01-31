@@ -12,3 +12,10 @@ class Uom(BaseModel):
     updated_user_id: Optional[int] = None
     class Config():
         orm_mode = True
+
+class UomSmall(BaseModel):
+    id: int
+    name: str
+    description: str
+    class Config():
+        orm_mode = True

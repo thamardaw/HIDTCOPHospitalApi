@@ -3,7 +3,7 @@ from infrastructure.base_repo import BaseRepo
 from infrastructure.models.salesServiceItem import SalesServiceItem
 from infrastructure.models.uom import Uom
 from infrastructure.models.category import Category
-from core.entity.salesServiceItem import SalesServiceItem as SalesServiceItemDTO
+from core.entity.salesServiceItem import SalesServiceItem as SalesServiceItemDTO, SalesServiceItemSmall as SalesServiceItemSmallDTO 
 from core.entity.uom import Uom as UomDTO
 from core.entity.category import Category as CategoryDTO
 
@@ -38,9 +38,9 @@ class SalesServiceItemRepository(BaseRepo):
         super().update(uom_orm,uom.dict())
         return
 
-    def list(self) -> List[SalesServiceItemDTO]:
+    def list(self) -> List[SalesServiceItemSmallDTO]:
         salesServiceItems = self.readAll(SalesServiceItem)
-        return [SalesServiceItemDTO.from_orm(salesServiceItem) for salesServiceItem in salesServiceItems]
+        return [SalesServiceItemSmallDTO.from_orm(salesServiceItem) for salesServiceItem in salesServiceItems]
 
     def listUom(self) -> List[UomDTO]:
         uoms = self.readAll(Uom)

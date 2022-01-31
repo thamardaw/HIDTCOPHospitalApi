@@ -19,6 +19,9 @@ class BillService:
     def getAllCompletedBill(self) -> List[Bill]:
         return self.bill_repo.listCompletedBill()
 
+    def getAllCancelledBill(self)-> List[Bill]:
+        return self.bill_repo.listCancelledBill()
+
     def getAllBillFromAndTo(self,f:int,t:int) -> List[Bill]:
         return self.bill_repo.listBillFromAndTo(f,t)
 
@@ -33,6 +36,10 @@ class BillService:
             self.bill_repo.persistBillItem(b)
         self.bill_repo.update(new_bill.id,{"total_amount":total_amount})
         return new_bill
+      
+    def cancelBill(self,id) -> None:
+        self.bill_repo.update(id,{"is_cancelled":True})
+        return 
     
     def printBill(self,id:int) -> None:
         bill = self.bill_repo.getById(id)
@@ -84,6 +91,9 @@ class BillService:
     def getAllActiveDeposit(self) -> List[Deposit]:
         return self.bill_repo.listActiveDeposit()
 
+    def getAllCancelledDeposit(self) -> List[Deposit]:
+        return self.bill_repo.listCancelledDeposit()
+
     def getAllActiveDepositByPatientId(self,id) -> List[Deposit]:
         return self.bill_repo.listActiveDepositByPatientId(id) 
 
@@ -98,6 +108,10 @@ class BillService:
 
     def recordDepositReceive(self,deposit):
         return self.bill_repo.persistDeposit(deposit)
+
+    def cancelDeposit(self,id) -> None:
+        self.bill_repo.updateDeposit(id,{"is_cancelled":True})
+        return 
 
     def recordPayment(self,id):
         self.bill_repo.updatePayment(id,{"is_outstanding":False})

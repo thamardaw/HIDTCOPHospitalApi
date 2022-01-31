@@ -16,6 +16,7 @@ class Bill(BaseModel):
     patient_address: str
     printed_or_drafted: printed_or_drafted_enum
     total_amount: int
+    is_cancelled: bool
     payment: Optional[List[Payment]]
     bill_items: Optional[List[BillItem]] = []
     created_time: Optional[datetime] = None
