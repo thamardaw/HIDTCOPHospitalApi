@@ -2,6 +2,7 @@ from core.protocol.salesServiceItem import SalesServiceItemProtocol
 from core.entity.salesServiceItem import SalesServiceItem,SalesServiceItemSmall
 from core.entity.uom import Uom
 from core.entity.category import Category
+from exceptions.http import BAD_REQUEST
 from typing import List
 
 class SalesServiceItemService:
@@ -51,13 +52,46 @@ class SalesServiceItemService:
         return
     
     def deleteSalesServiceItem(self,id:int) -> None:
-        self.salesServiceItem_repo.delete(id)
+        try:
+            self.salesServiceItem_repo.delete(id)
+        except:
+            raise BAD_REQUEST("Sales Service Item cannot be deleted.")
         return 
 
+    def deleteMulitpleSalesServiceItem(self,ids) -> None:
+        for id in ids.listOfId:
+            try:
+                self.salesServiceItem_repo.delete(id)
+            except:
+                raise BAD_REQUEST(f"Sales Service Item with id {id} cannot be deleted.")
+        return
+
     def deleteUom(self,id:int) -> None:
-        self.salesServiceItem_repo.deleteUom(id)
+        try:
+            self.salesServiceItem_repo.deleteUom(id)
+        except:
+            raise BAD_REQUEST(f"UOM cannot be deleted.")
+        return 
+
+    def deleteMulitpleUom(self,ids) -> None:
+        for id in ids.listOfId:
+            try:
+                self.salesServiceItem_repo.deleteUom(id)
+            except:
+                raise BAD_REQUEST(f"UOM with id {id} cannot be deleted.")
         return 
 
     def deleteCategory(self,id:int) -> None:
-        self.salesServiceItem_repo.deleteCategory(id)
+        try:
+            self.salesServiceItem_repo.deleteCategory(id)
+        except:
+            raise BAD_REQUEST("Category cannot be deleted.")
+        return 
+
+    def deleteMulitpleCategory(self,ids) -> None:
+        for id in ids.listOfId:
+            try:
+                self.salesServiceItem_repo.deleteCategory(id)
+            except:
+                raise BAD_REQUEST(f"Category with id {id} cannot be deleted.")
         return 
