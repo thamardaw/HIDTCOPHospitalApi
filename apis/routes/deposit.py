@@ -36,7 +36,7 @@ def get_deposit_from_to(f: int,t:int, repo=Depends(BillRepository)):
 def cancel_deposit(id: int, repo=Depends(BillRepository)):
     BillService(repo).cancelDeposit(id)
     return {"detail": "Deposit cancelled."}
-  
+
 @router.post("/", status_code=status.HTTP_200_OK, response_model=DepositDTO)
 def create(request: Deposit, repo=Depends(BillRepository)):
     return BillService(repo).recordDepositReceive(request)

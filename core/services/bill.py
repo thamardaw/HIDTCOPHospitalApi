@@ -36,7 +36,7 @@ class BillService:
             self.bill_repo.persistBillItem(b)
         self.bill_repo.update(new_bill.id,{"total_amount":total_amount})
         return new_bill
-      
+
     def cancelBill(self,id) -> None:
         self.bill_repo.update(id,{"is_cancelled":True})
         return 
