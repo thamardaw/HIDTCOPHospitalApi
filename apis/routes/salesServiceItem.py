@@ -36,3 +36,8 @@ def delete(id: int, repo=Depends(SalesServiceItemRepository)):
 def bulk_delete(ids: BulkDelete, repo=Depends(SalesServiceItemRepository)):
     SalesServiceItemService(repo).deleteMulitpleSalesServiceItem(ids)
     return {"detail": "Sales Service Item delete successful."}
+
+@router.post("/bulk_create", status_code=status.HTTP_200_OK, response_model=Message)
+def bulk_create(request: List[SalesServiceItem], repo=Depends(SalesServiceItemRepository)):
+    SalesServiceItemService(repo).createMultipleSalesServiceItem(request)
+    return {"detail": "Sales & Service Items create successful."}

@@ -4,6 +4,7 @@ from core.entity.uom import Uom
 from core.entity.category import Category
 from exceptions.http import BAD_REQUEST
 from typing import List
+from fastapi.exceptions import HTTPException
 
 class SalesServiceItemService:
     def __init__(self,salesServiceItem_repo:SalesServiceItemProtocol)->None:
@@ -28,8 +29,19 @@ class SalesServiceItemService:
         return self.salesServiceItem_repo.getCategoryById(id)
     
     def createSalesServiceItem(self,salesServiceItem) -> None:
+        # try :
         self.salesServiceItem_repo.persist(salesServiceItem)
+        # except HTTPException as e:
+        #     print(e.detail)
         return 
+
+    def createMultipleSalesServiceItem(self,salesServiceItems) -> None:
+        try:
+            for salesServiceItem in salesServiceItems:
+                self.salesServiceItem_repo.persist(salesServiceItem)
+        except HTTPException as e:
+            raise BAD_REQUEST(e.detail)
+        return
 
     def createUom(self,uom) -> None:
         self.salesServiceItem_repo.persistUom(uom)
