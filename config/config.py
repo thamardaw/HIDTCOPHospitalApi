@@ -34,7 +34,7 @@ class Settings:
     SECRET_KEY : str = os.getenv("SECRET_KEY")
     ALGORITHM : str = os.getenv("ALGORITHM")
     ACCESS_TOKEN_EXPIRE_MINUTES = 60
-    REFRESH_TOKEN_EXPIRE_MINUTES = 360
+    REFRESH_TOKEN_EXPIRE_MINUTES = 1440
 
 
 settings = Settings()
