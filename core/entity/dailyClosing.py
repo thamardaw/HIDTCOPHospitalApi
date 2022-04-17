@@ -21,8 +21,6 @@ class DailyClosing(BaseModel):
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
     created_user: Optional[Username] = None
-<<<<<<< HEAD
-=======
     class Config():
         orm_mode = True
 
@@ -40,6 +38,5 @@ class DailyClosingSmall(BaseModel):
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
     created_user: Optional[Username] = None
->>>>>>> 63d0fe93359fa2dc5ddfad31050b80fa8fff0ea5
     class Config():
         orm_mode = True 

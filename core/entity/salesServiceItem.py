@@ -1,13 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
-<<<<<<< HEAD
-from .uom import Uom
-from .category import Category
-=======
 from .uom import Uom, UomSmall
 from .category import Category, CategorySmall
->>>>>>> 63d0fe93359fa2dc5ddfad31050b80fa8fff0ea5
 
 class SalesServiceItem(BaseModel):
     id: int
