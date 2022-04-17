@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from schemas.message import Message
 from schemas.category import Category
+from schemas.bulkDelete import BulkDelete
 from infrastructure.repository.salesServiceItem import SalesServiceItemRepository
 from core.services.salesServiceItem import SalesServiceItemService
 from core.entity.category import Category as CategoryDTO
@@ -30,3 +31,8 @@ def update(id: int, request: Category,repo=Depends(SalesServiceItemRepository)):
 def delete(id: int, repo=Depends(SalesServiceItemRepository)):
     SalesServiceItemService(repo).deleteCategory(id)
     return {"detail": "Category delete successful."}
+
+@router.post("/bulk",status_code=status.HTTP_200_OK, response_model=Message)
+def bulk_delete(ids: BulkDelete, repo=Depends(SalesServiceItemRepository)):
+    SalesServiceItemService(repo).deleteMulitpleCategory(ids)
+    return {"detail": "Categories delete successful."}

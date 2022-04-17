@@ -19,6 +19,9 @@ class BillService:
     def getAllCompletedBill(self) -> List[Bill]:
         return self.bill_repo.listCompletedBill()
 
+    def getAllCancelledBill(self)-> List[Bill]:
+        return self.bill_repo.listCancelledBill()
+
     def getAllBillFromAndTo(self,f:int,t:int) -> List[Bill]:
         return self.bill_repo.listBillFromAndTo(f,t)
 
@@ -32,7 +35,11 @@ class BillService:
             b = dict(billitem,bill_id=new_bill.id,subtotal=subtotal)
             self.bill_repo.persistBillItem(b)
         self.bill_repo.update(new_bill.id,{"total_amount":total_amount})
-        return
+        return new_bill
+
+    def cancelBill(self,id) -> None:
+        self.bill_repo.update(id,{"is_cancelled":True})
+        return 
     
     def printBill(self,id:int) -> None:
         bill = self.bill_repo.getById(id)
@@ -70,8 +77,22 @@ class BillService:
         self.bill_repo.update(bill_orm.id,{"total_amount":total_amount})
         return
 
+    def updateBillItem(self,billItemId:int,quantity:int):
+        billItem = self.bill_repo.getBillItemById(billItemId)
+        subtotal_amount = billItem.price * quantity
+        self.bill_repo.updateBillItem(billItem.id,{"quantity":quantity,"subtotal": subtotal_amount})
+        bill_orm = self.bill_repo.getById(billItem.bill_id)
+        total_amount = 0
+        for billItem in bill_orm.bill_items:
+            total_amount += billItem.subtotal
+        self.bill_repo.update(bill_orm.id,{"total_amount":total_amount})
+        return
+
     def getAllActiveDeposit(self) -> List[Deposit]:
         return self.bill_repo.listActiveDeposit()
+
+    def getAllCancelledDeposit(self) -> List[Deposit]:
+        return self.bill_repo.listCancelledDeposit()
 
     def getAllActiveDepositByPatientId(self,id) -> List[Deposit]:
         return self.bill_repo.listActiveDepositByPatientId(id) 
@@ -86,8 +107,11 @@ class BillService:
         return self.bill_repo.getDepositById(id)
 
     def recordDepositReceive(self,deposit):
-        self.bill_repo.persistDeposit(deposit)
-        return
+        return self.bill_repo.persistDeposit(deposit)
+
+    def cancelDeposit(self,id) -> None:
+        self.bill_repo.updateDeposit(id,{"is_cancelled":True})
+        return 
 
     def recordPayment(self,id):
         self.bill_repo.updatePayment(id,{"is_outstanding":False})

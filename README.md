@@ -13,17 +13,24 @@ For setting up with docker compose for local deployment, see [DOCKER.md](./DOCKE
 /apis # Routes
     /base.py # Where all the routes are grouped
     /routes # Routes
-/core # Main configuration
+/config # Main configuration
     /config.py # configurations
-/db # Database
+/core
+    /entity # entity
+    /protocol # abstract of repository
+    /services # services
+/decorators # Decorators
+/exceptions # Custom exceptions
+/infrastructure
     /models # Database table models
     /repository # All database related operations/functions
     /session.py # Database session
     /base_class.py # Base Class for table models
+    /base_mixin.py # Base Mixin for timestamp and created by
+    /base_repo.py # Base Class for repository with basic CRUD features
     /base.py # Where all table models are grouped
 /schemas # Request and response models
-/services # Services
-    /authentication.py # Authenticate user
+/utils # Services
     /hashing.py # Hashing
     /JWTtoken.py # JWTtoken
     /oauth2.py # Oauth2

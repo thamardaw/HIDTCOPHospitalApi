@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from schemas.message import Message
 from schemas.uom import Uom
+from schemas.bulkDelete import BulkDelete
 from infrastructure.repository.salesServiceItem import SalesServiceItemRepository
 from core.services.salesServiceItem import SalesServiceItemService
 from core.entity.uom import Uom as UomDTO
@@ -30,3 +31,8 @@ def update(id: int, request: Uom,repo=Depends(SalesServiceItemRepository)):
 def delete(id: int, repo=Depends(SalesServiceItemRepository)):
     SalesServiceItemService(repo).deleteUom(id)
     return {"detail": "UOM delete successful."}
+
+@router.post("/bulk",status_code=status.HTTP_200_OK, response_model=Message)
+def bulk_delete(ids: BulkDelete, repo=Depends(SalesServiceItemRepository)):
+    SalesServiceItemService(repo).deleteMulitpleUom(ids)
+    return {"detail": "UOMs delete successful."}

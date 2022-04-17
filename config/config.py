@@ -8,7 +8,7 @@ load_dotenv(dotenv_path=env_path)
 class Settings:
     #APP
     PROJECT_NAME : str = "HIDTCOP"
-    PROJECT_VERSION : str = "1.0.0"
+    PROJECT_VERSION : str = "1.1.0"
 
     #DB
     #if your username password contains special characters, you will have to use URI escapes.
@@ -34,7 +34,7 @@ class Settings:
     SECRET_KEY : str = os.getenv("SECRET_KEY")
     ALGORITHM : str = os.getenv("ALGORITHM")
     ACCESS_TOKEN_EXPIRE_MINUTES = 60
-    REFRESH_TOKEN_EXPIRE_MINUTES = 360
+    REFRESH_TOKEN_EXPIRE_MINUTES = 1440
 
 
 settings = Settings()
