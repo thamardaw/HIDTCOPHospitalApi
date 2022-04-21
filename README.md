@@ -2,6 +2,10 @@
 
 10 bed hospital backend.
 
+### With Docker Compose
+
+For setting up with docker compose for local deployment, see [DOCKER.md](./DOCKER.md).
+
 ### File and Folder Structure
 
 ```shell
@@ -9,17 +13,24 @@
 /apis # Routes
     /base.py # Where all the routes are grouped
     /routes # Routes
-/core # Main configuration
+/config # Main configuration
     /config.py # configurations
-/db # Database
+/core
+    /entity # entity
+    /protocol # abstract of repository
+    /services # services
+/decorators # Decorators
+/exceptions # Custom exceptions
+/infrastructure
     /models # Database table models
     /repository # All database related operations/functions
     /session.py # Database session
     /base_class.py # Base Class for table models
+    /base_mixin.py # Base Mixin for timestamp and created by
+    /base_repo.py # Base Class for repository with basic CRUD features
     /base.py # Where all table models are grouped
 /schemas # Request and response models
-/services # Services
-    /authentication.py # Authenticate user
+/utils # Services
     /hashing.py # Hashing
     /JWTtoken.py # JWTtoken
     /oauth2.py # Oauth2
@@ -79,7 +90,7 @@ Then go to alembic/env.py.
 
 ```shell
 # comment out "target_metadata = None" and add this
-from db.base import Base
+from infrastructure.base import Base
 target_metadata = Base.metadata
 ```
 
