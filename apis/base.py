@@ -1,15 +1,5 @@
 from fastapi import APIRouter
-from .routes import user
-from .routes import patient
-from .routes import authentication
-from .routes import healthCheck
-from .routes import uom
-from .routes import category
-from .routes import salesServiceItem
-from .routes import bill
-from .routes import payment
-from .routes import deposit
-from .routes import dailyClosing
+from .routes import user, patient, authentication, healthCheck, uom, category, salesServiceItem, bill, payment, deposit, dailyClosing
 
 router = APIRouter(prefix="/api")
 

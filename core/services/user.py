@@ -49,7 +49,8 @@ class UserService:
         if tokenData.token_type == "access":
             raise INVALID_CREDENTIAL
         access_token = JWT.create_access_token(data={"sub": tokenData.username,"role":tokenData.role})
-        return {"access_token": access_token, "token_type": "Bearer","refresh_token":request.refresh_token}
+        refresh_token = JWT.create_refresh_token(data={"sub": tokenData.username,"role":tokenData.role})
+        return {"access_token": access_token, "token_type": "Bearer","refresh_token":refresh_token}
     
 
    
