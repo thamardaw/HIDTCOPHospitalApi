@@ -6,6 +6,8 @@ from infrastructure.models.category import Category
 from core.entity.salesServiceItem import SalesServiceItem as SalesServiceItemDTO, SalesServiceItemSmall as SalesServiceItemSmallDTO 
 from core.entity.uom import Uom as UomDTO
 from core.entity.category import Category as CategoryDTO
+from sqlalchemy.exc import SQLAlchemyError
+from exceptions.repo import SQLALCHEMY_ERROR
 
 class SalesServiceItemRepository(BaseRepo):
     def persist(self,salesServiceItem) -> SalesServiceItemDTO:
@@ -25,7 +27,10 @@ class SalesServiceItemRepository(BaseRepo):
     
     def update(self,id,salesServiceItem):
         salesServiceItem_orm = self.read(SalesServiceItem,id)
-        super().update(salesServiceItem_orm,salesServiceItem.dict())
+        if type(salesServiceItem) is dict:
+            super().update(salesServiceItem_orm,salesServiceItem)
+        else:
+            super().update(salesServiceItem_orm,salesServiceItem.dict())
         return
 
     def updateUom(self,id,uom):
@@ -40,7 +45,11 @@ class SalesServiceItemRepository(BaseRepo):
 
     def list(self) -> List[SalesServiceItemSmallDTO]:
         salesServiceItems = self.readAll(SalesServiceItem)
-        return [SalesServiceItemSmallDTO.from_orm(salesServiceItem) for salesServiceItem in salesServiceItems]
+        try:
+            salesServiceItems = self._db.query(SalesServiceItem).filter(SalesServiceItem.is_active==True).order_by(SalesServiceItem.id.desc()).all()
+            return [SalesServiceItemSmallDTO.from_orm(salesServiceItem) for salesServiceItem in salesServiceItems]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
 
     def listUom(self) -> List[UomDTO]:
         uoms = self.readAll(Uom)
