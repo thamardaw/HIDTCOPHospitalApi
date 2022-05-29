@@ -37,4 +37,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: jasoniv/hidtcophospitalapi:latest
+          tags: | 
+            jasoniv/hidtcophospitalapi:latest
+            jasoniv/kdm-bill-api:latest
