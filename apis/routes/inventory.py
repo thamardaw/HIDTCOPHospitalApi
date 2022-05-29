@@ -1,11 +1,13 @@
+from typing import List
 from fastapi import APIRouter, Depends, status
 from schemas.message import Message
-from schemas.inventoryItem import Inventory
 from schemas.bulkDelete import BulkDelete
-from core.services.inventory import InventoryService
+
+from schemas.inventoryItem import InventoryItem
 from core.entity.inventoryItem import InventoryItem as InventoryItemDTO
-from typing import List
-from infrastructure.repository.inventoryItem import InventoryRepository
+
+from core.services.inventory import InventoryService
+from infrastructure.repository.inventory import InventoryRepository
 
 router = APIRouter(prefix="/inventories", tags=["Inventories"])
 
@@ -19,12 +21,12 @@ def get_inventory(id: int, repo=Depends(InventoryRepository)):
     return InventoryService(repo).getInventoryItem(id)
 
 @router.post("/", status_code=status.HTTP_200_OK, response_model=Message)
-def create(request: Inventory, repo=Depends(InventoryRepository)):
+def create(request: InventoryItem, repo=Depends(InventoryRepository)):
     InventoryService(repo).createInventoryItem(request)
     return {"detail": "Inventory create successful."}
 
 @router.put("/{id}",status_code=status.HTTP_200_OK,response_model=Message)
-def update(id: int, request: Inventory,repo=Depends(InventoryRepository)):
+def update(id: int, request: InventoryItem,repo=Depends(InventoryRepository)):
     InventoryService(repo).updateInventoryItem(id,request)
     return {"detail": "Inventory update successful."}
 

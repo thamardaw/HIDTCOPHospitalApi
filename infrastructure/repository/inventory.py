@@ -66,7 +66,7 @@ class InventoryRepository(BaseRepo):
         inventoryItems = self.readAll(InventoryItem)
         return [InventoryItemDTO.from_orm(inventoryItem) for inventoryItem in inventoryItems]
 
-    def listPharmacyItem(self) -> List[PharmacyItemDTO]:
+    def listPharmacyItems(self) -> List[PharmacyItemDTO]:
         pharmacyItems = self.readAll(PharmacyItem)
         return [PharmacyItemDTO.from_orm(pharmacyItem) for pharmacyItem in pharmacyItems]
 

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class Inventory(BaseModel):
+class InventoryItem(BaseModel):
     pharmacy_item_id: int
     name: str
     balance: int
