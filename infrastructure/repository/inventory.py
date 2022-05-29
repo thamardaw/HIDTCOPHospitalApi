@@ -62,7 +62,7 @@ class InventoryRepository(BaseRepo):
             super().update(inventoryTransaction_orm,inventoryTransaction.dict())
         return
 
-    def listInventoryItem(self) -> List[InventoryItemDTO]:
+    def listInventoryItems(self) -> List[InventoryItemDTO]:
         inventoryItems = self.readAll(InventoryItem)
         return [InventoryItemDTO.from_orm(inventoryItem) for inventoryItem in inventoryItems]
 

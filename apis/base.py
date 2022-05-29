@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from .routes import user, patient, authentication, healthCheck, uom, category, salesServiceItem, bill, payment, deposit, dailyClosing
+from .routes import user, patient, authentication, healthCheck, uom, category, salesServiceItem, bill, payment, deposit, dailyClosing, inventory 
+
 
 router = APIRouter(prefix="/api")
 
@@ -14,3 +15,4 @@ router.include_router(bill.router)
 router.include_router(payment.router)
 router.include_router(deposit.router)
 router.include_router(dailyClosing.router)
+router.include_router(inventory.router)
