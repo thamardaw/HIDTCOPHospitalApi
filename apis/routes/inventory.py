@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, status
 from schemas.message import Message
-from schemas.inventory import Inventory
+from schemas.inventoryItem import Inventory
 from schemas.bulkDelete import BulkDelete
 from core.services.inventory import InventoryService
 from core.entity.inventoryItem import InventoryItem as InventoryItemDTO
 from typing import List
-from infrastructure.repository.inventory import InventoryRepository
+from infrastructure.repository.inventoryItem import InventoryRepository
 
 router = APIRouter(prefix="/inventories", tags=["Inventories"])
 

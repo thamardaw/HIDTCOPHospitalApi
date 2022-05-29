@@ -12,3 +12,4 @@ class Inventory(BaseModel):
     sales_service_item_id: int
     expiry_date: Optional[date] = None
     batch: str
+    
