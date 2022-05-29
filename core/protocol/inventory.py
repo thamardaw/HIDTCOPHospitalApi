@@ -30,16 +30,16 @@ class InventoryProtocol(Protocol):
     def updateTransactionType(self,id,inventoryTransaction) -> None:
         ...
 
-    def readAllInventoryItems(self) -> List[InventoryItemDTO]:
+    def listInventoryItems(self) -> List[InventoryItemDTO]:
         ...
 
-    def readAllPharmacyItems(self) -> List[PharmacyItemDTO]:
+    def listPharmacyItems(self) -> List[PharmacyItemDTO]:
         ...
 
-    def readAllInventoryTransactions(self) -> List[InventoryTransactionDTO]:
+    def listInventoryTransactions(self) -> List[InventoryTransactionDTO]:
         ...
 
-    def readAllTransactionTypes(self) -> List[TransactionTypeDTO]:
+    def listTransactionTypes(self) -> List[TransactionTypeDTO]:
         ...
 
     def deleteInventoryItem(self,id) -> None:
