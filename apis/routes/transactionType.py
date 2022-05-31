@@ -9,7 +9,7 @@ from core.entity.transactionType import TransactionType as TransactionTypeDTO
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
 
-router = APIRouter(prefix="/transaction-types", tags=["TransactionTypes"])
+router = APIRouter(prefix="/transaction_types", tags=["TransactionTypes"])
 
 @router.get("/", status_code=status.HTTP_200_OK, response_model=List[TransactionTypeDTO])
 def get_all_transaction_types(repo=Depends(InventoryRepository)):
