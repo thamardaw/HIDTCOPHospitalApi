@@ -9,7 +9,7 @@ from core.entity.inventoryTransaction import InventoryTransaction as InventoryTr
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
 
-router = APIRouter(prefix="/inventory-transactions", tags=["InventoryTransactions"])
+router = APIRouter(prefix="/inventory_transactions", tags=["InventoryTransactions"])
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[InventoryTransactionDTO])
 def get_all_inventory_transactions(repo=Depends(InventoryRepository)):
