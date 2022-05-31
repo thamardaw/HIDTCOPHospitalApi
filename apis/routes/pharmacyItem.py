@@ -9,7 +9,7 @@ from core.entity.pharmacyItem import PharmacyItem as PharmacyItemDTO
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
 
-router = APIRouter(prefix="/pharmacies", tags=["Pharmacies"])
+router = APIRouter(prefix="/pharmacy_Items", tags=["Pharmacy Items"])
 
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[PharmacyItemDTO])

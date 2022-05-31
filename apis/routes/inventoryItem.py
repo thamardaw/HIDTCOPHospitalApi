@@ -9,7 +9,7 @@ from core.entity.inventoryItem import InventoryItem as InventoryItemDTO
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
 
-router = APIRouter(prefix="/inventories", tags=["Inventories"])
+router = APIRouter(prefix="/inventory_items", tags=["Inventory Items"])
 
 @router.get('/',status_code=status.HTTP_200_OK, response_model=List[InventoryItemDTO])
 def get_all_inventories(repo=Depends(InventoryRepository)):
