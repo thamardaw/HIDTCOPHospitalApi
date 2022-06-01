@@ -22,8 +22,8 @@ class BillService:
     def getAllCancelledBill(self)-> List[Bill]:
         return self.bill_repo.listCancelledBill()
 
-    def getAllBillFromAndTo(self,f:int,t:int) -> List[Bill]:
-        return self.bill_repo.listBillFromAndTo(f,t)
+    def getCompletedBillFromAndTo(self,f:int,t:int) -> List[Bill]:
+        return self.bill_repo.listCompletedBillFromAndTo(f,t)
 
     def createBill(self,bill) -> None:
         new_bill = self.bill_repo.persist({"patient_id":bill.patient_id,"patient_name":bill.patient_name,"patient_phone":bill.patient_phone,"patient_address":bill.patient_address,"printed_or_drafted":"drafted","total_amount":0})
