@@ -23,10 +23,15 @@ class BillRepository(BaseRepo):
         bill_orm = self.read(Bill,id)
         return BillDTO.from_orm(bill_orm)
 
-    def listBillFromAndTo(self,f:int,t:int) -> List[BillDTO]:
+    def listCompletedBillFromAndTo(self,f:int,t:int) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill).filter(Bill.is_cancelled==False, Bill.printed_or_drafted=="printed").filter(Bill.id>=f,Bill.id<=t).order_by(Bill.id.asc()).all()
-            return [BillDTO.from_orm(bill) for bill in bills]
+            bills = self._db.query(Bill,Payment)\
+                .filter(Bill.id>=f,Bill.id<=t)\
+                .filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed")\
+                .filter(Payment.is_outstanding==False)\
+                .filter(Bill.id == Payment.bill_id)\
+                .order_by(Bill.id.asc()).all()
+            return [BillDTO.from_orm(bill[0]) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
