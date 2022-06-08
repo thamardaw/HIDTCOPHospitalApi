@@ -9,13 +9,12 @@ from core.entity.pharmacyItem import PharmacyItem as PharmacyItemDTO
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
 
-router = APIRouter(prefix="/pharmacy_Items", tags=["Pharmacy Items"])
+router = APIRouter(prefix="/pharmacy_items", tags=["Pharmacy Items"])
 
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[PharmacyItemDTO])
 def get_all_pharmacies(repo=Depends(InventoryRepository)):
-    ls = InventoryService(repo).getAllPharmacyItem()
-    return ls
+    return InventoryService(repo).getAllPharmacyItem()
 
 @router.get('/{id}', status_code=status.HTTP_200_OK, response_model=PharmacyItemDTO)
 def get_pharmacy(id: int, repo=Depends(InventoryRepository)):
@@ -24,19 +23,19 @@ def get_pharmacy(id: int, repo=Depends(InventoryRepository)):
 @router.post("/", status_code=status.HTTP_200_OK, response_model=Message)
 def create(request: PharmacyItem, repo=Depends(InventoryRepository)):
     InventoryService(repo).createPharmacyItem(request)
-    return {"detail": "Pharmacy create successful."}
+    return {"detail": "Pharmacy Item create successful."}
 
 @router.put("/{id}", status_code=status.HTTP_200_OK, response_model=Message)
 def update(id: int, request: PharmacyItem, repo=Depends(InventoryRepository)):
     InventoryService(repo).updatePharmacyItem(id, request)
-    return {"detail": "Pharmacy update successful."}
+    return {"detail": "Pharmacy Item update successful."}
 
 @router.delete("/{id}", status_code=status.HTTP_200_OK, response_model=Message)
 def delete(id: int, repo=Depends(InventoryRepository)):
     InventoryService(repo).deletePharmacyItem(id)
-    return {"detail": "Pharmacy delete successful."}
+    return {"detail": "Pharmacy Item delete successful."}
 
 @router.post("/bulk", status_code=status.HTTP_200_OK, response_model=Message)
 def bulk_delete(ids: BulkDelete, repo=Depends(InventoryRepository)):
     InventoryService(repo).deleteMulitplePharmacyItem(ids)
-    return {"detail": "Pharmacies delete successful."}
+    return {"detail": "Pharmacy Items delete successful."}
