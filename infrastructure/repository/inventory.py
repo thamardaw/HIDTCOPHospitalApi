@@ -8,6 +8,8 @@ from core.entity.inventoryItem import InventoryItem as InventoryItemDTO
 from core.entity.pharmacyItem import PharmacyItem as PharmacyItemDTO
 from core.entity.inventoryTransaction import InventoryTransaction as InventoryTransactionDTO
 from core.entity.transactionType import TransactionType as TransactionTypeDTO
+from sqlalchemy.exc import SQLAlchemyError
+from exceptions.repo import SQLALCHEMY_ERROR
 
 class InventoryRepository(BaseRepo):
     def persistInventoryItem(self,inventoryItem) -> InventoryItemDTO:
@@ -63,8 +65,11 @@ class InventoryRepository(BaseRepo):
         return
 
     def listInventoryItems(self) -> List[InventoryItemDTO]:
-        inventoryItems = self.readAll(InventoryItem)
-        return [InventoryItemDTO.from_orm(inventoryItem) for inventoryItem in inventoryItems]
+        try:
+            inventoryItems = self._db.query(InventoryItem).filter(InventoryItem.is_active==True).order_by(InventoryItem.id.desc()).all()
+            return [InventoryItemDTO.from_orm(inventoryItem) for inventoryItem in inventoryItems]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
 
     def listPharmacyItems(self) -> List[PharmacyItemDTO]:
         pharmacyItems = self.readAll(PharmacyItem)
