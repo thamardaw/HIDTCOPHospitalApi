@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, Date, Boolean
 from infrastructure.base_mixin import BaseMixin
 from sqlalchemy.sql.schema import ForeignKey
 from infrastructure.base_class import Base
@@ -15,3 +15,4 @@ class InventoryItem(BaseMixin,Base):
     sales_service_item = relationship("SalesServiceItem",backref="inventoryitem")
     expiry_date = Column(Date)
     batch = Column(String,nullable=False)
+    is_active = Column(Boolean,nullable=False,server_default="true")
