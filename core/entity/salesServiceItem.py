@@ -12,7 +12,6 @@ class SalesServiceItem(BaseModel):
     uom: Optional[Uom]
     category_id: int
     category: Category
-    is_active: bool
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
@@ -26,6 +25,5 @@ class SalesServiceItemSmall(BaseModel):
     price: int
     uom: Optional[UomSmall]
     category: CategorySmall
-    is_active: bool
     class Config():
         orm_mode = True
