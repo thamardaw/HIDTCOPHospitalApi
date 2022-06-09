@@ -68,7 +68,8 @@ class InventoryService:
     
     def deleteInventoryItem(self,id:int) -> None:
         try:
-            self.inventory_repo.deleteInventoryItem(id)
+            # self.inventory_repo.deleteInventoryItem(id)
+            self.inventory_repo.updateInventoryItem(id,{"is_active":False})
         except:
             raise BAD_REQUEST("Inventory Item cannot be deleted.")
         return 
@@ -97,7 +98,8 @@ class InventoryService:
     def deleteMulitpleInventoryItem(self,ids) -> None:
         for id in ids.listOfId:
             try:
-                self.inventory_repo.deleteInventoryItem(id)
+                # self.inventory_repo.deleteInventoryItem(id)
+                self.inventory_repo.updateInventoryItem(id,{"is_active":False})
             except:
                 raise BAD_REQUEST(f"Inventory Item with id {id} cannot be deleted.")
         return 
