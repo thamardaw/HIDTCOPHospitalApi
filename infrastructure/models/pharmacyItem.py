@@ -1,12 +1,11 @@
 from sqlalchemy import Column, Integer, String
 from infrastructure.base_mixin import BaseMixin
-from sqlalchemy.sql.schema import ForeignKey
 from infrastructure.base_class import Base
 from sqlalchemy.orm import relationship
 
 class PharmacyItem(BaseMixin,Base):
-    category_id = Column(Integer,ForeignKey("category.id"))
-    category = relationship("Category",backref="pharmacyitem")
+    category_id = Column(Integer,nullable=False,index=True)
+    category = relationship('Category', primaryjoin="PharmacyItem.category_id==foreign(Category.id)",uselist=False)
     brand_name = Column(String,nullable=False)
     generic_name = Column(String,nullable=False)
     form = Column(String)
