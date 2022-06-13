@@ -13,3 +13,11 @@ class InventoryItem(BaseModel):
     expiry_date: Optional[date] = None
     batch: str
     
+class WithInventoryItem(BaseModel):
+    name: str
+    balance: int
+    unit: str
+    purchasing_price: int
+    sales_service_item_id: int
+    expiry_date: Optional[date] = None
+    batch: str

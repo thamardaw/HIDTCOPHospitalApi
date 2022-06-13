@@ -43,7 +43,12 @@ class InventoryService:
         return 
 
     def createPharmacyItem(self,pharmacyItem) -> None:
-        self.inventory_repo.persistPharmacyItem(pharmacyItem)
+        pharmacyItem = pharmacyItem.dict()
+        inventoryItem = pharmacyItem["with_inventory"]
+        pharmacyItem.pop("with_inventory")
+        new_pharmacyItem = self.inventory_repo.persistPharmacyItem(pharmacyItem)
+        if inventoryItem is None: return
+        self.inventory_repo.persistInventoryItem(dict(inventoryItem,pharmacy_item_id=new_pharmacyItem.id))
         return 
 
     def createTransactionType(self,transactionType) -> None:
@@ -59,6 +64,8 @@ class InventoryService:
         return
 
     def updatePharmacyItem(self,id:int,pharmacyItem) -> None:
+        pharmacyItem = pharmacyItem.dict()
+        pharmacyItem.pop("with_inventory")
         self.inventory_repo.updatePharmacyItem(id,pharmacyItem)
         return
 

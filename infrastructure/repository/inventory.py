@@ -13,17 +13,26 @@ from exceptions.repo import SQLALCHEMY_ERROR
 
 class InventoryRepository(BaseRepo):
     def persistInventoryItem(self,inventoryItem) -> InventoryItemDTO:
-        new_inventoryItem = InventoryItem(**inventoryItem.dict())
+        if type (inventoryItem) is dict:
+            new_inventoryItem = InventoryItem(**inventoryItem)
+        else:
+            new_inventoryItem = InventoryItem(**inventoryItem.dict())
         new_inventoryItem = self.create(new_inventoryItem)
         return InventoryItemDTO.from_orm(new_inventoryItem)
 
     def persistPharmacyItem(self,pharmacyItem) -> PharmacyItemDTO:
-        new_pharmacyItem = PharmacyItem(**pharmacyItem.dict())
+        if type (pharmacyItem) is dict:
+            new_pharmacyItem = PharmacyItem(**pharmacyItem)
+        else:
+            new_pharmacyItem = PharmacyItem(**pharmacyItem.dict())
         new_pharmacyItem = self.create(new_pharmacyItem)
         return PharmacyItemDTO.from_orm(new_pharmacyItem)
 
     def persistInventoryTransaction(self,inventoryTransaction) -> InventoryTransactionDTO:
-        new_inventoryTransaction = InventoryTransaction(**inventoryTransaction.dict())
+        if type (inventoryTransaction) is dict:
+            new_inventoryTransaction = InventoryTransaction(**inventoryTransaction)
+        else:
+            new_inventoryTransaction = InventoryTransaction(**inventoryTransaction.dict())
         new_inventoryTransaction = self.create(new_inventoryTransaction)
         return InventoryTransactionDTO.from_orm(new_inventoryTransaction)
 

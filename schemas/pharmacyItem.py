@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from .inventoryItem import WithInventoryItem
 
 class PharmacyItem(BaseModel):
     category_id : int
@@ -10,3 +11,4 @@ class PharmacyItem(BaseModel):
     unit : str
     po_unit : Optional[str] = None
     converstion_rate : Optional[int] = None
+    with_inventory: Optional[WithInventoryItem] = None
