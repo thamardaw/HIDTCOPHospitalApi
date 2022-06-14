@@ -9,6 +9,7 @@ class InventoryTransaction(BaseMixin,Base):
     inventory_item = relationship("InventoryItem",backref="inventorytransaction")
     inventory_item_name = Column(String,nullable=False)
     transaction_type_name = Column(String,nullable=False)
+    transaction_type = Column(String,nullable=False)
     quantity = Column(Integer,nullable=False)
     opening_balance = Column(Integer,nullable=False)
     closing_balance = Column(Integer,nullable=False)

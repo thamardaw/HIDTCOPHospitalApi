@@ -3,6 +3,7 @@ from core.entity.inventoryItem import InventoryItem
 from core.entity.pharmacyItem import PharmacyItem
 from core.entity.inventoryTransaction import InventoryTransaction
 from core.entity.transactionType import TransactionType
+from infrastructure.models.transactionType import type_enum
 from exceptions.http import BAD_REQUEST
 from typing import List
 
@@ -35,11 +36,23 @@ class InventoryService:
         return self.inventory_repo.getTransactionTypeById(id)
     
     def createInventoryItem(self,inventoryItem) -> None:
-        self.inventory_repo.persistInventoryItem(inventoryItem)
+        new_inventoryItem = self.inventory_repo.persistInventoryItem(inventoryItem)
+        if inventoryItem.balance > 0:
+            self.createInventoryTransaction\
+                ({"inventory_item_id":new_inventoryItem.id,\
+                "inventory_item_name":new_inventoryItem.name,\
+                "transaction_type_name":"Adjustment In",\
+                "transaction_type":type_enum.receive,\
+                "quantity":new_inventoryItem.balance,\
+                "opening_balance":0,\
+                "closing_balance":new_inventoryItem.balance,\
+                "unit":new_inventoryItem.unit,\
+                "purchasing_price":new_inventoryItem.purchasing_price,\
+                "selling_price":new_inventoryItem.sales_service_item.price})
         return 
 
     def createInventoryTransaction(self,inventoryTransaction) -> None:
-        self.inventory_repo.persistInventoryTransaction(inventoryTransaction)
+        self.inventory_repo.persistInventoryTransaction(dict(inventoryTransaction))
         return 
 
     def createPharmacyItem(self,pharmacyItem) -> None:
