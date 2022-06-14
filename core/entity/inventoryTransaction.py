@@ -10,6 +10,8 @@ class InventoryTransaction(BaseModel):
     inventory_item_name: str
     transaction_type_name: str
     quantity: int
+    opening_balance: int
+    closing_balance: int
     unit: str
     purchasing_price: int
     selling_price: int

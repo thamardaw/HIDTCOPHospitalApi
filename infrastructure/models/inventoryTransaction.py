@@ -10,6 +10,8 @@ class InventoryTransaction(BaseMixin,Base):
     inventory_item_name = Column(String,nullable=False)
     transaction_type_name = Column(String,nullable=False)
     quantity = Column(Integer,nullable=False)
+    opening_balance = Column(Integer,nullable=False)
+    closing_balance = Column(Integer,nullable=False)
     unit = Column(String,nullable=False)
     purchasing_price = Column(Integer,nullable=False)
     selling_price = Column(Integer,nullable=False)
