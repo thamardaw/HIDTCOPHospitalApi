@@ -48,7 +48,7 @@ class InventoryService:
         pharmacyItem.pop("with_inventory")
         new_pharmacyItem = self.inventory_repo.persistPharmacyItem(pharmacyItem)
         if inventoryItem is None: return
-        self.inventory_repo.persistInventoryItem(dict(inventoryItem,pharmacy_item_id=new_pharmacyItem.id))
+        self.createInventoryItem(dict(inventoryItem,pharmacy_item_id=new_pharmacyItem.id))
         return 
 
     def createTransactionType(self,transactionType) -> None:
