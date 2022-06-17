@@ -55,7 +55,7 @@ class InventoryService:
 
     def dispense_items(self, billItems) -> None:
         for billItem in billItems:
-            note = f"${billItem.bill_id}, {billItem.id}"
+            note = f"{billItem.bill_id}, {billItem.id}"
             if self.inventory_repo.getInventoryTransactionByNoteAndType(note, type_enum.issue) is not None: continue
             inventoryItem = self.inventory_repo.getInventoryItemBySalesServiceItemId(billItem.sales_service_item_id)
             self.createInventoryTransaction\

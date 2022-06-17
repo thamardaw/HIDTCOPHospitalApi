@@ -122,14 +122,16 @@ class InventoryRepository(BaseRepo):
     def getInventoryItemById(self,id: int) -> InventoryItemDTO:
         try:
             inventoryItem_orm = self._db.query(InventoryItem).filter(InventoryItem.is_active==True).filter(InventoryItem.id==id).first()
-            return InventoryItemDTO.from_orm(inventoryItem_orm)
+            if inventoryItem_orm is not None: return InventoryItemDTO.from_orm(inventoryItem_orm)
+            return None
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
     def getInventoryItemBySalesServiceItemId(self,salesServiceItemId: int) -> InventoryItemDTO:
         try:
             inventoryItem_orm = self._db.query(InventoryItem).filter(InventoryItem.is_active==True).filter(InventoryItem.sales_service_item_id==salesServiceItemId).first()
-            return InventoryItemDTO.from_orm(inventoryItem_orm)
+            if inventoryItem_orm is not None: return InventoryItemDTO.from_orm(inventoryItem_orm)
+            return None
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
         
@@ -144,7 +146,8 @@ class InventoryRepository(BaseRepo):
     def getInventoryTransactionByNoteAndType(self,note:str,type) -> InventoryTransactionDTO:
         try:
             inventoryTransaction_orm = self._db.query(InventoryTransaction).filter(InventoryTransaction.transaction_type==type).filter(InventoryTransaction.note==note).first()
-            return InventoryTransactionDTO.from_orm(inventoryTransaction_orm)
+            if inventoryTransaction_orm is not None: return InventoryTransactionDTO.from_orm(inventoryTransaction_orm)
+            return None
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
