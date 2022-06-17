@@ -39,6 +39,9 @@ class InventoryProtocol(Protocol):
     def listInventoryTransactions(self) -> List[InventoryTransactionDTO]:
         ...
 
+    def listInventoryTransactionsByNoteLikeAndType(self,note: str,type) -> List[InventoryTransactionDTO]:
+        ...
+
     def listTransactionTypes(self) -> List[TransactionTypeDTO]:
         ...
 
@@ -57,10 +60,16 @@ class InventoryProtocol(Protocol):
     def getInventoryItemById(self,id: int) -> InventoryItemDTO:
         ...
 
+    def getInventoryItemBySalesServiceItemId(self,salesServiceItemId: int) -> InventoryItemDTO:
+        ...
+
     def getPharmacyItemById(self,id: int) -> PharmacyItemDTO:
         ...
 
     def getInventoryTransactionById(self,id: int) -> InventoryTransactionDTO:
+        ...
+
+    def getInventoryTransactionByNoteAndType(self,note:str) -> InventoryTransactionDTO:
         ...
 
     def getTransactionTypeById(self,id: int) -> TransactionTypeDTO:

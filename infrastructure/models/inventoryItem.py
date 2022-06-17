@@ -11,7 +11,7 @@ class InventoryItem(BaseMixin,Base):
     balance = Column(Integer,nullable=False)
     unit = Column(String,nullable=False)
     purchasing_price = Column(Integer,nullable=False)
-    sales_service_item_id = Column(Integer,nullable=False,index=True)
+    sales_service_item_id = Column(Integer,nullable=False,index=True,unique=True)
     sales_service_item = relationship('SalesServiceItem', primaryjoin="InventoryItem.sales_service_item_id==foreign(SalesServiceItem.id)",uselist=False)
     expiry_date = Column(Date)
     batch = Column(String,nullable=False)

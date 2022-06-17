@@ -88,6 +88,13 @@ class InventoryRepository(BaseRepo):
         inventoryTransactions = self.readAll(InventoryTransaction)
         return [InventoryTransactionDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]
 
+    def listInventoryTransactionsByNoteLikeAndType(self,note: str,type) -> List[InventoryTransactionDTO]:
+        try:
+            inventoryTransactions = self._db.query(InventoryTransaction).filter(InventoryTransaction.transaction_type==type).filter(InventoryTransaction.note.like(note)).all()
+            return [InventoryTransactionDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+
     def listTransactionTypes(self) -> List[TransactionTypeDTO]:
         inventoryTransactions = self.readAll(TransactionType)
         return [TransactionTypeDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]
@@ -113,9 +120,19 @@ class InventoryRepository(BaseRepo):
         return 
         
     def getInventoryItemById(self,id: int) -> InventoryItemDTO:
-        inventoryItem_orm = self.read(InventoryItem,id)
-        return InventoryItemDTO.from_orm(inventoryItem_orm)
+        try:
+            inventoryItem_orm = self._db.query(InventoryItem).filter(InventoryItem.is_active==True).filter(InventoryItem.id==id).first()
+            return InventoryItemDTO.from_orm(inventoryItem_orm)
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
 
+    def getInventoryItemBySalesServiceItemId(self,salesServiceItemId: int) -> InventoryItemDTO:
+        try:
+            inventoryItem_orm = self._db.query(InventoryItem).filter(InventoryItem.is_active==True).filter(InventoryItem.sales_service_item_id==salesServiceItemId).first()
+            return InventoryItemDTO.from_orm(inventoryItem_orm)
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+        
     def getPharmacyItemById(self,id: int) -> PharmacyItemDTO:
         inventoryItem_orm = self.read(PharmacyItem,id)
         return PharmacyItemDTO.from_orm(inventoryItem_orm)
@@ -123,6 +140,13 @@ class InventoryRepository(BaseRepo):
     def getInventoryTransactionById(self,id: int) -> InventoryTransactionDTO:
         inventoryTransaction_orm = self.read(InventoryTransaction,id)
         return InventoryTransactionDTO.from_orm(inventoryTransaction_orm)
+
+    def getInventoryTransactionByNoteAndType(self,note:str,type) -> InventoryTransactionDTO:
+        try:
+            inventoryTransaction_orm = self._db.query(InventoryTransaction).filter(InventoryTransaction.transaction_type==type).filter(InventoryTransaction.note==note).first()
+            return InventoryTransactionDTO.from_orm(inventoryTransaction_orm)
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
 
     def getTransactionTypeById(self,id: int) -> TransactionTypeDTO:
         inventoryTransaction_orm = self.read(TransactionType,id)

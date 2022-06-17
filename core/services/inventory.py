@@ -36,23 +36,83 @@ class InventoryService:
         return self.inventory_repo.getTransactionTypeById(id)
     
     def createInventoryItem(self,inventoryItem) -> None:
+        if type(inventoryItem) is not dict:
+            inventoryItem = inventoryItem.dict()
+        initial_balance = inventoryItem["balance"]
+        inventoryItem["balance"] = 0
         new_inventoryItem = self.inventory_repo.persistInventoryItem(inventoryItem)
-        if inventoryItem.balance > 0:
+        if initial_balance > 0:
             self.createInventoryTransaction\
                 ({"inventory_item_id":new_inventoryItem.id,\
                 "inventory_item_name":new_inventoryItem.name,\
                 "transaction_type_name":"Adjustment In",\
                 "transaction_type":type_enum.receive,\
-                "quantity":new_inventoryItem.balance,\
-                "opening_balance":0,\
-                "closing_balance":new_inventoryItem.balance,\
+                "quantity":initial_balance,\
                 "unit":new_inventoryItem.unit,\
                 "purchasing_price":new_inventoryItem.purchasing_price,\
                 "selling_price":new_inventoryItem.sales_service_item.price})
         return 
 
+    def dispense_items(self, billItems) -> None:
+        for billItem in billItems:
+            note = f"${billItem.bill_id}, {billItem.id}"
+            if self.inventory_repo.getInventoryTransactionByNoteAndType(note, type_enum.issue) is not None: continue
+            inventoryItem = self.inventory_repo.getInventoryItemBySalesServiceItemId(billItem.sales_service_item_id)
+            self.createInventoryTransaction\
+                ({"inventory_item_id":inventoryItem.id,\
+                "inventory_item_name":inventoryItem.name,\
+                "transaction_type_name":"Adjustment Out",\
+                "transaction_type":type_enum.issue,\
+                "quantity":billItem.quantity,\
+                "unit":inventoryItem.unit,\
+                "purchasing_price":inventoryItem.purchasing_price,\
+                "selling_price":inventoryItem.sales_service_item.price,\
+                "note":note})
+        return
+
+    def list_dispensed_items_of_bill(self,bill_id) -> List[InventoryTransaction]:
+        iss_invtxs = self.inventory_repo.listInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.issue)
+        rec_invtxs = self.inventory_repo.listInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.receive)
+        for iss_invtx in iss_invtxs:
+            for rec_invtx in rec_invtxs:
+                if iss_invtx.note == rec_invtx.note:
+                    iss_invtxs.remove(iss_invtx)
+        return iss_invtxs
+
+    def return_items(self, billItem) -> None:
+        note = f"${billItem.bill_id}, {billItem.id}"
+        inventoryTransaction = self.inventory_repo.getInventoryTransactionByNoteAndType(note,type_enum.issue)
+        if inventoryTransaction is None: return
+        inventoryItem = self.inventory_repo.getInventoryItemById(inventoryTransaction.inventory_item_id)
+        self.createInventoryTransaction\
+            ({"inventory_item_id":inventoryItem.id,\
+            "inventory_item_name":inventoryItem.name,\
+            "transaction_type_name":"Adjustment In",\
+            "transaction_type":type_enum.receive,\
+            "quantity":billItem.quantity,\
+            "unit":inventoryItem.unit,\
+            "purchasing_price":inventoryItem.purchasing_price,\
+            "selling_price":inventoryItem.sales_service_item.price,\
+            "note":note})
+        # self.inventory_repo.deleteInventoryTransaction(inventoryTransaction.id)
+        return
+
     def createInventoryTransaction(self,inventoryTransaction) -> None:
-        self.inventory_repo.persistInventoryTransaction(dict(inventoryTransaction))
+        if type(inventoryTransaction) is not dict:
+            inventoryTransaction = inventoryTransaction.dict()
+        inventoryItem = self.inventory_repo.getInventoryItemById(inventoryTransaction["inventory_item_id"])
+        total = inventoryItem.balance
+        if inventoryTransaction["transaction_type"] == type_enum.receive:
+            total = inventoryItem.balance + inventoryTransaction["quantity"]
+            self.inventory_repo.updateInventoryItem\
+                (inventoryItem.id,{"balance":total})
+        elif inventoryTransaction["transaction_type"] == type_enum.issue:
+            if inventoryTransaction["quantity"] > inventoryItem.balance:
+                raise BAD_REQUEST("Not enough "+ inventoryTransaction["inventory_item_name"] +" in inventory.")
+            total = inventoryItem.balance - inventoryTransaction["quantity"]
+            self.inventory_repo.updateInventoryItem\
+                (inventoryItem.id,{"balance":total})
+        self.inventory_repo.persistInventoryTransaction(dict(inventoryTransaction,opening_balance=inventoryItem.balance,closing_balance=total))
         return 
 
     def createPharmacyItem(self,pharmacyItem) -> None:
