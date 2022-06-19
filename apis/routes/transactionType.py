@@ -39,3 +39,8 @@ def delete(id: int, repo=Depends(InventoryRepository)):
 def bulk_delete(ids: BulkDelete, repo=Depends(InventoryRepository)):
     InventoryService(repo).deleteMulitpleTransactionType(ids)
     return {"detail": "Transaction Types delete successful."}
+
+@router.post("/bulk_create",status_code=status.HTTP_200_OK, response_model=Message)
+def bulk_create(request: List[TransactionType], repo=Depends(InventoryRepository)):
+    InventoryService(repo).createMultipleTransactionType(request)
+    return {"detail": "Transaction Types create successful."}

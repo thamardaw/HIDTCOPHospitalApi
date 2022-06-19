@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from core.protocol.inventory import InventoryProtocol
 from core.entity.inventoryItem import InventoryItem
 from core.entity.pharmacyItem import PharmacyItem
@@ -54,6 +55,15 @@ class InventoryService:
                 "purchasing_price":new_inventoryItem.purchasing_price,\
                 "selling_price":new_inventoryItem.sales_service_item.price})
         return 
+    
+    def createMultipleInventoryItem(self,inventoryItems) -> None:
+        try:
+            for inventoryItem in inventoryItems:
+                self.createInventoryItem(inventoryItem)
+        except HTTPException as e:
+            raise BAD_REQUEST(e.detail)
+        return
+
 
     def dispense_item(self,billItem) -> None:
         note = f"{billItem.bill_id}, {billItem.id}"
@@ -135,6 +145,14 @@ class InventoryService:
         self.inventory_repo.persistInventoryTransaction(dict(inventoryTransaction,opening_balance=inventoryItem.balance,closing_balance=total))
         return 
 
+    def createMultipleInventoryTransaction(self,inventoryTransactions) -> None:
+        try:
+            for inventoryTransaction in inventoryTransactions:
+                self.createInventoryTransaction(inventoryTransaction)
+        except HTTPException as e:
+            raise BAD_REQUEST(e.detail)
+        return
+
     def createPharmacyItem(self,pharmacyItem) -> None:
         pharmacyItem = pharmacyItem.dict()
         inventoryItem = pharmacyItem["with_inventory"]
@@ -144,10 +162,26 @@ class InventoryService:
         self.createInventoryItem(dict(inventoryItem,pharmacy_item_id=new_pharmacyItem.id))
         return 
 
+    def createMultiplePharmacyItem(self,pharmacyItems) -> None:
+        try:
+            for pharmacyItem in pharmacyItems:
+                self.createPharmacyItem(pharmacyItem)
+        except HTTPException as e:
+            raise BAD_REQUEST(e.detail)
+        return
+
     def createTransactionType(self,transactionType) -> None:
         self.inventory_repo.persistTransactionType(transactionType)
         return 
     
+    def createMultipleTransactionType(self,transactionTypes) -> None:
+        try:
+            for transactionType in transactionTypes:
+                self.inventory_repo.persistTransactionType(transactionType)
+        except HTTPException as e:
+            raise BAD_REQUEST(e.detail)
+        return
+
     def updateInventoryItem(self,id:int,inventoryItem) -> None:
         self.inventory_repo.updateInventoryItem(id,inventoryItem)
         return
