@@ -38,6 +38,8 @@ class InventoryService:
     def createInventoryItem(self,inventoryItem) -> None:
         if type(inventoryItem) is not dict:
             inventoryItem = inventoryItem.dict()
+        if self.inventory_repo.getInventoryItemBySalesServiceItemId(inventoryItem["sales_service_item_id"]): 
+            raise BAD_REQUEST("Sales Item already in use.")
         initial_balance = inventoryItem["balance"]
         inventoryItem["balance"] = 0
         new_inventoryItem = self.inventory_repo.persistInventoryItem(inventoryItem)
@@ -53,34 +55,47 @@ class InventoryService:
                 "selling_price":new_inventoryItem.sales_service_item.price})
         return 
 
+    def dispense_item(self,billItem) -> None:
+        note = f"{billItem.bill_id}, {billItem.id}"
+        if self.inventory_repo.getInventoryTransactionByNoteAndType(note, type_enum.issue) is not None: return 
+        inventoryItem = self.inventory_repo.getInventoryItemBySalesServiceItemId(billItem.sales_service_item_id)
+        if inventoryItem is None: return
+        self.createInventoryTransaction\
+            ({"inventory_item_id":inventoryItem.id,\
+            "inventory_item_name":inventoryItem.name,\
+            "transaction_type_name":"Adjustment Out",\
+            "transaction_type":type_enum.issue,\
+            "quantity":billItem.quantity,\
+            "unit":inventoryItem.unit,\
+            "purchasing_price":inventoryItem.purchasing_price,\
+            "selling_price":inventoryItem.sales_service_item.price,\
+            "note":note})
+        return 
+
     def dispense_items(self, billItems) -> None:
         for billItem in billItems:
-            note = f"{billItem.bill_id}, {billItem.id}"
-            if self.inventory_repo.getInventoryTransactionByNoteAndType(note, type_enum.issue) is not None: continue
-            inventoryItem = self.inventory_repo.getInventoryItemBySalesServiceItemId(billItem.sales_service_item_id)
-            self.createInventoryTransaction\
-                ({"inventory_item_id":inventoryItem.id,\
-                "inventory_item_name":inventoryItem.name,\
-                "transaction_type_name":"Adjustment Out",\
-                "transaction_type":type_enum.issue,\
-                "quantity":billItem.quantity,\
-                "unit":inventoryItem.unit,\
-                "purchasing_price":inventoryItem.purchasing_price,\
-                "selling_price":inventoryItem.sales_service_item.price,\
-                "note":note})
+            self.dispense_item(billItem)
         return
 
     def list_dispensed_items_of_bill(self,bill_id) -> List[InventoryTransaction]:
         iss_invtxs = self.inventory_repo.listInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.issue)
+        iss_invtxs_copy = iss_invtxs.copy()
         rec_invtxs = self.inventory_repo.listInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.receive)
         for iss_invtx in iss_invtxs:
             for rec_invtx in rec_invtxs:
                 if iss_invtx.note == rec_invtx.note:
-                    iss_invtxs.remove(iss_invtx)
-        return iss_invtxs
+                    iss_invtxs_copy.remove(iss_invtx)
+        return iss_invtxs_copy
 
-    def return_items(self, billItem) -> None:
-        note = f"${billItem.bill_id}, {billItem.id}"
+    def list_inventory_item_by_bill_items(self,billItems) -> List[InventoryItem]:
+        inventoryItem_list = []
+        for billItem in billItems:
+            inventoryItem = self.inventory_repo.getInventoryItemBySalesServiceItemId(billItem.sales_service_item_id)
+            if inventoryItem is not None: inventoryItem_list.append(inventoryItem)
+        return inventoryItem_list
+
+    def return_item(self, billItem) -> None:
+        note = f"{billItem.bill_id}, {billItem.id}"
         inventoryTransaction = self.inventory_repo.getInventoryTransactionByNoteAndType(note,type_enum.issue)
         if inventoryTransaction is None: return
         inventoryItem = self.inventory_repo.getInventoryItemById(inventoryTransaction.inventory_item_id)
@@ -96,6 +111,11 @@ class InventoryService:
             "note":note})
         # self.inventory_repo.deleteInventoryTransaction(inventoryTransaction.id)
         return
+
+    def return_items(self, billItems) -> None:
+        for billItem in billItems:
+            self.return_item(billItem)
+        return 
 
     def createInventoryTransaction(self,inventoryTransaction) -> None:
         if type(inventoryTransaction) is not dict:
