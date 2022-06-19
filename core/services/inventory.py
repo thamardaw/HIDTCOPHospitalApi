@@ -109,6 +109,7 @@ class InventoryService:
         inventoryTransaction = self.inventory_repo.getInventoryTransactionByNoteAndType(note,type_enum.issue)
         if inventoryTransaction is None: return
         inventoryItem = self.inventory_repo.getInventoryItemById(inventoryTransaction.inventory_item_id)
+        if inventoryItem is None: return
         self.createInventoryTransaction\
             ({"inventory_item_id":inventoryItem.id,\
             "inventory_item_name":inventoryItem.name,\
