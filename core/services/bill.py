@@ -2,6 +2,7 @@ from core.entity.deposit import Deposit
 from core.protocol.bill import BillProtocol
 from core.entity.bill import Bill
 from typing import List
+from datetime import date
 
 class BillService:
     def __init__(self,bill_repo:BillProtocol)->None:
@@ -22,7 +23,7 @@ class BillService:
     def getAllCancelledBill(self)-> List[Bill]:
         return self.bill_repo.listCancelledBill()
 
-    def getAllBillFromAndTo(self,f:int,t:int) -> List[Bill]:
+    def getAllBillFromAndTo(self,f:date,t:date) -> List[Bill]:
         return self.bill_repo.listBillFromAndTo(f,t)
 
     def createBill(self,bill) -> None:

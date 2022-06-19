@@ -7,7 +7,7 @@ class BillProtocol(Protocol):
     def getById(self,id: int):
         ...
 
-    def listBillFromAndTo(self,f:int,t:int):
+    def listCompletedBillFromAndTo(self,f:int,t:int):
         ...
 
     def listDraftBill(self):
