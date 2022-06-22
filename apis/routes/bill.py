@@ -6,6 +6,7 @@ from schemas.billItem import BillItem
 from core.services.bill import BillService
 from core.entity.bill import Bill as BillDTO
 from typing import List
+from datetime import date
 
 router = APIRouter(prefix="/bill", tags=["Bill"])
 
@@ -30,8 +31,8 @@ def get_bill(id: int, repo=Depends(BillRepository)):
     return BillService(repo).getBill(id)
 
 @router.get('/',status_code=status.HTTP_200_OK,response_model=List[BillDTO])
-def get_completed_bill_from_to(f: int,t:int, repo=Depends(BillRepository)):
-    return BillService(repo).getCompletedBillFromAndTo(f,t)
+def get_bill_from_to(f: date,t:date, repo=Depends(BillRepository)):
+    return BillService(repo).getAllBillFromAndTo(f,t)
 
 @router.put('/print/{id}',status_code=status.HTTP_200_OK,response_model=Message)
 def to_printed(id: int, repo=Depends(BillRepository)):
