@@ -13,7 +13,7 @@ class PharmacyItem(BaseModel):
     strength: Optional[str] = None
     unit: str
     po_unit: Optional[str] = None
-    converstion_rate: int
+    converstion_rate:  Optional[int] = None
     created_time: Optional[datetime] = None
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
