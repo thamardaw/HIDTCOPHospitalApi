@@ -65,7 +65,8 @@ class SalesServiceItemService:
     
     def deleteSalesServiceItem(self,id:int) -> None:
         try:
-            self.salesServiceItem_repo.delete(id)
+            # self.salesServiceItem_repo.delete(id)
+            self.salesServiceItem_repo.update(id,{"is_active":False})
         except:
             raise BAD_REQUEST("Sales Service Item cannot be deleted.")
         return 
@@ -73,7 +74,8 @@ class SalesServiceItemService:
     def deleteMulitpleSalesServiceItem(self,ids) -> None:
         for id in ids.listOfId:
             try:
-                self.salesServiceItem_repo.delete(id)
+                # self.salesServiceItem_repo.delete(id)
+                self.salesServiceItem_repo.update(id,{"is_active":False})
             except:
                 raise BAD_REQUEST(f"Sales Service Item with id {id} cannot be deleted.")
         return

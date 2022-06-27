@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer,String
+from sqlalchemy import Column, Integer,String, Boolean
 from infrastructure.base_mixin import BaseMixin
 from sqlalchemy.sql.schema import ForeignKey
 from infrastructure.base_class import Base
@@ -11,3 +11,4 @@ class SalesServiceItem(BaseMixin,Base):
     uom = relationship("Uom",back_populates="sales_service_item")
     category_id = Column(Integer,ForeignKey("category.id"))
     category = relationship("Category",back_populates="sales_service_item")
+    is_active = Column(Boolean,nullable=False,server_default="true")
