@@ -4,7 +4,6 @@ from .routes import inventoryItem, pharmacyItem, user, patient,\
      bill, payment, deposit, dailyClosing, inventoryTransaction,\
      transactionType, inventory
 
-
 router = APIRouter(prefix="/api")
 
 router.include_router(healthCheck.router)
