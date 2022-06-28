@@ -2,6 +2,7 @@ from core.entity.deposit import Deposit
 from core.protocol.bill import BillProtocol
 from core.entity.bill import Bill
 from typing import List
+from datetime import date
 
 class BillService:
     def __init__(self,bill_repo:BillProtocol)->None:

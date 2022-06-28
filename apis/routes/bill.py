@@ -6,6 +6,7 @@ from schemas.billItem import BillItem
 from core.services.bill import BillService
 from core.entity.bill import Bill as BillDTO
 from typing import List
+from datetime import date
 
 router = APIRouter(prefix="/bill", tags=["Bill"])
 

@@ -12,3 +12,7 @@ from infrastructure.models.bill import Bill
 from infrastructure.models.dailyClosing import DailyClosing
 from infrastructure.models.closingBillDetail import ClosingBillDetail
 from infrastructure.models.closingDepositDetail import ClosingDepositDetail
+from infrastructure.models.pharmacyItem import PharmacyItem
+from infrastructure.models.inventoryItem import InventoryItem
+from infrastructure.models.transactionType import TransactionType
+from infrastructure.models.inventoryTransaction import InventoryTransaction
