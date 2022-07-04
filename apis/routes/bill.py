@@ -31,7 +31,7 @@ def get_bill(id: int, repo=Depends(BillRepository)):
     return BillService(repo).getBill(id)
 
 @router.get('/',status_code=status.HTTP_200_OK,response_model=List[BillDTO])
-def get_completed_bill_from_to(f: int,t:int, repo=Depends(BillRepository)):
+def get_completed_bill_from_to(f: date,t:date, repo=Depends(BillRepository)):
     return BillService(repo).getCompletedBillFromAndTo(f,t)
 
 @router.put('/print/{id}',status_code=status.HTTP_200_OK,response_model=Message)
