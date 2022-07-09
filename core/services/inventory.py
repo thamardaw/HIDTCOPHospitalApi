@@ -53,7 +53,7 @@ class InventoryService:
                 "quantity":initial_balance,\
                 "unit":new_inventoryItem.unit,\
                 "purchasing_price":new_inventoryItem.purchasing_price,\
-                "selling_price":new_inventoryItem.sales_service_item.price})
+                "selling_price": new_inventoryItem.sales_service_item.price if new_inventoryItem.sales_service_item else  0})
         return 
     
     def createMultipleInventoryItem(self,inventoryItems) -> None:
@@ -184,6 +184,8 @@ class InventoryService:
         return
 
     def updateInventoryItem(self,id:int,inventoryItem) -> None:
+        if self.inventory_repo.getInventoryItemBySalesServiceItemId(inventoryItem.sales_service_item_id): 
+            raise BAD_REQUEST("Sales Item already in use.")
         self.inventory_repo.updateInventoryItem(id,inventoryItem)
         return
 

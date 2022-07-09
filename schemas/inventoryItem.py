@@ -8,7 +8,7 @@ class InventoryItem(BaseModel):
     balance: int
     unit: str
     purchasing_price: int
-    sales_service_item_id: int
+    sales_service_item_id: Optional[int] = None
     expiry_date: Optional[date] = None
     batch: str
     
