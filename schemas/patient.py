@@ -7,6 +7,6 @@ class Patient(BaseModel):
     name: str
     gender: gender_enum
     date_of_birth: Optional[date] = None
-    age: int
+    age: str
     address: str
     contact_details: str
