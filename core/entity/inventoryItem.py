@@ -6,8 +6,8 @@ from .salesServiceItem import SalesServiceItem
 
 class InventoryItem(BaseModel):
     id: int
-    pharmacy_item_id: Optional[int] = None
-    pharmacy_item: Optional[PharmacyItem] = None
+    # pharmacy_item_id: Optional[int] = None
+    # pharmacy_item: Optional[PharmacyItem] = None
     name: str
     balance: int
     unit: str
