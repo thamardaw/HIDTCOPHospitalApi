@@ -2,14 +2,13 @@ from datetime import date
 from pydantic import BaseModel
 from typing import Optional
 
-
 class InventoryItem(BaseModel):
-    pharmacy_item_id: int
+    # pharmacy_item_id: int
     name: str
     balance: int
     unit: str
     purchasing_price: int
-    sales_service_item_id: int
+    sales_service_item_id: Optional[int] = None
     expiry_date: Optional[date] = None
     batch: str
     
