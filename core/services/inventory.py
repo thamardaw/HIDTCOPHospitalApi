@@ -40,7 +40,7 @@ class InventoryService:
         if type(inventoryItem) is not dict:
             inventoryItem = inventoryItem.dict()
         if self.inventory_repo.getInventoryItemBySalesServiceItemId(inventoryItem["sales_service_item_id"]): 
-            raise BAD_REQUEST("Sales Item already in use.")
+            raise BAD_REQUEST(f'Sales Item ID {inventoryItem["sales_service_item_id"]} already in use.')
         initial_balance = inventoryItem["balance"]
         inventoryItem["balance"] = 0
         new_inventoryItem = self.inventory_repo.persistInventoryItem(inventoryItem)
