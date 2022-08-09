@@ -11,9 +11,9 @@ from core.entity.deposit import Deposit as DepositDTO
 from core.entity.depositUsed import DepositUsed as DepositUsedDTO
 from core.entity.payment import Payment as PaymentDTO
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import cast, Date
+from sqlalchemy import cast, DateTime
 from exceptions.repo import SQLALCHEMY_ERROR
-from datetime import date
+from datetime import datetime
 
 class BillRepository(BaseRepo):
     def persist(self,bill) -> BillDTO:
@@ -25,10 +25,10 @@ class BillRepository(BaseRepo):
         bill_orm = self.read(Bill,id)
         return BillDTO.from_orm(bill_orm)
 
-    def listCompletedBillFromAndTo(self,f:date,t:date) -> List[BillDTO]:
+    def listCompletedBillFromAndTo(self,f:datetime,t:datetime) -> List[BillDTO]:
         try:
             bills = self._db.query(Bill,Payment)\
-                .filter(cast(Payment.updated_time,Date)>=f,cast(Payment.updated_time,Date)<=t)\
+                .filter(cast(Payment.updated_time,DateTime)>=f,cast(Payment.updated_time,DateTime)<=t)\
                 .filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed")\
                 .filter(Payment.is_outstanding==False)\
                 .filter(Bill.id == Payment.bill_id).order_by(Bill.id.desc()).all()
