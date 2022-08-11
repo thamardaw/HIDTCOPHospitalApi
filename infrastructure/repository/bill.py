@@ -11,7 +11,6 @@ from core.entity.deposit import Deposit as DepositDTO
 from core.entity.depositUsed import DepositUsed as DepositUsedDTO
 from core.entity.payment import Payment as PaymentDTO
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import cast, DateTime
 from exceptions.repo import SQLALCHEMY_ERROR
 from datetime import datetime
 
@@ -27,12 +26,9 @@ class BillRepository(BaseRepo):
 
     def listCompletedBillFromAndTo(self,f:datetime,t:datetime) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill,Payment)\
-                .filter(cast(Payment.updated_time,DateTime)>=f,cast(Payment.updated_time,DateTime)<=t)\
-                .filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed")\
-                .filter(Payment.is_outstanding==False)\
-                .filter(Bill.id == Payment.bill_id).order_by(Bill.id.desc()).all()
-            return [BillDTO.from_orm(bill[0]) for bill in bills]
+            bills = self._db.query(Bill).join(Payment,Bill.id==Payment.bill_id).filter(Payment.updated_time>=f,Payment.updated_time<=t,
+                Bill.is_cancelled==False,Bill.printed_or_drafted=="printed",Payment.is_outstanding==False).order_by(Bill.id.desc()).all()
+            return   [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
@@ -45,15 +41,15 @@ class BillRepository(BaseRepo):
 
     def listOutstandingBill(self) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill,Payment).filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed").filter(Payment.is_outstanding==True).filter(Bill.id == Payment.bill_id).order_by(Bill.id.desc()).all()
-            return [BillDTO.from_orm(bill[0]) for bill in bills]
+            bills = self._db.query(Bill).join(Payment,Bill.id==Payment.bill_id).filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed",Payment.is_outstanding==True).order_by(Bill.id.desc()).all()
+            return  [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
     def listCompletedBill(self) -> List[BillDTO]:
         try:
-            bills = self._db.query(Bill,Payment).filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed").filter(Payment.is_outstanding==False).filter(Bill.id == Payment.bill_id).order_by(Bill.id.desc()).all()
-            return [BillDTO.from_orm(bill[0]) for bill in bills]
+            bills = self._db.query(Bill).join(Payment,Bill.id==Payment.bill_id).filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed",Payment.is_outstanding==False).order_by(Bill.id.desc()).all()
+            return  [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 

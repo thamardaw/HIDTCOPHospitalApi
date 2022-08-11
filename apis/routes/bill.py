@@ -8,7 +8,6 @@ from core.entity.bill import Bill as BillDTO
 from typing import List
 from datetime import datetime
 
-
 router = APIRouter(prefix="/bill", tags=["Bill"])
 
 @router.get('/drafted',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
