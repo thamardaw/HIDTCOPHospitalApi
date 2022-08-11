@@ -28,7 +28,7 @@ class BillRepository(BaseRepo):
         try:
             bills = self._db.query(Bill).join(Payment,Bill.id==Payment.bill_id).filter(Payment.updated_time>=f,Payment.updated_time<=t,
                 Bill.is_cancelled==False,Bill.printed_or_drafted=="printed",Payment.is_outstanding==False).order_by(Bill.id.desc()).all()
-            return bills
+            return   [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
@@ -42,14 +42,14 @@ class BillRepository(BaseRepo):
     def listOutstandingBill(self) -> List[BillDTO]:
         try:
             bills = self._db.query(Bill).join(Payment,Bill.id==Payment.bill_id).filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed",Payment.is_outstanding==True).order_by(Bill.id.desc()).all()
-            return bills
+            return  [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
     def listCompletedBill(self) -> List[BillDTO]:
         try:
             bills = self._db.query(Bill).join(Payment,Bill.id==Payment.bill_id).filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed",Payment.is_outstanding==False).order_by(Bill.id.desc()).all()
-            return bills
+            return  [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
