@@ -14,11 +14,11 @@ from core.entity.deposit import Deposit as DepositDTO
 from core.entity.depositUsed import DepositUsed as DepositUsedDTO
 from core.entity.payment import Payment as PaymentDTO
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import cast, Date
+from sqlalchemy import cast, Date,text,select
 from exceptions.repo import SQLALCHEMY_ERROR
 from datetime import date
-from sqlalchemy.sql.expression import select
-from fastapi.encoders import jsonable_encoder
+from sqlalchemy.sql import exists
+
 
 class BillRepository(BaseRepo):
     def persist(self,bill) -> BillDTO:
@@ -118,11 +118,10 @@ class BillRepository(BaseRepo):
     def listActiveDeposit(self)-> List[DepositDTO] :
         
         try:
-            
-            deposits =self._db.query(Deposit).outerjoin(DepositUsed,Deposit.id==DepositUsed.deposit_id).filter(
-                DepositUsed.deposit_id ==None, Deposit.is_cancelled ==False).all() 
-            
+            stmt=exists().where(Deposit.id==DepositUsed.deposit_id)
+            deposits=self._db.query(Deposit).filter(~stmt,Deposit.is_cancelled ==False).all()
             return [DepositDTO.from_orm(deposit) for deposit in deposits]
+           
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
@@ -135,10 +134,8 @@ class BillRepository(BaseRepo):
 
     def listActiveDepositByPatientId(self,id) -> List[DepositDTO]:
         try:
-            
-            deposits = self._db.query(Deposit).outerjoin(DepositUsed,Deposit.id==DepositUsed.deposit_id).filter(
-                DepositUsed.deposit_id ==None, Deposit.is_cancelled ==False,Deposit.patient_id==id).all() 
-            
+            stmt=exists().where(Deposit.id==DepositUsed.deposit_id)
+            deposits=self._db.query(Deposit).filter(~stmt,Deposit.is_cancelled ==False,Deposit.patient_id==id).all()
             return [DepositDTO.from_orm(deposit) for deposit in deposits ]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
