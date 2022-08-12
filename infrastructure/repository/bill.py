@@ -14,7 +14,7 @@ from core.entity.deposit import Deposit as DepositDTO
 from core.entity.depositUsed import DepositUsed as DepositUsedDTO
 from core.entity.payment import Payment as PaymentDTO
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import cast, Date,text,select
+from sqlalchemy import cast, Date
 from exceptions.repo import SQLALCHEMY_ERROR
 from datetime import date
 from sqlalchemy.sql import exists
