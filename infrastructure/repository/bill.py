@@ -13,6 +13,7 @@ from core.entity.payment import Payment as PaymentDTO
 from sqlalchemy.exc import SQLAlchemyError
 from exceptions.repo import SQLALCHEMY_ERROR
 from datetime import datetime
+from sqlalchemy.sql import exists
 
 class BillRepository(BaseRepo):
     def persist(self,bill) -> BillDTO:
@@ -55,6 +56,7 @@ class BillRepository(BaseRepo):
 
     def listCancelledBill(self) -> List[BillDTO]:
         try:
+           
             bills = self._db.query(Bill).filter(Bill.is_cancelled==True).order_by(Bill.id.desc()).all()
             return [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
@@ -105,13 +107,13 @@ class BillRepository(BaseRepo):
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
-    def listActiveDeposit(self) -> List[DepositDTO]:
+    def listActiveDeposit(self)-> List[DepositDTO] :
+        
         try:
-            used_deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.id == DepositUsed.deposit_id).order_by(Deposit.id.desc()).all()
-            deposits = self._db.query(Deposit).all()
-            for used_deposit in used_deposits:
-                deposits.remove(used_deposit[0])
-            return [DepositDTO.from_orm(deposit) for deposit in deposits if deposit.is_cancelled == False]
+            stmt=exists().where(Deposit.id==DepositUsed.deposit_id)
+            deposits=self._db.query(Deposit).filter(~stmt,Deposit.is_cancelled ==False).all()
+            return [DepositDTO.from_orm(deposit) for deposit in deposits]
+           
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
@@ -124,18 +126,16 @@ class BillRepository(BaseRepo):
 
     def listActiveDepositByPatientId(self,id) -> List[DepositDTO]:
         try:
-            used_deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.patient_id==id).filter(Deposit.id == DepositUsed.deposit_id).all()
-            deposits = self._db.query(Deposit).filter(Deposit.patient_id==id).all()
-            for used_deposit in used_deposits:
-                deposits.remove(used_deposit[0])
-            return [DepositDTO.from_orm(deposit) for deposit in deposits if deposit.is_cancelled == False]
+            stmt=exists().where(Deposit.id==DepositUsed.deposit_id)
+            deposits=self._db.query(Deposit).filter(~stmt,Deposit.is_cancelled ==False,Deposit.patient_id==id).all()
+            return [DepositDTO.from_orm(deposit) for deposit in deposits ]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
     def listUsedDeposit(self) -> List[DepositDTO]:
         try:
-            deposits = self._db.query(Deposit,DepositUsed).filter(Deposit.is_cancelled==False,Deposit.id == DepositUsed.deposit_id).order_by(Deposit.id.desc()).all()
-            return [DepositDTO.from_orm(deposit[0]) for deposit in deposits ]
+            deposits = self._db.query(Deposit).join(DepositUsed,Deposit.id == DepositUsed.deposit_id).filter(Deposit.is_cancelled==False).order_by(Deposit.id.desc()).all()
+            return [DepositDTO.from_orm(deposit) for deposit in deposits ]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
