@@ -1,6 +1,3 @@
-from ast import stmt
-from genericpath import exists
-from select import select
 from typing import List
 from infrastructure.base_repo import BaseRepo
 from infrastructure.models.bill import Bill
@@ -15,7 +12,7 @@ from core.entity.depositUsed import DepositUsed as DepositUsedDTO
 from core.entity.payment import Payment as PaymentDTO
 from sqlalchemy.exc import SQLAlchemyError
 from exceptions.repo import SQLALCHEMY_ERROR
-from datetime import date
+from datetime import datetime
 from sqlalchemy.sql import exists
 
 class BillRepository(BaseRepo):
