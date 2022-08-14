@@ -7,9 +7,10 @@ from sqlalchemy.orm import relationship
 
 class Payment(BaseMixin,Base):
     bill_id = Column(Integer,ForeignKey("bill.id"),unique=True)
-    bill = relationship("Bill",back_populates="payment")
     total_amount = Column(Integer, nullable=False)
     total_deposit_amount = Column(Integer, nullable=False)
     collected_amount = Column(Integer, nullable=False)
     unpaid_amount = Column(Integer, nullable=False)
     is_outstanding = Column(Boolean)
+    
+    bill = relationship("Bill",back_populates="payment")

@@ -12,7 +12,9 @@ class InventoryItem(BaseMixin,Base):
     unit = Column(String,nullable=False)
     purchasing_price = Column(Integer,nullable=False)
     sales_service_item_id = Column(Integer,index=True)
-    sales_service_item = relationship('SalesServiceItem', primaryjoin="InventoryItem.sales_service_item_id==foreign(SalesServiceItem.id)",uselist=False)
     expiry_date = Column(Date)
     batch = Column(String,nullable=False)
     is_active = Column(Boolean,nullable=False,server_default="true")
+    
+    sales_service_item = relationship('SalesServiceItem', primaryjoin="InventoryItem.sales_service_item_id==foreign(SalesServiceItem.id)",uselist=False)
+    inventory_transaction= relationship("InventoryTransaction",back_populates="inventoryitem")
