@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 from .inventoryItem import InventoryItem
+from .user import Username
 
 class InventoryTransaction(BaseModel):
     id: int
@@ -21,5 +22,7 @@ class InventoryTransaction(BaseModel):
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
+    created_user: Optional[Username] = None
+    
     class Config():
         orm_mode = True

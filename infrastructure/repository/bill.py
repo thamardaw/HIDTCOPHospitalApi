@@ -110,8 +110,8 @@ class BillRepository(BaseRepo):
     def listActiveDeposit(self)-> List[DepositDTO] :
         
         try:
-            stmt=exists().where(Deposit.id==DepositUsed.deposit_id)
-            deposits=self._db.query(Deposit).filter(~stmt,Deposit.is_cancelled ==False).all()
+            deposits =self._db.query(Deposit).outerjoin(DepositUsed,Deposit.id==DepositUsed.deposit_id).filter(
+                DepositUsed.deposit_id ==None, Deposit.is_cancelled ==False).all() 
             return [DepositDTO.from_orm(deposit) for deposit in deposits]
            
         except SQLAlchemyError as e:
@@ -126,8 +126,8 @@ class BillRepository(BaseRepo):
 
     def listActiveDepositByPatientId(self,id) -> List[DepositDTO]:
         try:
-            stmt=exists().where(Deposit.id==DepositUsed.deposit_id)
-            deposits=self._db.query(Deposit).filter(~stmt,Deposit.is_cancelled ==False,Deposit.patient_id==id).all()
+            deposits = self._db.query(Deposit).outerjoin(DepositUsed,Deposit.id==DepositUsed.deposit_id).filter(
+                DepositUsed.deposit_id ==None, Deposit.is_cancelled ==False,Deposit.patient_id==id).all() 
             return [DepositDTO.from_orm(deposit) for deposit in deposits ]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
