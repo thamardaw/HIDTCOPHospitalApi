@@ -3,6 +3,7 @@ from typing import Optional
 from datetime import datetime
 from .uom import Uom, UomSmall
 from .category import Category, CategorySmall
+from .user import Username
 
 class SalesServiceItem(BaseModel):
     id: int
@@ -16,6 +17,7 @@ class SalesServiceItem(BaseModel):
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
+    created_user: Optional[Username] = None
     class Config():
         orm_mode = True
 
