@@ -6,7 +6,6 @@ from sqlalchemy.orm import relationship
 
 class InventoryTransaction(BaseMixin,Base):
     inventory_item_id = Column(Integer,ForeignKey("inventoryitem.id"))
-    inventory_item = relationship("InventoryItem",backref="inventorytransaction")
     inventory_item_name = Column(String,nullable=False)
     transaction_type_name = Column(String,nullable=False)
     transaction_type = Column(String,nullable=False)
@@ -17,3 +16,5 @@ class InventoryTransaction(BaseMixin,Base):
     purchasing_price = Column(Integer,nullable=False)
     selling_price = Column(Integer,nullable=False)
     note = Column(String)
+    
+    inventoryitem = relationship("InventoryItem",back_populates="inventorytransaction")
