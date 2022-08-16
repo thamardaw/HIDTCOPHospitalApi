@@ -17,4 +17,4 @@ class InventoryTransaction(BaseMixin,Base):
     selling_price = Column(Integer,nullable=False)
     note = Column(String)
     
-    inventoryitem = relationship("InventoryItem",back_populates="inventorytransaction")
+    inventory_item = relationship("InventoryItem",back_populates="inventory_transaction")

@@ -17,4 +17,4 @@ class InventoryItem(BaseMixin,Base):
     is_active = Column(Boolean,nullable=False,server_default="true")
     
     sales_service_item = relationship('SalesServiceItem', primaryjoin="InventoryItem.sales_service_item_id==foreign(SalesServiceItem.id)",uselist=False)
-    inventorytransaction= relationship("InventoryTransaction",back_populates="inventoryitem")
+    inventory_transaction= relationship("InventoryTransaction",back_populates="inventory_item")
