@@ -8,6 +8,7 @@ colorama==0.4.4
 cryptography==35.0.0
 ecdsa==0.17.0
 fastapi==0.70.0
+fastapi-pagination==0.9.3
 greenlet==1.1.2
 h11==0.12.0
 idna==3.3

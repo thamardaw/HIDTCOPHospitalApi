@@ -6,12 +6,17 @@ from schemas.billItem import InvBillItem
 from core.entity.inventoryTransaction import InventoryTransaction
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
+from fastapi_pagination import Page,Params,paginate
 
 router = APIRouter(prefix="/inventory", tags=["Inventory"])
 
 @router.get('/dispense/{bill_id}', status_code=status.HTTP_200_OK, response_model=List[InventoryTransaction])
 def get_all_dispensed_items_of_bill(bill_id: int, repo=Depends(InventoryRepository)):
     return InventoryService(repo).list_dispensed_items_of_bill(bill_id)
+
+@router.get('/dispense/{bill_id}/p', status_code=status.HTTP_200_OK, response_model=Page[InventoryTransaction])
+def get_paginate_dispensed_items_of_bill(bill_id: int, repo=Depends(InventoryRepository),params:Params=Depends()):
+    return paginate(InventoryService(repo).list_dispensed_items_of_bill(bill_id),params=params)
 
 @router.post('/', status_code=status.HTTP_200_OK, response_model=List[InventoryItem])
 def get_all_inventory_item_by_bill_items(request: List[InvBillItem], repo=Depends(InventoryRepository)):

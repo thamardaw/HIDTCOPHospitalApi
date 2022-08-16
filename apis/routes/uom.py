@@ -6,12 +6,18 @@ from infrastructure.repository.salesServiceItem import SalesServiceItemRepositor
 from core.services.salesServiceItem import SalesServiceItemService
 from core.entity.uom import Uom as UomDTO
 from typing import List
+from  fastapi_pagination import Page,Params,paginate
 
 router = APIRouter(prefix="/uom", tags=["UOM"])
 
 @router.get('/',status_code=status.HTTP_200_OK, response_model=List[UomDTO])
 def get_all_uom(repo=Depends(SalesServiceItemRepository)):
     return SalesServiceItemService(repo).getAllUom()
+
+@router.get('/p',status_code=status.HTTP_200_OK, response_model=Page[UomDTO])
+def get_paginate_uom(repo=Depends(SalesServiceItemRepository),params:Params =Depends()):
+    return paginate(SalesServiceItemService(repo).getAllUom(),params=params)
+
 
 @router.get('/{id}',status_code=status.HTTP_200_OK,response_model=UomDTO)
 def get_uom(id: int, repo=Depends(SalesServiceItemRepository)):
