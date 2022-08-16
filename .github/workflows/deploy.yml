@@ -40,3 +40,4 @@ jobs:
           tags: | 
             jasoniv/hidtcophospitalapi:latest
             jasoniv/kdm-bill-api:latest
+            jasoniv/atd-bill-api:latest
