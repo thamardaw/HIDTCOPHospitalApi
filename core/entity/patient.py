@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
 from infrastructure.models.patient import gender_enum
+from .user import Username
 
 class Patient(BaseModel):
     id: int
@@ -16,5 +17,6 @@ class Patient(BaseModel):
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
+    created_user: Optional[Username] = None
     class Config():
         orm_mode = True

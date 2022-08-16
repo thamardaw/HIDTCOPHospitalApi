@@ -10,5 +10,6 @@ class SalesServiceItem(BaseMixin,Base):
     uom_id = Column(Integer,ForeignKey("uom.id"))
     uom = relationship("Uom",back_populates="sales_service_item")
     category_id = Column(Integer,ForeignKey("category.id"))
-    category = relationship("Category",back_populates="sales_service_item")
     is_active = Column(Boolean,nullable=False,server_default="true")
+    
+    category = relationship("Category",back_populates="sales_service_item")

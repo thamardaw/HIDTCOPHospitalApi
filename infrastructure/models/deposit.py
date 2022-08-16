@@ -6,8 +6,9 @@ from sqlalchemy.orm import relationship
 
 class Deposit(BaseMixin,Base):
     patient_id = Column(Integer,ForeignKey("patient.id"))
-    patient = relationship("Patient",backref="deposit")
     amount = Column(Integer, nullable=False)
     remark = Column(String)
     is_cancelled = Column(Boolean,nullable=False,server_default="false")
+    
     dailyClosing = relationship("DailyClosing",secondary="closingdepositdetail",back_populates="deposits")
+    patient = relationship("Patient",back_populates="deposit")

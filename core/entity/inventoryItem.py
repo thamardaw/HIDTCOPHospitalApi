@@ -3,6 +3,7 @@ from typing import Optional
 from datetime import datetime, date
 from .pharmacyItem import PharmacyItem
 from .salesServiceItem import SalesServiceItem
+from .user import Username
 
 class InventoryItem(BaseModel):
     id: int
@@ -20,5 +21,6 @@ class InventoryItem(BaseModel):
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
+    created_user: Optional[Username] = None
     class Config():
         orm_mode = True
