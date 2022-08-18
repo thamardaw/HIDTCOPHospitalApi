@@ -184,7 +184,8 @@ class InventoryService:
         return
 
     def updateInventoryItem(self,id:int,inventoryItem) -> None:
-        if self.inventory_repo.getInventoryItemBySalesServiceItemId(inventoryItem.sales_service_item_id): 
+        if self.inventory_repo.getInventoryItemBySalesServiceItemId(inventoryItem.sales_service_item_id) and id != self.inventory_repo.getInventoryItemBySalesServiceItemId(inventoryItem.sales_service_item_id).id:
+            
             raise BAD_REQUEST("Sales Item already in use.")
         self.inventory_repo.updateInventoryItem(id,inventoryItem)
         return

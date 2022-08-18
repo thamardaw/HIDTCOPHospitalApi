@@ -14,3 +14,12 @@ class ClosingDepositDetail(BaseModel):
     updated_user_id: Optional[int] = None
     class Config():
         orm_mode = True
+
+class ClosingDepositDetailSmall(BaseModel):
+    id: int
+    daily_closing_id :int
+    deposit_id: int
+    amount: int
+    
+    class Config():
+        orm_mode = True

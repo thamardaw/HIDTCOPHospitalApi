@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
-from .patient import Patient
+from .patient import Patient,PatientSmall
 from .user import Username 
 
 class Deposit(BaseModel):
@@ -16,5 +16,16 @@ class Deposit(BaseModel):
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
     created_user: Optional[Username] = None
+    class Config():
+        orm_mode = True
+
+class DepositSmall(BaseModel):
+    id: int
+    patient_id: int
+    patient: Optional[PatientSmall]
+    amount: int
+    remark: str
+    is_cancelled : bool
+
     class Config():
         orm_mode = True

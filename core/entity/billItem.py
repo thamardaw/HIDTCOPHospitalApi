@@ -18,3 +18,17 @@ class BillItem(BaseModel):
     updated_user_id: Optional[int] = None
     class Config():
         orm_mode = True
+
+class BillItemSmall(BaseModel):
+    id: int
+    bill_id: int
+    sales_service_item_id: int
+    name: str
+    quantity: int
+    uom: str
+    price: int
+    subtotal: int
+    remark: str
+    
+    class Config():
+        orm_mode = True
