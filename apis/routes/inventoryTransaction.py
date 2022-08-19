@@ -8,12 +8,17 @@ from core.entity.inventoryTransaction import InventoryTransaction as InventoryTr
 # Call Service and Repo from Inventory
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
+from fastapi_pagination import Page,Params,paginate
 
 router = APIRouter(prefix="/inventory_transactions", tags=["Inventory Transactions"])
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[InventoryTransactionDTO])
 def get_all_inventory_transactions(repo=Depends(InventoryRepository)):
     return InventoryService(repo).getAllInventoryTransaction()
+
+@router.get('/p', status_code=status.HTTP_200_OK, response_model=Page[InventoryTransactionDTO])
+def get_paginate_inventory_transactions(repo=Depends(InventoryRepository),params:Params=Depends()):
+    return paginate(InventoryService(repo).getAllInventoryTransaction(),params=params)
 
 @router.get('/{id}', status_code=status.HTTP_200_OK, response_model=InventoryTransactionDTO)
 def get_inventory_transaction(id: int, repo=Depends(InventoryRepository)):

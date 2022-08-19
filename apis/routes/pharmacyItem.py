@@ -8,6 +8,7 @@ from core.entity.pharmacyItem import PharmacyItem as PharmacyItemDTO
 # Call Service and Repo from Inventory
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
+from fastapi_pagination import Page,Params,paginate
 
 router = APIRouter(prefix="/pharmacy_items", tags=["Pharmacy Items"])
 
@@ -15,6 +16,10 @@ router = APIRouter(prefix="/pharmacy_items", tags=["Pharmacy Items"])
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[PharmacyItemDTO])
 def get_all_pharmacies(repo=Depends(InventoryRepository)):
     return InventoryService(repo).getAllPharmacyItem()
+
+@router.get('/p', status_code=status.HTTP_200_OK, response_model=Page[PharmacyItemDTO])
+def get_paginate_pharmacies(repo=Depends(InventoryRepository),params:Params=Depends()):
+    return paginate(InventoryService(repo).getAllPharmacyItem(),params=params)
 
 @router.get('/{id}', status_code=status.HTTP_200_OK, response_model=PharmacyItemDTO)
 def get_pharmacy(id: int, repo=Depends(InventoryRepository)):
