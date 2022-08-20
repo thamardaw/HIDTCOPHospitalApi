@@ -39,6 +39,7 @@ class InventoryTransactionSmall(BaseModel):
     purchasing_price: int
     selling_price: int
     note: Optional[str] = None
+    created_time: Optional[datetime] = None
 
     
     class Config():

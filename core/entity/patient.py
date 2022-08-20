@@ -30,6 +30,7 @@ class PatientSmall(BaseModel):
     age: str
     address: str
     contact_details: str
+    created_time: Optional[datetime] = None
     
     class Config():
         orm_mode = True

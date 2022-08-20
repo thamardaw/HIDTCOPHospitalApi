@@ -15,11 +15,3 @@ class ClosingBillDetail(BaseModel):
     class Config():
         orm_mode = True
 
-class ClosingBillDetailSmall(BaseModel):
-    id: int
-    daily_closing_id :int
-    bill_id: int
-    amount: int
-
-    class Config():
-        orm_mode = True

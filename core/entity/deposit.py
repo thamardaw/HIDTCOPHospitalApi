@@ -25,7 +25,7 @@ class DepositSmall(BaseModel):
     patient: Optional[PatientSmall]
     amount: int
     remark: str
-    is_cancelled : bool
+    created_time: Optional[datetime] = None
 
     class Config():
         orm_mode = True

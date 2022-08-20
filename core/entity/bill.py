@@ -30,11 +30,12 @@ class Bill(BaseModel):
 class BillSmall(BaseModel):
     id: int
     patient: Optional[PatientSmall]
-    printed_or_drafted: printed_or_drafted_enum
+    patient_name: str
+    patient_phone: str
+    patient_address: str
     total_amount: int
-    is_cancelled: bool
     payment: Optional[List[PaymentSmall]]
-    bill_items: Optional[List[BillItemSmall]] = []
+    created_time: Optional[datetime] = None
     
     class Config():
         orm_mode = True

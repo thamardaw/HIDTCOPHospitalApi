@@ -33,6 +33,7 @@ class InventoryItemSmall(BaseModel):
     balance: int
     unit: str
     purchasing_price: int
+    sales_service_item_id: Optional[int] = None
     sales_service_item: Optional[SalesServiceItemSmall] = None
     expiry_date: Optional[date] = None
     batch: str

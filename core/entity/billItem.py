@@ -29,6 +29,7 @@ class BillItemSmall(BaseModel):
     price: int
     subtotal: int
     remark: str
+    created_time: Optional[datetime] = None
     
     class Config():
         orm_mode = True

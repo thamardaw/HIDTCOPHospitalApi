@@ -25,6 +25,7 @@ class PaymentSmall(BaseModel):
     collected_amount: int
     unpaid_amount: int
     is_outstanding: bool
+    updated_time: Optional[datetime] = None
     
     class Config():
         orm_mode = True
