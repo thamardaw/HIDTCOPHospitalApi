@@ -5,24 +5,25 @@ from schemas.bill import Bill
 from schemas.billItem import BillItem
 from core.services.bill import BillService
 from core.entity.bill import Bill as BillDTO
+from core.entity.bill import BillSmall as BillSmallDTO
 from typing import List
 from datetime import datetime
 
 router = APIRouter(prefix="/bill", tags=["Bill"])
 
-@router.get('/drafted',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
+@router.get('/drafted',status_code=status.HTTP_200_OK, response_model=List[BillSmallDTO])
 def get_all_drafted_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllDraftBill()
 
-@router.get('/outstanding',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
+@router.get('/outstanding',status_code=status.HTTP_200_OK, response_model=List[BillSmallDTO])
 def get_all_outstanding_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllOutstandingBill()
 
-@router.get('/completed',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
+@router.get('/completed',status_code=status.HTTP_200_OK, response_model=List[BillSmallDTO])
 def get_all_completed_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllCompletedBill()
 
-@router.get('/cancelled',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
+@router.get('/cancelled',status_code=status.HTTP_200_OK, response_model=List[BillSmallDTO])
 def get_all_cancelled_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllCancelledBill()
 
@@ -30,7 +31,7 @@ def get_all_cancelled_bill(repo=Depends(BillRepository)):
 def get_bill(id: int, repo=Depends(BillRepository)):
     return BillService(repo).getBill(id)
 
-@router.get('/',status_code=status.HTTP_200_OK,response_model=List[BillDTO])
+@router.get('/',status_code=status.HTTP_200_OK,response_model=List[BillSmallDTO])
 def get_completed_bill_from_to(f: datetime,t:datetime, repo=Depends(BillRepository)):
     return BillService(repo).getCompletedBillFromAndTo(f,t)
 

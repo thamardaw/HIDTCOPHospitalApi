@@ -6,6 +6,8 @@ from infrastructure.models.category import Category
 from core.entity.salesServiceItem import SalesServiceItem as SalesServiceItemDTO, SalesServiceItemSmall as SalesServiceItemSmallDTO 
 from core.entity.uom import Uom as UomDTO
 from core.entity.category import Category as CategoryDTO
+from core.entity.uom import UomSmall as UomSmallDTO
+from core.entity.category import CategorySmall as CategorySmallDTO
 from sqlalchemy.exc import SQLAlchemyError
 from exceptions.repo import SQLALCHEMY_ERROR
 
@@ -58,6 +60,14 @@ class SalesServiceItemRepository(BaseRepo):
     def listCategory(self) -> List[CategoryDTO]:
         categories = self.readAll(Category)
         return [CategoryDTO.from_orm(category) for category in categories]
+    
+    def listSmallUom(self) -> List[UomSmallDTO]:
+        uoms = self.readAll(Uom)
+        return [UomSmallDTO.from_orm(uom) for uom in uoms]
+
+    def listSmallCategory(self) -> List[CategorySmallDTO]:
+        categories = self.readAll(Category)
+        return [CategorySmallDTO.from_orm(category) for category in categories]
     
     def delete(self,id):
         self.read(SalesServiceItem,id)

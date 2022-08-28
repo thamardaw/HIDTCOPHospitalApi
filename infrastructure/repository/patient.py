@@ -2,6 +2,8 @@ from typing import List
 from infrastructure.base_repo import BaseRepo
 from infrastructure.models.patient import Patient
 from core.entity.patient import Patient as PatientDTO
+from core.entity.patient import PatientSmall as PatientSmallDTO
+
 
 class PatientRepository(BaseRepo):
     def persist(self,patient) -> PatientDTO:
@@ -17,6 +19,10 @@ class PatientRepository(BaseRepo):
     def list(self) -> List[PatientDTO]:
         patients = self.readAll(Patient)
         return [PatientDTO.from_orm(patient) for patient in patients]
+    
+    def listSmall(self) -> List[PatientSmallDTO]:
+        patients = self.readAll(Patient)
+        return [PatientSmallDTO.from_orm(patient) for patient in patients]
     
     def delete(self,id):
         self.read(Patient,id)

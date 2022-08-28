@@ -15,3 +15,14 @@ class DepositUsed(BaseModel):
     class Config():
         orm_mode = True
 
+class DepositUsedSmall(BaseModel):
+    id: int
+    deposit_id: int
+    payment_id: int
+    unpaid_amount: int
+    deposit_amount: int
+
+    class Config():
+        orm_mode = True
+
+

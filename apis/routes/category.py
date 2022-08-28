@@ -5,11 +5,13 @@ from schemas.bulkDelete import BulkDelete
 from infrastructure.repository.salesServiceItem import SalesServiceItemRepository
 from core.services.salesServiceItem import SalesServiceItemService
 from core.entity.category import Category as CategoryDTO
+from core.entity.category import CategorySmall as CategorySmallDTO
+
 from typing import List
 
 router = APIRouter(prefix="/category", tags=["Category"])
 
-@router.get('/',status_code=status.HTTP_200_OK, response_model=List[CategoryDTO])
+@router.get('/',status_code=status.HTTP_200_OK, response_model=List[CategorySmallDTO])
 def get_all_category(repo=Depends(SalesServiceItemRepository)):
     return SalesServiceItemService(repo).getAllCategory()
 

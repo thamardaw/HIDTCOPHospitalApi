@@ -5,11 +5,12 @@ from schemas.bulkDelete import BulkDelete
 from infrastructure.repository.salesServiceItem import SalesServiceItemRepository
 from core.services.salesServiceItem import SalesServiceItemService
 from core.entity.uom import Uom as UomDTO
+from core.entity.uom import UomSmall as UomSmallDTO
 from typing import List
 
 router = APIRouter(prefix="/uom", tags=["UOM"])
 
-@router.get('/',status_code=status.HTTP_200_OK, response_model=List[UomDTO])
+@router.get('/',status_code=status.HTTP_200_OK, response_model=List[UomSmallDTO])
 def get_all_uom(repo=Depends(SalesServiceItemRepository)):
     return SalesServiceItemService(repo).getAllUom()
 
