@@ -7,6 +7,7 @@ from core.entity.patient import Patient as PatientDTO
 from core.entity.patient import PatientSmall as PatientSmallDTO
 from typing import List
 from infrastructure.repository.patient import PatientRepository
+from fastapi_pagination import paginate,Page,Params
 
 router = APIRouter(prefix="/patients", tags=["Patients"])
 
@@ -14,6 +15,11 @@ router = APIRouter(prefix="/patients", tags=["Patients"])
 def get_all_patients(repo=Depends(PatientRepository)):
     ls  = PatientService(repo).getAllPatient()
     return ls
+
+@router.get('/p',status_code=status.HTTP_200_OK, response_model=Page[PatientDTO])
+def get_paginate_patients(repo=Depends(PatientRepository), params:Params= Depends()):
+    ls  = PatientService(repo).getAllPatient()
+    return paginate(ls,params=params)
 
 @router.get('/{id}',status_code=status.HTTP_200_OK,response_model=PatientDTO)
 def get_patient(id: int, repo=Depends(PatientRepository)):
@@ -38,3 +44,4 @@ def delete(id: int, repo=Depends(PatientRepository)):
 def bulk_delete(ids: BulkDelete, repo=Depends(PatientRepository)):
     PatientService(repo).deleteMulitplePatient(ids)
     return {"detail": "Patients delete successful."}
+

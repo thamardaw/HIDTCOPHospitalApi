@@ -6,12 +6,17 @@ from infrastructure.repository.salesServiceItem import SalesServiceItemRepositor
 from core.services.salesServiceItem import SalesServiceItemService
 from core.entity.salesServiceItem import SalesServiceItem as SalesServiceItemDTO ,SalesServiceItemSmall as SalesServiceItemSmallDTO
 from typing import List
+from fastapi_pagination import Page,Params,paginate
 
 router = APIRouter(prefix="/salesServiceItem", tags=["Sales & Service Item"])
 
 @router.get('/',status_code=status.HTTP_200_OK, response_model=List[SalesServiceItemSmallDTO])
 def get_all_sales_service_item(repo=Depends(SalesServiceItemRepository)):
     return SalesServiceItemService(repo).getAllSalesServiceItem()
+
+@router.get('/p',status_code=status.HTTP_200_OK, response_model=Page[SalesServiceItemSmallDTO])
+def get_paginate_sales_service_item(repo=Depends(SalesServiceItemRepository),params:Params=Depends()):
+    return paginate( SalesServiceItemService(repo).getAllSalesServiceItem(),params=params)
 
 @router.get('/{id}',status_code=status.HTTP_200_OK,response_model=SalesServiceItemDTO)
 def get_sales_service_item(id: int, repo=Depends(SalesServiceItemRepository)):
