@@ -1,5 +1,4 @@
-from enum import unique
-from sqlalchemy import Column, Integer,Boolean
+from sqlalchemy import Column, Integer,Boolean, String
 from infrastructure.base_mixin import BaseMixin
 from sqlalchemy.sql.schema import ForeignKey
 from infrastructure.base_class import Base
@@ -11,6 +10,7 @@ class Payment(BaseMixin,Base):
     total_deposit_amount = Column(Integer, nullable=False)
     collected_amount = Column(Integer, nullable=False)
     unpaid_amount = Column(Integer, nullable=False)
+    payment_type_name = Column(String)
     is_outstanding = Column(Boolean)
     
     bill = relationship("Bill",back_populates="payment")
