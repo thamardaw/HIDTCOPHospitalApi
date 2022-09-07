@@ -14,10 +14,10 @@ class BillService:
         return self.bill_repo.getById(id)
 
     def getAllDraftBill(self) -> List[BillSmall]:
-        return self.bill_repo.listSmallDraftBill()
+        return self.bill_repo.listDraftBill()
     
     def getAllOutstandingBill(self) -> List[BillSmall]:
-        return self.bill_repo.listSmallOutstandingBill()
+        return self.bill_repo.listOutstandingBill()
 
     def getAllCompletedBill(self) -> List[BillSmall]:
         return self.bill_repo.listSmallCompletedBill()
