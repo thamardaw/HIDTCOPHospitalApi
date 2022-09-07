@@ -16,7 +16,7 @@ router = APIRouter(prefix="/bill", tags=["Bill"])
 def get_all_drafted_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllDraftBill()
 
-@router.get('/outstanding',status_code=status.HTTP_200_OK, response_model=List[BillSmallDTO])
+@router.get('/outstanding',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
 def get_all_outstanding_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllOutstandingBill()
 
