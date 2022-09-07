@@ -8,12 +8,17 @@ from core.entity.category import Category as CategoryDTO
 from core.entity.category import CategorySmall as CategorySmallDTO
 
 from typing import List
+from fastapi_pagination import Page,Params,paginate
 
 router = APIRouter(prefix="/category", tags=["Category"])
 
 @router.get('/',status_code=status.HTTP_200_OK, response_model=List[CategorySmallDTO])
 def get_all_category(repo=Depends(SalesServiceItemRepository)):
     return SalesServiceItemService(repo).getAllCategory()
+
+@router.get('/p',status_code=status.HTTP_200_OK, response_model=Page[CategoryDTO])
+def get_paginate_category(repo=Depends(SalesServiceItemRepository),params:Params=Depends()):
+    return paginate(SalesServiceItemService(repo).getAllCategory(),params=params)
 
 @router.get('/{id}',status_code=status.HTTP_200_OK,response_model=CategoryDTO)
 def get_category(id: int, repo=Depends(SalesServiceItemRepository)):

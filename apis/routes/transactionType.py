@@ -8,6 +8,7 @@ from core.entity.transactionType import TransactionType as TransactionTypeDTO
 # Call Service and Repo from Inventory
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
+from fastapi_pagination import Page,Params,paginate
 
 router = APIRouter(prefix="/transaction_types", tags=["TransactionTypes"])
 
@@ -15,6 +16,11 @@ router = APIRouter(prefix="/transaction_types", tags=["TransactionTypes"])
 def get_all_transaction_types(repo=Depends(InventoryRepository)):
     ls = InventoryService(repo).getAllTransactionType()
     return ls
+
+@router.get("/p", status_code=status.HTTP_200_OK, response_model=Page[TransactionTypeDTO])
+def get_paginate_transaction_types(repo=Depends(InventoryRepository),params:Params=Depends()):
+    return paginate(InventoryService(repo).getAllTransactionType(),params=params)
+    
 
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=TransactionTypeDTO)
 def get_transaction_type(id: int, repo=Depends(InventoryRepository)):
