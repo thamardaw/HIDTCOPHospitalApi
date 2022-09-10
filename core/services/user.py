@@ -3,12 +3,30 @@ from core.protocol.user import UserProtocol
 from utils.hashing import Hash
 from exceptions.http import BAD_REQUEST
 from utils.JWTtoken import JWT
+from typing import List
+from core.entity.user import PublicUser as PublicUserDTO
 
 class UserService:
     def __init__(self,user_repo:UserProtocol)->None:
         self.user_repo = user_repo
 
-    def createUser(self,request):
+    def getAllUser(self,current_user) -> List[PublicUserDTO]:
+        if current_user.role != "Admin":
+            raise INVALID_CREDENTIAL
+        return self.user_repo.list()
+
+    def getUser(self,current_user,id:int) -> PublicUserDTO:
+        if current_user.role != "Admin":
+            raise INVALID_CREDENTIAL
+        return self.user_repo.getById(id)
+
+    def updateUser(self,current_user,id,request) -> None:
+        if current_user.role != "Admin":
+            raise INVALID_CREDENTIAL
+        self.user_repo.update(id,request)
+        return
+
+    def createUser(self,request) -> None:
         if not request.username:
             raise BAD_REQUEST("Username cannot be empty.")
         if len(request.password) < 6:
@@ -20,7 +38,7 @@ class UserService:
         self.user_repo.persist(request)
         return
     
-    def resetPassword(self,request):
+    def resetPassword(self,request) -> None:
         if len(request.newPassword) < 6:
             raise BAD_REQUEST("Password have to contain at least 6 character.")
         user = self.user_repo.readByUsername(request.username)
@@ -28,7 +46,7 @@ class UserService:
             raise BAD_REQUEST("No matching username.")
         if not Hash.verify_password(request.oldPassword,user.password):
             raise BAD_REQUEST("Incorrect old password.")
-        self.user_repo.update(user.username,{"password":Hash.hash_password(request.newPassword)})
+        self.user_repo.updateByUsername(user.username,{"password":Hash.hash_password(request.newPassword)})
 
     def authenticate(self,request):
         user = self.user_repo.readByUsername(request.username)

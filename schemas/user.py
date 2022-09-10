@@ -5,6 +5,9 @@ class User(BaseModel):
     password: str
     role: str
 
+class UpdateUser(BaseModel):
+    role: str
+
 class ResetPassword(BaseModel):
     username: str
     oldPassword:str
