@@ -12,6 +12,9 @@ class DailyClosingProtocol(Protocol):
 
     def list(self):
         ...
+    
+    def listSmall(self):
+        ...
 
     def getById(self,id: int):
         ...
