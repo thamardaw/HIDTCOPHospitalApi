@@ -5,6 +5,7 @@ from schemas.bill import Bill
 from schemas.billItem import BillItem
 from core.services.bill import BillService
 from core.entity.bill import Bill as BillDTO
+from core.entity.bill import BillSmall as BillSmallDTO
 from typing import List
 from datetime import datetime
 from fastapi_pagination import Page,Params,paginate
@@ -14,10 +15,6 @@ router = APIRouter(prefix="/bill", tags=["Bill"])
 @router.get('/drafted',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
 def get_all_drafted_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllDraftBill()
-
-@router.get('/drafted/p',status_code=status.HTTP_200_OK, response_model=Page[BillDTO])
-def get_paginate_drafted_bill(repo=Depends(BillRepository),params:Params=Depends()):
-    return paginate(BillService(repo).getAllDraftBill(),params=params)
 
 @router.get('/outstanding',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
 def get_all_outstanding_bill(repo=Depends(BillRepository)):
@@ -44,7 +41,7 @@ def get_paginate_cancelled_bill(repo=Depends(BillRepository),params:Params=Depen
     return paginate(BillService(repo).getAllCancelledBill(),params=params)
 
 
-@router.get('/',status_code=status.HTTP_200_OK,response_model=List[BillDTO])
+@router.get('/',status_code=status.HTTP_200_OK,response_model=List[BillSmallDTO])
 def get_completed_bill_from_to(f: datetime,t:datetime, repo=Depends(BillRepository)):
     return BillService(repo).getCompletedBillFromAndTo(f,t)
 

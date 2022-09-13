@@ -4,13 +4,14 @@ from schemas.patient import Patient
 from schemas.bulkDelete import BulkDelete
 from core.services.patient import PatientService
 from core.entity.patient import Patient as PatientDTO
+from core.entity.patient import PatientSmall as PatientSmallDTO
 from typing import List
 from infrastructure.repository.patient import PatientRepository
 from fastapi_pagination import paginate,Page,Params
 
 router = APIRouter(prefix="/patients", tags=["Patients"])
 
-@router.get('/',status_code=status.HTTP_200_OK, response_model=List[PatientDTO])
+@router.get('/',status_code=status.HTTP_200_OK, response_model=List[PatientSmallDTO])
 def get_all_patients(repo=Depends(PatientRepository)):
     ls  = PatientService(repo).getAllPatient()
     return ls

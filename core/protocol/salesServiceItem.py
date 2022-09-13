@@ -27,6 +27,16 @@ class SalesServiceItemProtocol(Protocol):
 
     def listCategory(self):
         ...
+    
+    def listSmall(self):
+        ...
+
+    def listSmallUom(self):
+        ...
+
+    def listSmallCategory(self):
+        ...
+
 
     def delete(self,id):
         ...

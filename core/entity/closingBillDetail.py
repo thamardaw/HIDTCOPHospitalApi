@@ -14,3 +14,4 @@ class ClosingBillDetail(BaseModel):
     updated_user_id: Optional[int] = None
     class Config():
         orm_mode = True
+

@@ -5,6 +5,7 @@ from schemas.bulkDelete import BulkDelete
 
 from schemas.pharmacyItem import PharmacyItem
 from core.entity.pharmacyItem import PharmacyItem as PharmacyItemDTO
+from core.entity.pharmacyItem import PharmacyItemSmall as PharmacyItemSmallDTO
 # Call Service and Repo from Inventory
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
@@ -13,7 +14,7 @@ from fastapi_pagination import Page,Params,paginate
 router = APIRouter(prefix="/pharmacy_items", tags=["Pharmacy Items"])
 
 
-@router.get('/', status_code=status.HTTP_200_OK, response_model=List[PharmacyItemDTO])
+@router.get('/', status_code=status.HTTP_200_OK, response_model=List[PharmacyItemSmallDTO])
 def get_all_pharmacies(repo=Depends(InventoryRepository)):
     return InventoryService(repo).getAllPharmacyItem()
 

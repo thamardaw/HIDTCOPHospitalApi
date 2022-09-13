@@ -5,6 +5,7 @@ from schemas.bulkDelete import BulkDelete
 
 from schemas.inventoryTransaction import InventoryTransaction
 from core.entity.inventoryTransaction import InventoryTransaction as InventoryTransactionDTO
+from core.entity.inventoryTransaction import InventoryTransactionSmall as InventoryTransactionSmallDTO
 # Call Service and Repo from Inventory
 from core.services.inventory import InventoryService
 from infrastructure.repository.inventory import InventoryRepository
@@ -12,7 +13,7 @@ from fastapi_pagination import Page,Params,paginate
 
 router = APIRouter(prefix="/inventory_transactions", tags=["Inventory Transactions"])
 
-@router.get('/', status_code=status.HTTP_200_OK, response_model=List[InventoryTransactionDTO])
+@router.get('/', status_code=status.HTTP_200_OK, response_model=List[InventoryTransactionSmallDTO])
 def get_all_inventory_transactions(repo=Depends(InventoryRepository)):
     return InventoryService(repo).getAllInventoryTransaction()
 

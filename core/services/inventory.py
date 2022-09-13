@@ -4,6 +4,10 @@ from core.entity.inventoryItem import InventoryItem
 from core.entity.pharmacyItem import PharmacyItem
 from core.entity.inventoryTransaction import InventoryTransaction
 from core.entity.transactionType import TransactionType
+from core.entity.inventoryItem import InventoryItemSmall
+from core.entity.pharmacyItem import PharmacyItemSmall
+from core.entity.inventoryTransaction import InventoryTransactionSmall
+from core.entity.transactionType import TransactionTypeSmall
 from infrastructure.models.transactionType import type_enum
 from exceptions.http import BAD_REQUEST
 from typing import List
@@ -12,17 +16,17 @@ class InventoryService:
     def __init__(self,inventory_repo:InventoryProtocol)->None:
         self.inventory_repo = inventory_repo
     
-    def getAllInventoryItem(self) -> List[InventoryItem]:
-        return self.inventory_repo.listInventoryItems()
+    def getAllInventoryItem(self) -> List[InventoryItemSmall]:
+        return self.inventory_repo.listSmallInventoryItems()
 
-    def getAllInventoryTransaction(self) -> List[InventoryTransaction]:
-        return self.inventory_repo.listInventoryTransactions()
+    def getAllInventoryTransaction(self) -> List[InventoryTransactionSmall]:
+        return self.inventory_repo.listSmallInventoryTransactions()
 
-    def getAllPharmacyItem(self) -> List[PharmacyItem]:
-        return self.inventory_repo.listPharmacyItems()
+    def getAllPharmacyItem(self) -> List[PharmacyItemSmall]:
+        return self.inventory_repo.listSmallPharmacyItems()
     
-    def getAllTransactionType(self) -> List[TransactionType]:
-        return self.inventory_repo.listTransactionTypes()
+    def getAllTransactionType(self) -> List[TransactionTypeSmall]:
+        return self.inventory_repo.listSmallTransactionTypes()
 
     def getInventoryItem(self,id:int) -> InventoryItem:
         return self.inventory_repo.getInventoryItemById(id)
@@ -87,10 +91,10 @@ class InventoryService:
             self.dispense_item(billItem)
         return
 
-    def list_dispensed_items_of_bill(self,bill_id) -> List[InventoryTransaction]:
-        iss_invtxs = self.inventory_repo.listInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.issue)
+    def list_dispensed_items_of_bill(self,bill_id) -> List[InventoryTransactionSmall]:
+        iss_invtxs = self.inventory_repo.listSmallInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.issue)
         iss_invtxs_copy = iss_invtxs.copy()
-        rec_invtxs = self.inventory_repo.listInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.receive)
+        rec_invtxs = self.inventory_repo.listSmallInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.receive)
         for iss_invtx in iss_invtxs:
             for rec_invtx in rec_invtxs:
                 if iss_invtx.note == rec_invtx.note:
@@ -184,7 +188,9 @@ class InventoryService:
         return
 
     def updateInventoryItem(self,id:int,inventoryItem) -> None:
-        if self.inventory_repo.getInventoryItemBySalesServiceItemId(inventoryItem.sales_service_item_id): 
+        inventory_item =self.inventory_repo.getInventoryItemBySalesServiceItemId(inventoryItem.sales_service_item_id)
+
+        if inventory_item and id != inventory_item.id:
             raise BAD_REQUEST("Sales Item already in use.")
         self.inventory_repo.updateInventoryItem(id,inventoryItem)
         return
