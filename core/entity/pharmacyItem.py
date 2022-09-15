@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-from .category import Category
+from .category import Category,CategorySmall
 from datetime import datetime
 
 class PharmacyItem(BaseModel):
@@ -18,5 +18,19 @@ class PharmacyItem(BaseModel):
     updated_time: Optional[datetime] = None
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
+    class Config():
+        orm_mode = True
+
+class PharmacyItemSmall(BaseModel):
+    id: int
+    category: Optional[CategorySmall] = None
+    brand_name: str
+    generic_name: str
+    form: Optional[str] = None
+    strength: Optional[str] = None
+    unit: str
+    po_unit: Optional[str] = None
+    converstion_rate:  Optional[int] = None
+   
     class Config():
         orm_mode = True

@@ -1,4 +1,4 @@
-from core.entity.deposit import Deposit
+from core.entity.deposit import Deposit, DepositSmall
 from core.protocol.bill import BillProtocol
 from core.entity.bill import Bill
 from core.entity.paymentType import PaymentType
@@ -13,20 +13,20 @@ class BillService:
     def getBill(self,id:int) -> Bill:
         return self.bill_repo.getById(id)
 
-    def getAllDraftBill(self) -> List[Bill]:
+    def getAllDraftBill(self) -> List[BillSmall]:
         return self.bill_repo.listDraftBill()
     
-    def getAllOutstandingBill(self) -> List[Bill]:
+    def getAllOutstandingBill(self) -> List[BillSmall]:
         return self.bill_repo.listOutstandingBill()
 
-    def getAllCompletedBill(self) -> List[Bill]:
-        return self.bill_repo.listCompletedBill()
+    def getAllCompletedBill(self) -> List[BillSmall]:
+        return self.bill_repo.listSmallCompletedBill()
 
-    def getAllCancelledBill(self)-> List[Bill]:
-        return self.bill_repo.listCancelledBill()
+    def getAllCancelledBill(self)-> List[BillSmall]:
+        return self.bill_repo.listSmallCancelledBill()
 
-    def getCompletedBillFromAndTo(self,f:int,t:int) -> List[Bill]:
-        return self.bill_repo.listCompletedBillFromAndTo(f,t)
+    def getCompletedBillFromAndTo(self,f:int,t:int) -> List[BillSmall]:
+        return self.bill_repo.listSmallCompletedBillFromAndTo(f,t)
 
     def createBill(self,bill) -> None:
         new_bill = self.bill_repo.persist({"patient_id":bill.patient_id,"patient_name":bill.patient_name,"patient_phone":bill.patient_phone,"patient_address":bill.patient_address,"printed_or_drafted":"drafted","total_amount":0})
@@ -91,20 +91,20 @@ class BillService:
         self.bill_repo.update(bill_orm.id,{"total_amount":total_amount})
         return
 
-    def getAllActiveDeposit(self) -> List[Deposit]:
-        return self.bill_repo.listActiveDeposit()
+    def getAllActiveDeposit(self) -> List[DepositSmall]:
+        return self.bill_repo.listSmallActiveDeposit()
 
-    def getAllCancelledDeposit(self) -> List[Deposit]:
-        return self.bill_repo.listCancelledDeposit()
+    def getAllCancelledDeposit(self) -> List[DepositSmall]:
+        return self.bill_repo.listSmallCancelledDeposit()
 
     def getAllActiveDepositByPatientId(self,id) -> List[Deposit]:
-        return self.bill_repo.listActiveDepositByPatientId(id) 
+        return self.bill_repo.listSmallActiveDepositByPatientId(id) 
 
-    def getAllUsedDeposit(self) -> List[Deposit]:
-        return self.bill_repo.listUsedDeposit()
+    def getAllUsedDeposit(self) -> List[DepositSmall]:
+        return self.bill_repo.listSmallUsedDeposit()
 
-    def getAllDepositFromAndTo(self,f:int,t:int) -> List[Deposit]:
-        return self.bill_repo.listDepositFromAndTo(f,t)
+    def getAllDepositFromAndTo(self,f:int,t:int) -> List[DepositSmall]:
+        return self.bill_repo.listSmallDepositFromAndTo(f,t)
 
     def getDeposit(self,id:int) -> Deposit:
         return self.bill_repo.getDepositById(id)

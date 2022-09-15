@@ -8,6 +8,10 @@ from core.entity.inventoryItem import InventoryItem as InventoryItemDTO
 from core.entity.pharmacyItem import PharmacyItem as PharmacyItemDTO
 from core.entity.inventoryTransaction import InventoryTransaction as InventoryTransactionDTO
 from core.entity.transactionType import TransactionType as TransactionTypeDTO
+from core.entity.inventoryItem import InventoryItemSmall as InventoryItemSmallDTO
+from core.entity.pharmacyItem import PharmacyItemSmall as PharmacyItemSmallDTO
+from core.entity.inventoryTransaction import InventoryTransactionSmall as InventoryTransactionSmallDTO
+from core.entity.transactionType import TransactionTypeSmall as TransactionTypeSmallDTO
 from sqlalchemy.exc import SQLAlchemyError
 from exceptions.repo import SQLALCHEMY_ERROR
 
@@ -98,7 +102,26 @@ class InventoryRepository(BaseRepo):
     def listTransactionTypes(self) -> List[TransactionTypeDTO]:
         inventoryTransactions = self.readAll(TransactionType)
         return [TransactionTypeDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]
+    
+    def listSmallInventoryItems(self) -> List[InventoryItemSmallDTO]:
+        try:
+            inventoryItems = self._db.query(InventoryItem).filter(InventoryItem.is_active==True).order_by(InventoryItem.id.desc()).all()
+            return [InventoryItemSmallDTO.from_orm(inventoryItem) for inventoryItem in inventoryItems]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
 
+    def listSmallPharmacyItems(self) -> List[PharmacyItemSmallDTO]:
+        pharmacyItems = self.readAll(PharmacyItem)
+        return [PharmacyItemSmallDTO.from_orm(pharmacyItem) for pharmacyItem in pharmacyItems]
+
+    def listSmallInventoryTransactions(self) -> List[InventoryTransactionSmallDTO]:
+        inventoryTransactions = self.readAll(InventoryTransaction)
+        return [InventoryTransactionSmallDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]
+
+    def listSmallTransactionTypes(self) -> List[TransactionTypeSmallDTO]:
+        inventoryTransactions = self.readAll(TransactionType)
+        return [TransactionTypeSmallDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]
+    
     def deleteInventoryItem(self,id) -> None:
         self.read(InventoryItem,id)
         super().delete(InventoryItem,id)

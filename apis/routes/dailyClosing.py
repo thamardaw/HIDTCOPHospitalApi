@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, status
-from schemas.message import Message
 from schemas.dailyClosing import DailyClosing
 from core.services.dailyClosing import DailyClosingService
 from core.entity.dailyClosing import DailyClosing as DailyClosingDTO,DailyClosingSmall as DailyClosingSmallDTO

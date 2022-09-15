@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from infrastructure.models.bill import printed_or_drafted_enum
 from core.entity.billItem import BillItem
 from datetime import datetime
-from .patient import Patient
+from .patient import Patient,PatientSmall
 from .payment import Payment
 from .user import Username
 
@@ -24,5 +24,18 @@ class Bill(BaseModel):
     created_user_id: Optional[int] = None
     updated_user_id: Optional[int] = None
     created_user: Optional[Username] = None
+    class Config():
+        orm_mode = True
+        
+class BillSmall(BaseModel):
+    id: int
+    patient: Optional[PatientSmall]
+    patient_name: str
+    patient_phone: str
+    patient_address: str
+    total_amount: int
+    payment: Optional[List[Payment]]
+    created_time: Optional[datetime] = None
+    
     class Config():
         orm_mode = True
