@@ -222,7 +222,7 @@ class BillRepository(BaseRepo):
     def lisSmallUsedDeposit(self) -> List[DepositSmallDTO]:
         try:
             deposits = self._db.query(Deposit).join(DepositUsed,Deposit.id == DepositUsed.deposit_id).filter(Deposit.is_cancelled==False).order_by(Deposit.id.desc()).all()
-            return [DepositSmallTO.from_orm(deposit) for deposit in deposits ]
+            return [DepositSmallDTO.from_orm(deposit) for deposit in deposits ]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
