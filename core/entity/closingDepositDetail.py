@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
-from .deposit import Deposit
 
 class ClosingDepositDetail(BaseModel):
     id: int

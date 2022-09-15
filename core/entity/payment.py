@@ -16,16 +16,3 @@ class Payment(BaseModel):
     updated_user_id: Optional[int] = None
     class Config():
         orm_mode = True
-
-class PaymentSmall(BaseModel):
-    id: int
-    bill_id: int
-    total_amount: int
-    total_deposit_amount: int
-    collected_amount: int
-    unpaid_amount: int
-    is_outstanding: bool
-    updated_time: Optional[datetime] = None
-    
-    class Config():
-        orm_mode = True

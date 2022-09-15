@@ -118,13 +118,6 @@ class InventoryRepository(BaseRepo):
         inventoryTransactions = self.readAll(InventoryTransaction)
         return [InventoryTransactionSmallDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]
 
-    def listSmallInventoryTransactionsByNoteLikeAndType(self,note: str,type) -> List[InventoryTransactionSmallDTO]:
-        try:
-            inventoryTransactions = self._db.query(InventoryTransaction).filter(InventoryTransaction.transaction_type==type).filter(InventoryTransaction.note.like(note)).all()
-            return [InventoryTransactionSmallDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]
-        except SQLAlchemyError as e:
-            raise SQLALCHEMY_ERROR(e)
-
     def listSmallTransactionTypes(self) -> List[TransactionTypeSmallDTO]:
         inventoryTransactions = self.readAll(TransactionType)
         return [TransactionTypeSmallDTO.from_orm(inventoryTransaction) for inventoryTransaction in inventoryTransactions]

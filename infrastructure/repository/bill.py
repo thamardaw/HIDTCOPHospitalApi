@@ -5,20 +5,15 @@ from infrastructure.models.billItem import BillItem
 from infrastructure.models.payment import Payment
 from infrastructure.models.deposit import Deposit
 from infrastructure.models.depositUsed import DepositUsed
-from core.entity.bill import Bill as BillDTO
+from core.entity.bill import Bill as BillDTO, BillSmall as BillSmallDTO
 from core.entity.billItem import BillItem as BillItemDTO 
 from core.entity.deposit import Deposit as DepositDTO
 from core.entity.depositUsed import DepositUsed as DepositUsedDTO
 from core.entity.payment import Payment as PaymentDTO
-from core.entity.bill import BillSmall as BillSmallDTO
-from core.entity.billItem import BillItemSmall as BillItemSmallDTO 
 from core.entity.deposit import DepositSmall as DepositSmallDTO
-from core.entity.depositUsed import DepositUsedSmall as DepositUsedSmallDTO
-from core.entity.payment import PaymentSmall as PaymentSmallDTO
 from sqlalchemy.exc import SQLAlchemyError
 from exceptions.repo import SQLALCHEMY_ERROR
 from datetime import datetime
-from sqlalchemy.sql import exists
 
 class BillRepository(BaseRepo):
     def persist(self,bill) -> BillDTO:

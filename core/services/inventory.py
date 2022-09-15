@@ -73,6 +73,8 @@ class InventoryService:
         note = f"{billItem.bill_id}, {billItem.id}"
         if self.inventory_repo.getInventoryTransactionByNoteAndType(note, type_enum.issue) is not None: return 
         inventoryItem = self.inventory_repo.getInventoryItemBySalesServiceItemId(billItem.sales_service_item_id)
+        print("----------------------------------------->")
+        print(inventoryItem)
         if inventoryItem is None: return
         self.createInventoryTransaction\
             ({"inventory_item_id":inventoryItem.id,\
@@ -92,9 +94,9 @@ class InventoryService:
         return
 
     def list_dispensed_items_of_bill(self,bill_id) -> List[InventoryTransactionSmall]:
-        iss_invtxs = self.inventory_repo.listSmallInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.issue)
+        iss_invtxs = self.inventory_repo.listInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.issue)
         iss_invtxs_copy = iss_invtxs.copy()
-        rec_invtxs = self.inventory_repo.listSmallInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.receive)
+        rec_invtxs = self.inventory_repo.listInventoryTransactionsByNoteLikeAndType(f"{bill_id},%",type_enum.receive)
         for iss_invtx in iss_invtxs:
             for rec_invtx in rec_invtxs:
                 if iss_invtx.note == rec_invtx.note:
