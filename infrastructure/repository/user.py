@@ -44,4 +44,5 @@ class UserRepository:
 
     def readByUsername(self,username: str) -> UserDTO:
         user = self._db.query(User).filter(User.username == username).first()
-        return UserDTO.from_orm(user)
+        if user : return UserDTO.from_orm(user)
+        return None
