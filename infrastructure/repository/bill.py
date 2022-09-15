@@ -5,20 +5,15 @@ from infrastructure.models.billItem import BillItem
 from infrastructure.models.payment import Payment
 from infrastructure.models.deposit import Deposit
 from infrastructure.models.depositUsed import DepositUsed
-from core.entity.bill import Bill as BillDTO
+from core.entity.bill import Bill as BillDTO, BillSmall as BillSmallDTO
 from core.entity.billItem import BillItem as BillItemDTO 
 from core.entity.deposit import Deposit as DepositDTO
 from core.entity.depositUsed import DepositUsed as DepositUsedDTO
 from core.entity.payment import Payment as PaymentDTO
-from core.entity.bill import BillSmall as BillSmallDTO
-from core.entity.billItem import BillItemSmall as BillItemSmallDTO 
 from core.entity.deposit import DepositSmall as DepositSmallDTO
-from core.entity.depositUsed import DepositUsedSmall as DepositUsedSmallDTO
-from core.entity.payment import PaymentSmall as PaymentSmallDTO
 from sqlalchemy.exc import SQLAlchemyError
 from exceptions.repo import SQLALCHEMY_ERROR
 from datetime import datetime
-from sqlalchemy.sql import exists
 
 class BillRepository(BaseRepo):
     def persist(self,bill) -> BillDTO:
@@ -210,11 +205,11 @@ class BillRepository(BaseRepo):
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
         
-    def listSmallActiveDepositByPatientId(self,id) -> List[DepositSmallDTO]:
+    def listSmallActiveDepositByPatientId(self,id) -> List[DepositDTO]:
         try:
             deposits = self._db.query(Deposit).outerjoin(DepositUsed,Deposit.id==DepositUsed.deposit_id).filter(
                 DepositUsed.deposit_id ==None, Deposit.is_cancelled ==False,Deposit.patient_id==id).all() 
-            return [DepositSmallDTO.from_orm(deposit) for deposit in deposits ]
+            return [DepositDTO.from_orm(deposit) for deposit in deposits ]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
     
@@ -222,7 +217,7 @@ class BillRepository(BaseRepo):
     def lisSmallUsedDeposit(self) -> List[DepositSmallDTO]:
         try:
             deposits = self._db.query(Deposit).join(DepositUsed,Deposit.id == DepositUsed.deposit_id).filter(Deposit.is_cancelled==False).order_by(Deposit.id.desc()).all()
-            return [DepositSmallTO.from_orm(deposit) for deposit in deposits ]
+            return [DepositSmallDTO.from_orm(deposit) for deposit in deposits ]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 

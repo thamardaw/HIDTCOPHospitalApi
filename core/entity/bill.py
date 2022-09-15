@@ -1,10 +1,10 @@
 from typing import List, Optional
 from pydantic import BaseModel
 from infrastructure.models.bill import printed_or_drafted_enum
-from core.entity.billItem import BillItem,BillItemSmall
+from core.entity.billItem import BillItem
 from datetime import datetime
 from .patient import Patient,PatientSmall
-from .payment import Payment,PaymentSmall
+from .payment import Payment
 from .user import Username
 
 class Bill(BaseModel):
@@ -34,7 +34,7 @@ class BillSmall(BaseModel):
     patient_phone: str
     patient_address: str
     total_amount: int
-    payment: Optional[List[PaymentSmall]]
+    payment: Optional[List[Payment]]
     created_time: Optional[datetime] = None
     
     class Config():

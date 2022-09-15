@@ -1,10 +1,7 @@
-from core.entity.deposit import Deposit
+from core.entity.deposit import Deposit, DepositSmall
 from core.protocol.bill import BillProtocol
-from core.entity.bill import Bill
-from core.entity.bill import BillSmall
-from core.entity.deposit import DepositSmall
+from core.entity.bill import Bill, BillSmall
 from typing import List
-from datetime import date
 
 class BillService:
     def __init__(self,bill_repo:BillProtocol)->None:
@@ -97,7 +94,7 @@ class BillService:
     def getAllCancelledDeposit(self) -> List[DepositSmall]:
         return self.bill_repo.listSmallCancelledDeposit()
 
-    def getAllActiveDepositByPatientId(self,id) -> List[DepositSmall]:
+    def getAllActiveDepositByPatientId(self,id) -> List[Deposit]:
         return self.bill_repo.listSmallActiveDepositByPatientId(id) 
 
     def getAllUsedDeposit(self) -> List[DepositSmall]:
