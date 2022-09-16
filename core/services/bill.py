@@ -1,6 +1,6 @@
 from core.entity.deposit import Deposit, DepositSmall
 from core.protocol.bill import BillProtocol
-from core.entity.bill import Bill
+from core.entity.bill import Bill, BillSmall
 from core.entity.paymentType import PaymentType
 from typing import List
 from datetime import date
