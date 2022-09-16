@@ -15,3 +15,11 @@ class TransactionType(BaseModel):
     created_user: Optional[Username] = None
     class Config():
         orm_mode = True
+
+class TransactionTypeSmall(BaseModel):
+    id: int
+    name: str
+    type: type_enum
+    
+    class Config():
+        orm_mode = True

@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
-from .bill import Bill
 
 class ClosingBillDetail(BaseModel):
     id: int
@@ -14,3 +13,4 @@ class ClosingBillDetail(BaseModel):
     updated_user_id: Optional[int] = None
     class Config():
         orm_mode = True
+

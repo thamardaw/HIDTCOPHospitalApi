@@ -1,5 +1,6 @@
 from core.protocol.patient import PatientProtocol
 from core.entity.patient import Patient
+from core.entity.patient import PatientSmall
 from exceptions.http import BAD_REQUEST
 from typing import List
 
@@ -7,8 +8,8 @@ class PatientService:
     def __init__(self,patient_repo:PatientProtocol)->None:
         self.patient_repo = patient_repo
     
-    def getAllPatient(self) -> List[Patient]:
-        return self.patient_repo.list()
+    def getAllPatient(self) -> List[PatientSmall]:
+        return self.patient_repo.listSmall()
     
     def getPatient(self,id:int) -> Patient:
         return self.patient_repo.getById(id)
