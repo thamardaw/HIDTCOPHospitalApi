@@ -127,7 +127,7 @@ class BillService:
         return self.bill_repo.getPaymentTypeById(id)
     
     def createPaymentTYpe(self,paymentType) -> None:
-        self.bill_repo.persistPaymentType({"name":paymentType.name,"is_default":paymentType.is_default})
+        self.bill_repo.persistPaymentType(paymentType)
         return 
     
     def updatePaymentType(self,id:int,paymentType) -> None:

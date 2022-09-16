@@ -172,7 +172,10 @@ class BillRepository(BaseRepo):
         return
     
     def persistPaymentType(self,paymentType)->PaymentTypeDTO:
-        new_payment_type=PaymentType(**paymentType)
+        if type(paymentType) is dict:
+            new_payment_type=PaymentType(**paymentType)
+        else:
+            new_payment_type=PaymentType(**paymentType.dict())
         new_payment_type=self.create(new_payment_type)
         return PaymentTypeDTO.from_orm(new_payment_type)
     
@@ -185,7 +188,10 @@ class BillRepository(BaseRepo):
     
     def updatePaymentType(self,id,paymentType):
         paymentType_orm=self.read(PaymentType,id)
-        super().update(paymentType_orm,paymentType.dict())
+        if type(paymentType) is dict:
+            super().update(paymentType_orm,paymentType)
+        else:
+            super().update(paymentType_orm,paymentType.dict())
         return
     
     def deletePaymentType(self,id):
