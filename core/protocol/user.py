@@ -1,11 +1,21 @@
-from typing import Protocol
+from typing import Protocol, List
+from core.entity.user import User as UserDTO, PublicUser as PublicUserDTO 
 
 class UserProtocol(Protocol):
-    def persist(self,user):
+    def list(self) -> List[PublicUserDTO]:
+        ...
+    
+    def getById(self,id: int) -> PublicUserDTO:
         ...
 
-    def update(self,username,data):
+    def persist(self,user) -> UserDTO:
+        ...
+
+    def updateByUsername(self,username,data) -> None:
+        ...
+
+    def update(self,id,data) -> None:
         ...
         
-    def readByUsername(self,username):
+    def readByUsername(self,username: str) -> UserDTO:
         ...

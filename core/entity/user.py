@@ -8,6 +8,13 @@ class User(BaseModel):
     class Config():
         orm_mode = True
 
+class PublicUser(BaseModel):
+    id: int
+    username: str
+    role: str
+    class Config():
+        orm_mode = True
+
 class Username(BaseModel):
     username: str
     class Config():
