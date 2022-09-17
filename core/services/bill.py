@@ -1,7 +1,10 @@
 from core.entity.deposit import Deposit, DepositSmall
 from core.protocol.bill import BillProtocol
 from core.entity.bill import Bill, BillSmall
+from core.entity.paymentType import PaymentType
 from typing import List
+from datetime import date
+from exceptions.http import BAD_REQUEST
 
 class BillService:
     def __init__(self,bill_repo:BillProtocol)->None:
@@ -115,4 +118,25 @@ class BillService:
 
     def recordPayment(self,id):
         self.bill_repo.updatePayment(id,{"is_outstanding":False})
+        return 
+    
+    def getAllPaymentType(self) -> List[PaymentType]:
+        return self.bill_repo.listPaymentType()
+    
+    def getPaymentTypeById(self,id:int) -> PaymentType:
+        return self.bill_repo.getPaymentTypeById(id)
+    
+    def createPaymentTYpe(self,paymentType) -> None:
+        self.bill_repo.persistPaymentType(paymentType)
+        return 
+    
+    def updatePaymentType(self,id:int,paymentType) -> None:
+        self.bill_repo.updatePaymentType(id,paymentType)
+        return
+    
+    def deletePaymentType(self,id:int) -> None:
+        try:
+            self.bill_repo.deletePaymentType(id)
+        except:
+            raise BAD_REQUEST("PaymentType  cannot be deleted.")
         return 

@@ -5,12 +5,13 @@ from infrastructure.models.billItem import BillItem
 from infrastructure.models.payment import Payment
 from infrastructure.models.deposit import Deposit
 from infrastructure.models.depositUsed import DepositUsed
+from infrastructure.models.paymentType import PaymentType
 from core.entity.bill import Bill as BillDTO, BillSmall as BillSmallDTO
 from core.entity.billItem import BillItem as BillItemDTO 
-from core.entity.deposit import Deposit as DepositDTO
+from core.entity.deposit import Deposit as DepositDTO, DepositSmall as DepositSmallDTO
 from core.entity.depositUsed import DepositUsed as DepositUsedDTO
 from core.entity.payment import Payment as PaymentDTO
-from core.entity.deposit import DepositSmall as DepositSmallDTO
+from core.entity.paymentType import PaymentType as PaymentTypeDTO
 from sqlalchemy.exc import SQLAlchemyError
 from exceptions.repo import SQLALCHEMY_ERROR
 from datetime import datetime
@@ -55,7 +56,6 @@ class BillRepository(BaseRepo):
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
 
-
     def listOutstandingBill(self) -> List[BillDTO]:
         try:
             bills = self._db.query(Bill).join(Payment,Bill.id==Payment.bill_id).filter(Bill.is_cancelled==False,Bill.printed_or_drafted=="printed",Payment.is_outstanding==True).order_by(Bill.id.desc()).all()
@@ -92,6 +92,7 @@ class BillRepository(BaseRepo):
             return [BillDTO.from_orm(bill) for bill in bills]
         except SQLAlchemyError as e:
             raise SQLALCHEMY_ERROR(e)
+
     
     def listSmallCancelledBill(self) -> List[BillSmallDTO]:
         try:
@@ -235,5 +236,36 @@ class BillRepository(BaseRepo):
         payment_orm = self.read(Payment,id)
         super().update(payment_orm,payment)
         return
-
+    
+    def persistPaymentType(self,paymentType)->PaymentTypeDTO:
+        if type(paymentType) is dict:
+            new_payment_type=PaymentType(**paymentType)
+        else:
+            new_payment_type=PaymentType(**paymentType.dict())
+        new_payment_type=self.create(new_payment_type)
+        return PaymentTypeDTO.from_orm(new_payment_type)
+    
+    def listPaymentType(self)-> List[PaymentTypeDTO]:
+        try:
+            payment_types =self._db.query(PaymentType).all()
+            return [PaymentTypeDTO.from_orm(payment_type) for payment_type in payment_types]
+        except SQLAlchemyError as e:
+            raise SQLALCHEMY_ERROR(e)
+    
+    def updatePaymentType(self,id,paymentType):
+        paymentType_orm=self.read(PaymentType,id)
+        if type(paymentType) is dict:
+            super().update(paymentType_orm,paymentType)
+        else:
+            super().update(paymentType_orm,paymentType.dict())
+        return
+    
+    def deletePaymentType(self,id):
+        self.read(PaymentType,id)
+        super().delete(PaymentType,id)
+        return 
+    
+    def getPaymentTypeById(self,id: int) -> PaymentTypeDTO:
+        payment_type_orm = self.read(PaymentType,id)
+        return PaymentTypeDTO.from_orm(payment_type_orm)
 

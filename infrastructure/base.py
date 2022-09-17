@@ -16,3 +16,4 @@ from infrastructure.models.closingDepositDetail import ClosingDepositDetail
 from infrastructure.models.inventoryItem import InventoryItem
 from infrastructure.models.transactionType import TransactionType
 from infrastructure.models.inventoryTransaction import InventoryTransaction
+from infrastructure.models.paymentType import PaymentType
