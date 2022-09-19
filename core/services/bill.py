@@ -3,7 +3,6 @@ from core.protocol.bill import BillProtocol
 from core.entity.bill import Bill, BillSmall
 from core.entity.paymentType import PaymentType
 from typing import List
-from datetime import date
 from exceptions.http import BAD_REQUEST
 
 class BillService:
@@ -13,10 +12,10 @@ class BillService:
     def getBill(self,id:int) -> Bill:
         return self.bill_repo.getById(id)
 
-    def getAllDraftBill(self) -> List[BillSmall]:
+    def getAllDraftBill(self) -> List[Bill]:
         return self.bill_repo.listDraftBill()
     
-    def getAllOutstandingBill(self) -> List[BillSmall]:
+    def getAllOutstandingBill(self) -> List[Bill]:
         return self.bill_repo.listOutstandingBill()
 
     def getAllCompletedBill(self) -> List[BillSmall]:

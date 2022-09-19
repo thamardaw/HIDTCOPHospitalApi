@@ -4,8 +4,7 @@ from schemas.message import Message
 from schemas.bill import Bill
 from schemas.billItem import BillItem
 from core.services.bill import BillService
-from core.entity.bill import Bill as BillDTO
-from core.entity.bill import BillSmall as BillSmallDTO
+from core.entity.bill import Bill as BillDTO, BillSmall as BillSmallDTO
 from typing import List
 from datetime import datetime
 from fastapi_pagination import Page,Params,paginate
@@ -24,7 +23,7 @@ def get_all_outstanding_bill(repo=Depends(BillRepository)):
 def get_paginate_outstanding_bill(repo=Depends(BillRepository),params:Params=Depends()):
     return paginate(BillService(repo).getAllOutstandingBill(),params=params)
 
-@router.get('/completed',status_code=status.HTTP_200_OK, response_model=List[BillDTO])
+@router.get('/completed',status_code=status.HTTP_200_OK, response_model=List[BillSmallDTO])
 def get_all_completed_bill(repo=Depends(BillRepository)):
     return BillService(repo).getAllCompletedBill()
 
